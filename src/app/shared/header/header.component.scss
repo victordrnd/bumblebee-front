@@ -1,0 +1,20 @@
+.header {
+    background-color: white;
+    border-bottom-color: red;
+}
+
+.header2:hover {
+    background-color: #F38C1C;
+}
+
+.header2 {
+    color: white;
+    background-color:#F8ba16;
+    padding: 10px 26px;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+    border-radius: 12px;
+    border-color: white;
+    margin: auto;
+}
+
