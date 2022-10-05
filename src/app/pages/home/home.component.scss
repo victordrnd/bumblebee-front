@@ -17,5 +17,12 @@ hr { display: block; height: 1px;
     font-weight: bold;
     font-size: 35px;
  }
+ .bordered{
+     border-bottom: 1px solid #eaeaea;
+ }
 
+ .card{
+     border:  none !important;
+     box-shadow: 0 5px 15px rgb(0 0 0 / 8%);
+ }
 

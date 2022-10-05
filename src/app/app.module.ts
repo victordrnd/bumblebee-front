@@ -18,6 +18,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 registerLocaleData(fr);
 
@@ -33,6 +34,7 @@ registerLocaleData(fr);
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    NzLayoutModule,
     BrowserAnimationsModule,
     NzButtonModule,
     NzInputModule,

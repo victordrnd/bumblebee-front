@@ -6,10 +6,10 @@
         <div class="d-inline">
             <button nz-button nzType="primary">Pages de statut</button>
         </div>
-        <div class="d-inline">
+        <div class="d-inline" *ngIf="isConnected">
             <button nz-button nzType="primary" routerLink="/dashboard">Tableau de bord</button>
         </div>
-        <div class="d-inline">
+        <div class="d-inline" *ngIf="!isConnected">
                 <button nz-button nzType="primary">Connexion</button>
         </div>
     </div>

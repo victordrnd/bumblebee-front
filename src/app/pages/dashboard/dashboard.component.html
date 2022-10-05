@@ -1,20 +1,28 @@
 <nz-layout class="layout">
     <nz-sider nzCollapsible [nzCollapsed]="mobile ? true : false" [nzWidth]="290" [nzCollapsedWidth]="mobile ? 0 : 80">
         <ul nz-menu nzMode="inline" class="w-100 sailec">
-            <li class="mt-0" nz-menu-item routerLink="dashboard"><i nz-icon nzType="home"
+            <li class="mt-0" nz-menu-item routerLink="/dashboard"><i nz-icon nzType="home"
                     nzTheme="outline"></i><span>Dashboard</span></li>
-            <li nz-submenu nzTitle="Mes lessons" nzIcon="shopping" nzOpen>
+            <li [nzDisabled]="true" class="mt-0 text-center w-100 d-block" nz-menu-item routerLink="dashboard">{{currentEnvironment?.name}}
+            </li>
+            <li class="mt-0" nz-menu-item routerLink="containers"><span nz-icon nzType="appstore-add" nzTheme="outline"></span><span>Containers</span></li>
+            <li class="mt-0" nz-menu-item routerLink="dashboard"><span nz-icon nzType="tag" nzTheme="outline"></span><span>Images</span></li>
+            <li class="mt-0" nz-menu-item routerLink="dashboard"><span nz-icon nzType="deployment-unit" nzTheme="outline"></span><span>Networks</span></li>
+            <li class="mt-0" nz-menu-item routerLink="dashboard"><span nz-icon nzType="database" nzTheme="outline"></span><span>Volumes</span></li>
+
+
+            <li nz-submenu nzTitle="Availability & SLO" nzIcon="shopping" nzOpen>
                 <ul>
-                    <li nz-menu-item routerLink="lessons">A venir</li>
-                    <li nz-menu-item routerLink="lessons/history">Historique</li>
+                    <li nz-menu-item routerLink="lessons">Services</li>
                 </ul>
-            <li nz-submenu nzTitle="Profil" nzIcon="user" nzOpen>
+            <li nz-submenu nzTitle="Settings" nzIcon="setting" nzOpen>
                 <ul>
                     <li nz-menu-item routerLink="settings/profile">
-                        Profile</li>
-                    <li nz-menu-item >Déconnexion</li>
+                        Environnements</li>
                 </ul>
             </li>
+            <li class="mt-0" nz-menu-item routerLink="dashboard"><i nz-icon nzType="api"
+                    nzTheme="outline"></i><span>Déconnexion</span></li>
         </ul>
     </nz-sider>
 

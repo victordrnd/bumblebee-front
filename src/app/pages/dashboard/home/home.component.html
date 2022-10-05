@@ -1,0 +1,41 @@
+<div class="row m-5">
+    <div class="col-12">
+        <button nz-button nzType="default" (click)="getEndpoints()">Refresh <span nz-icon nzType="reload"
+                nzTheme="outline"></span></button>
+        <button nz-button nzType="primary" class="float-right"><span nz-icon nzType="plus" nzTheme="outline"></span>Add
+            Environment</button>
+    </div>
+
+    <div class="col-12 mt-3" *ngFor="let endpoint of endpoints">
+        <nz-spin [nzSpinning]="loading">
+            <nz-card class="w-100 pointer" (click)="chooseEnvironment(endpoint)">
+                <h4>{{endpoint.name}}
+                    <nz-tag class="badge-up" *ngIf="endpoint.status == 'OK'" nzColor="#87d068">UP</nz-tag>
+                    <nz-tag class="badge-up" *ngIf="endpoint.status != 'OK'" nzColor="#f50">DOWN</nz-tag>
+                </h4>
+                <div class="d-flex w-100">
+                    <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item"><span nz-icon nzType="appstore-add" nzTheme="outline"
+                                class="mx-1"></span> {{endpoint.info?.Containers}} containers </li>
+                        <li class="list-inline-item ml-3"><span nz-icon nzType="tag" nzTheme="outline"
+                                class="mx-1"></span> {{endpoint.info?.Images}} images</li>
+                        <li class="list-inline-item ml-3"><span nz-icon nzType="bug" nzTheme="outline"
+                                class="mx-1"></span> {{endpoint.info?.OperatingSystem}}</li>
+                        <li class="list-inline-item ml-5 text-muted"><span nz-icon nzType="aim" nzTheme="outline"
+                                class="mx-1"></span> {{endpoint.info?.NCPU}} cpus </li>
+                        <li class="list-inline-item ml-2 text-muted"><span nz-icon nzType="barcode" nzTheme="outline"
+                                class="mx-1"></span> {{endpoint.info?.MemTotal / (1024 * 1000000) | number:'1.0-0'}} RAM
+                        </li>
+                    </ul>
+                    <div class="ml-auto">
+                        <span class="text-muted">{{endpoint.url || '/var/run/docker.sock'}}</span>
+                    </div>
+                    <!-- <p>Architecture : {{endpoint.info?.Architecture}}</p> -->
+                </div>
+                <ul class="list-unstyled list-inline text-muted">
+                </ul>
+            </nz-card>
+
+        </nz-spin>
+    </div>
+</div>
