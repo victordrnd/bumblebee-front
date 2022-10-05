@@ -10,7 +10,13 @@ export class SitesService {
   constructor(private http : HttpClient) { }
 
 
-  getAllSites(){
+  findAll(){
     return this.http.get(environment.apiUrl+'/sites');
   }
+
+  find(id :number){
+    return this.http.get(environment.apiUrl+`/sites/${id}`);
+  }
+
+
 }

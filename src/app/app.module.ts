@@ -12,6 +12,12 @@ import fr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StatsComponent } from './pages/stats/stats.component';
+import { HomeComponent } from './pages/home/home.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 registerLocaleData(fr);
 
@@ -19,6 +25,8 @@ registerLocaleData(fr);
   declarations: [
     AppComponent,
     HeaderComponent,
+    StatsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +34,11 @@ registerLocaleData(fr);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NzButtonModule
+    NzButtonModule,
+    NzInputModule,
+    NzIconModule,
+    NzProgressModule,
+    NzTagModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR }
