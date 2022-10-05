@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: "Sailec";
+    src: url(assets/fonts/Sailec-Bold.woff2) format("woff");
+}
+@font-face {
+    font-family: "Apercu";
+    src: url(assets/fonts/Apercu-Mono.woff2) format("woff");
+}
+
+.apercu {
+    font-family: "Apercu";
+}
+
+.sailec {
+    font-family: "Sailec";
+}

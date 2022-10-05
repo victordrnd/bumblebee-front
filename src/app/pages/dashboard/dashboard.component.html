@@ -1,1 +1,27 @@
-<p>dashboard works!</p>
+<nz-layout class="layout">
+    <nz-sider nzCollapsible [nzCollapsed]="mobile ? true : false" [nzWidth]="290" [nzCollapsedWidth]="mobile ? 0 : 80">
+        <ul nz-menu nzMode="inline" class="w-100 sailec">
+            <li class="mt-0" nz-menu-item routerLink="dashboard"><i nz-icon nzType="home"
+                    nzTheme="outline"></i><span>Dashboard</span></li>
+            <li nz-submenu nzTitle="Mes lessons" nzIcon="shopping" nzOpen>
+                <ul>
+                    <li nz-menu-item routerLink="lessons">A venir</li>
+                    <li nz-menu-item routerLink="lessons/history">Historique</li>
+                </ul>
+            <li nz-submenu nzTitle="Profil" nzIcon="user" nzOpen>
+                <ul>
+                    <li nz-menu-item routerLink="settings/profile">
+                        Profile</li>
+                    <li nz-menu-item >Déconnexion</li>
+                </ul>
+            </li>
+        </ul>
+    </nz-sider>
+
+    <nz-content style="overflow: auto; max-height: calc(100vh - 74px);">
+        <div class="body pb-3">
+            <router-outlet></router-outlet>
+        </div>
+    </nz-content>
+
+</nz-layout>
