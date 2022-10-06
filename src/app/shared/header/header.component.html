@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-white px-md-4 px-2 py-0">
-    <a class="navbar-brand" routerLink="/"><img src="assets/img/favicon.png" class="logo" width="60" /></a>
+    <a class="navbar-brand sailec" routerLink="/"><img src="assets/img/favicon.png" class="logo" width="40" /> BumbleBee</a>
     <div class="collapse navbar-collapse d-none d-md-block" id="navbarNav">
         <ul class="navbar-nav mr-auto">
         </ul>
         <div class="d-inline">
             <button nz-button nzType="primary">Pages de statut</button>
         </div>
-        <div class="d-inline">
-            <button nz-button nzType="primary">Tableau de bord</button>
+        <div class="d-inline" *ngIf="isConnected">
+            <button nz-button nzType="primary" routerLink="/dashboard">Tableau de bord</button>
         </div>
-        <div class="d-inline">
+        <div class="d-inline" *ngIf="!isConnected">
                 <button nz-button nzType="primary">Connexion</button>
         </div>
     </div>

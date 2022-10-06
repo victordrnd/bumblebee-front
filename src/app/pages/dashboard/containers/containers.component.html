@@ -1,0 +1,39 @@
+
+<div class="row mx-0 mt-5">
+    <div class="col-md-10 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Containers" nzSubtitle="Containers list">
+            <nz-page-header-extra>
+                <button class="mx-1" nz-button>Start</button>
+                <button class="mx-1" nz-button>Stop</button>
+                <button class="mx-1" nz-button>Restart</button>
+                <button class="mx-1" nz-button nzType="primary">Add container</button>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <nz-table #basicTable [nzData]="containers">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>Image</th>
+                    <th>Created</th>
+                    <th>IP Address</th>
+                    <th>Published Ports</th>
+                    <th>Ownership</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let container of containers">
+                    <td>{{container.Names[0]}}</td>
+                    <td>
+                        <nz-tag nzColor="#87d068">{{container.State}}</nz-tag>
+                    </td>
+                    <td>{{container.Image}}</td>
+                    <td>{{container.Created*1000 | date:'medium'}}</td>
+                    <td>{{container.NetworkSettings.Networks.bridge.IPAddress}}</td>
+                    <!-- <td> -->
+                    <!-- </td> -->
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

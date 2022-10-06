@@ -1,12 +1,14 @@
-<div class="row">
-    <div class="col-md-4">
-        <nz-input-group [nzSuffix]="suffixIconSearch" class="input">
-            <input type="text" nz-input placeholder="input text" />
-        </nz-input-group>
-        <ng-template #suffixIconSearch>
-            <span nz-icon nzType="search"></span>
-        </ng-template>
-        <hr>
+<div class="row m-5">
+    <div class="col-md-3 card p-4">
+        <div class="bordered pb-3 rounded">
+            <nz-input-group class="w-50 float-right" [nzSuffix]="suffixIconSearch">
+                <input type="text" nz-input placeholder="Rechercher" />
+            </nz-input-group>
+            
+            <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+        </div>
 
         <div class="liste" *ngFor="let site of sites">
             <div class="col-md-2">
@@ -24,9 +26,9 @@
         
     </div>
 
-    <div class="col-md-8">
-        <button nz-button class="mr-2 px-3" nzType="default">En pause</button>
-        <button nz-button class="mr-2 px-3" nzType="primary">Modifier</button>
+    <div class="col-md-9">
+        <button nz-button class=" mr-2 px-3" nzType="primary">En pause</button>
+        <button nz-button class="mr-2 px-3" nzType="default">Modifier</button>
         <button nz-button class="mr-2 px-3" nzType="primary" nzDanger>Supprimer</button>
     </div>
 </div>

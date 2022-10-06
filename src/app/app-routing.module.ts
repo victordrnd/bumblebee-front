@@ -11,7 +11,11 @@ const routes: Routes = [
   {
     path : 'stats/:id',
     component : StatsComponent
-  }
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
+  },
 ];
 
 @NgModule({

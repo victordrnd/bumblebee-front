@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: "Sailec";
+    src: url(assets/fonts/Product-Sans-Bold.ttf);
+}
+@font-face {
+    font-family: "Apercu";
+    src: url(assets/fonts/Product-Sans-Regular.ttf);
+}
+
+.apercu {
+    font-family: "Apercu";
+}
+
+.sailec {
+    font-family: "Sailec";
+}
+*{
+    font-family: "Sailec";
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.anticon{
+    transform: translateY(-2px);
+}
