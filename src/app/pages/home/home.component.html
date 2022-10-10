@@ -11,12 +11,19 @@
         </div>
 
         <div class="liste" *ngFor="let site of sites">
-            <div class="col-md-12">
+            <div class="col-md-2">
+                <nz-tag [nzColor]="'#2db7f5'">#2db7f5</nz-tag>
+            </div>
+            
+            <div class="col-md-4">
                 {{site.name}} {{site.url}}
-                <nz-progress [nzPercent]="site.disponibility" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }">
-                </nz-progress>
+            </div>
+        
+            <div>
+                <nz-progress [nzPercent]="site.disponibility" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }"></nz-progress>
             </div>
         </div>
+        
     </div>
 
     <div class="col-md-9">
