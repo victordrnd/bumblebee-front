@@ -14,14 +14,20 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { ContainerLogsComponent } from './containers/container-logs/container-logs.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     DashboardComponent,
     ContainersComponent,
-    HomeComponent
+    HomeComponent,
+    ContainerLogsComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     DashboardRoutingModule,
     NzLayoutModule,
     NzMenuModule,
@@ -29,9 +35,11 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
     NzCardModule,
     NzTagModule,
     NzButtonModule,
+    NzSelectModule,
     NzSpinModule,
     NzTableModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    NzNotificationModule,
   ],
   exports: [DashboardComponent]
 })

@@ -16,4 +16,25 @@ export class ContainersService {
     const endpoint = this.endpointService.currentEnvValue
     return this.http.get(environment.apiUrl+`/containers/${endpoint.id}`);
   }
+
+  find(id : string){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.get(environment.apiUrl+`/containers/${endpoint.id}/${id}`);
+  }
+  
+  start(ids : string[]) : Array<Observable<any>>{
+    const endpoint = this.endpointService.currentEnvValue
+    return ids.map(id => this.http.post(environment.apiUrl+`/containers/${endpoint.id}/${id}/start`, {}))
+  }
+
+  stop(ids : string[]) : Array<Observable<any>>{
+    const endpoint = this.endpointService.currentEnvValue
+    return ids.map(id => this.http.post(environment.apiUrl+`/containers/${endpoint.id}/${id}/stop`, {}))
+  }
+
+
+  logs(id : string){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.get(environment.apiUrl+`/containers/${endpoint.id}/${id}/logs`)
+  }
 }

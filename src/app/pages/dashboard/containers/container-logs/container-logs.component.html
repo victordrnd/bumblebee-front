@@ -1,0 +1,21 @@
+<div class="row mx-0">
+    <div class="col-md-10 mx-auto">
+        <nz-page-header (nzBack)="onBack()" nzBackIcon class="site-page-header px-0" nzTitle="Container logs"
+            [nzSubtitle]="container?.Names[0]">
+
+            <nz-page-header-extra>
+                <label>Refresh Interval :</label>
+                <nz-select class="mx-4" [(ngModel)]="sec_interval" (ngModelChange)="registerRefresh($event)">
+                    <nz-option *ngFor="let interval of [5,10,15,20,30,60]" [nzValue]="interval" nzLabel="{{interval}}s">
+                    </nz-option>
+                </nz-select>
+                <button (click)="getLogs()" nz-button nzType="default"><span nz-icon nzType="reload"
+                        nzTheme="outline"></span> Refresh </button>
+                <button class="mx-4" (click)="downloadLogs()" nz-button nzType="primary"><span nz-icon nzType="download" nzTheme="outline"></span> Download logs </button>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <div class="code p-4">
+            <code>{{logs}}</code>
+        </div>
+    </div>
+</div>
