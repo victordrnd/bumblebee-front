@@ -32,9 +32,38 @@ export class ContainersService {
     return ids.map(id => this.http.post(environment.apiUrl+`/containers/${endpoint.id}/${id}/stop`, {}))
   }
 
+  restart(ids : string[]) : Array<Observable<any>>{
+    const endpoint = this.endpointService.currentEnvValue
+    return ids.map(id => this.http.post(environment.apiUrl+`/containers/${endpoint.id}/${id}/restart`, {}))
+  }
+
+  rename(id : string, name : string){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.put(environment.apiUrl+`/containers/${endpoint.id}/${id}/rename`,{name});
+  }
+
+  delete(ids : string[]) :  Array<Observable<any>>{
+    const endpoint = this.endpointService.currentEnvValue
+    return ids.map(id => this.http.delete(environment.apiUrl+`/containers/${endpoint.id}/${id}`))
+  }
 
   logs(id : string){
     const endpoint = this.endpointService.currentEnvValue
     return this.http.get(environment.apiUrl+`/containers/${endpoint.id}/${id}/logs`)
+  }
+
+
+  logs_sse(id : string) : Observable<String>{
+    const endpoint = this.endpointService.currentEnvValue
+    // const evs= new EventSource(`${environment.apiUrl}/sse/containers/${endpoint.id}/${id}/logs`);
+    return new Observable(observer => {
+      const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/logs`);
+      eventSource.onmessage = x => observer.next(x.data);
+      eventSource.onerror = x => observer.error(x);
+
+      return () => {
+        eventSource.close();
+      };
+    });
   }
 }

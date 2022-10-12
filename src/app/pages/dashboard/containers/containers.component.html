@@ -2,9 +2,10 @@
     <div class="col-md-10 mx-auto">
         <nz-page-header class="site-page-header px-0" nzTitle="Containers" nzSubtitle="Containers list">
             <nz-page-header-extra>
-                <button (click)="start()"  [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button>Start</button>
-                <button (click)="stop()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button>Stop</button>
-                <button [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button>Restart</button>
+                <button (click)="start()"  [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button><span nz-icon nzType="caret-right" nzTheme="outline"></span> Start</button>
+                <button (click)="stop()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button><span nz-icon nzType="pause" nzTheme="outline"></span> Stop</button>
+                <button (click)="restart()" [nzLoading]="isRestarting" [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button><span nz-icon nzType="reload" nzTheme="outline"></span> Restart</button>
+                <button (click)="delete()" [disabled]="setOfCheckedId.size == 0"  class="mx-1" nzType="primary" nzDanger nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Delete</button>
                 <button class="mx-1" nz-button nzType="primary">Add container</button>
             </nz-page-header-extra>
         </nz-page-header>
@@ -27,22 +28,25 @@
                 <tr *ngFor="let container of containers">
                     <td [nzChecked]="setOfCheckedId.has(container.Id)"
                         (nzCheckedChange)="onItemChecked(container.Id, $event)"></td>
-                    <td class="text-primary pointer">{{container.Names[0]}}</td>
+                    <td class="text-primary pointer">{{container.Name}}</td>
                     <td>
                         <nz-tag [nzColor]="['Up', 'running'].includes(container.State) ? '#87d068' : '#ff5858'">{{container.State}}</nz-tag>
                     </td>
-                    <td>{{container.Image}}</td>
+                    <td>{{container.Image.split('@') | slice:0:1}}</td>
                     <td>{{container.Created*1000 | date:'medium'}}</td>
-                    <td>{{container.NetworkSettings.Networks.bridge.IPAddress}}</td>
+                    <td>{{container.NetworkSettings?.Networks?.bridge?.IPAddress}}</td>
                     <td>
                         <div *ngFor="let port of container.Ports" class="text-primary d-inline mr-1">
-                            <a href="http://localhost:{{port.PublicPort}}" target="_blank">
+                            <a (click)="openUrl(port.PublicPort)">
                                 <span nz-icon nzType="link" nzTheme="outline"></span> {{port.PublicPort}}:{{port.PrivatePort}}
                             </a>
                         </div>
                     </td>
                     <td class="text-muted">{{container.Status}}</td>
-                    <td><span routerLink="{{container.Id}}/logs" class="pointer text-primary" nz-icon nzType="file-text" nzTheme="fill"></span></td>
+                    <td>
+                        <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-1" nz-icon nzType="file-text" nzTheme="fill"></span>
+                        <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-1" (click)="openRenameModal(container)"></span>
+                    </td>
                 </tr>
             </tbody>
         </nz-table>

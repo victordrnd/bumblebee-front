@@ -4,13 +4,13 @@
             [nzSubtitle]="container?.Names[0]">
 
             <nz-page-header-extra>
-                <label>Refresh Interval :</label>
+                <!-- <label>Refresh Interval :</label>
                 <nz-select class="mx-4" [(ngModel)]="sec_interval" (ngModelChange)="registerRefresh($event)">
                     <nz-option *ngFor="let interval of [5,10,15,20,30,60]" [nzValue]="interval" nzLabel="{{interval}}s">
                     </nz-option>
-                </nz-select>
+                </nz-select> -->
                 <button (click)="getLogs()" nz-button nzType="default"><span nz-icon nzType="reload"
-                        nzTheme="outline"></span> Refresh </button>
+                        nzTheme="outline"></span> Force refresh </button>
                 <button class="mx-4" (click)="downloadLogs()" nz-button nzType="primary"><span nz-icon nzType="download" nzTheme="outline"></span> Download logs </button>
             </nz-page-header-extra>
         </nz-page-header>

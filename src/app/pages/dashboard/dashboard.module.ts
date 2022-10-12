@@ -17,13 +17,25 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { ContainerLogsComponent } from './containers/container-logs/container-logs.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { FormsModule } from '@angular/forms';
+import { RenameContainerModalComponent } from './containers/_components/rename-container-modal/rename-container-modal.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { EndpointsComponent } from './endpoints/endpoints.component';
+import { EditEndpointComponent } from './endpoints/_components/edit-endpoint/edit-endpoint.component';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 @NgModule({
   declarations: [
     DashboardComponent,
     ContainersComponent,
     HomeComponent,
-    ContainerLogsComponent
+    ContainerLogsComponent,
+    RenameContainerModalComponent,
+    EndpointsComponent,
+    EditEndpointComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +52,12 @@ import { FormsModule } from '@angular/forms';
     NzTableModule,
     NzPageHeaderModule,
     NzNotificationModule,
+    NzModalModule,
+    NzInputModule,
+    NzSegmentedModule,
+    NzSwitchModule,
+    NzRadioModule,
+    NzUploadModule
   ],
   exports: [DashboardComponent]
 })

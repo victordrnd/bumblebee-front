@@ -1,0 +1,58 @@
+<label>Name :</label>
+<input class="mt-2" nz-input placeholder="Endpoint name" [(ngModel)]="endpoint.name" />
+
+<nz-segmented (ngModelChange)="onConnectionTypeChange($event)" nzSize="large" class="mt-4"
+    [(ngModel)]="endpoint.use_socket" [nzOptions]="options"></nz-segmented>
+<br />
+<ng-container *ngIf="endpoint.use_socket == 1; else httpBlock">
+    <label class="mt-2">Socket Path :</label>
+    <input class="mt-2" nz-input placeholder="Socket Path" [(ngModel)]="endpoint.url" />
+</ng-container>
+
+<ng-template #httpBlock>
+    <label class="mt-2">Endpoint URL :</label>
+    <input class="mt-2" nz-input placeholder="Socket Path" [(ngModel)]="endpoint.url" />
+    <label class="mt-2">TLS :</label><br />
+    <nz-switch [(ngModel)]="endpoint.tls"></nz-switch><br />
+
+    <ng-container *ngIf="endpoint.tls">
+        <nz-radio-group class="mt-3" [(ngModel)]="tls_type" nzButtonStyle="solid">
+            <label nz-radio-button nzValue="A">TLS with server and client verification</label>
+            <label nz-radio-button nzValue="B">TLS with client verification only</label>
+            <label nz-radio-button nzValue="C">TLS with server verification only</label>
+            <label nz-radio-button nzValue="D">TLS only</label>
+        </nz-radio-group>
+        <br />
+        <ng-container>
+            <div class="mt-3">
+
+                <nz-upload (nzChange)="onChange($event,'ca_certificat')" *ngIf="['A','C'].includes(tls_type)" nzName="avatar" nzListType="text" [nzShowUploadList]="true" [nzBeforeUpload]="beforeUpload">
+                    TLS CA certificate
+                    <button class="mx-5" nz-button>
+                        <span nz-icon nzType="upload"></span>
+                        Select file
+                    </button>
+                </nz-upload><br/>
+
+                <ng-container *ngIf="['A','B'].includes(tls_type)">
+
+                    <nz-upload (nzChange)="onChange($event,'tls_certificat')" nzName="avatar" nzListType="text" [nzShowUploadList]="true" [nzBeforeUpload]="beforeUpload">
+                        TLS certificate<span class="text-white"> CA </span>
+                        <button class="mx-5" nz-button>
+                            <span nz-icon nzType="upload"></span>
+                            Select file
+                        </button>
+                </nz-upload><br/>
+                
+                <nz-upload (nzChange)="onChange($event,'tls_key')" nzName="avatar" nzListType="text" [nzShowUploadList]="true" [nzBeforeUpload]="beforeUpload">
+                    TLS key<span class="text-white"> CA certifil </span>
+                    <button class="mx-5" nz-button>
+                        <span nz-icon nzType="upload"></span>
+                        Select file
+                    </button>
+                </nz-upload>
+            </ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-template>

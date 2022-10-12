@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContainerLogsComponent } from './containers/container-logs/container-logs.component';
 import { ContainersComponent } from './containers/containers.component';
 import { DashboardComponent } from './dashboard.component';
+import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
           }
         ]
       },
+      {
+        path : "endpoints",
+        component : EndpointsComponent
+      }
       
     ]
   },

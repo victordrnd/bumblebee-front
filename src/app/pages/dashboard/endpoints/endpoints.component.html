@@ -1,0 +1,37 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-10 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Endpoints" nzSubtitle="Endpoints list">
+            <nz-page-header-extra>
+                <button (click)="openEndpointModal()" class="mx-1" nz-button nzType="primary">Add endpoint</button>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <nz-table #basicTable [nzData]="endpoints">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Architecture</th>
+                    <th>OS</th>
+                    <th>URL</th>
+                    <th>Memory</th>
+                    <th>CPU</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let endpoint of endpoints">
+                    <td class="text-primary pointer" (click)="editEndpoint(endpoint)">{{endpoint.name}}</td>
+                    <td>
+                        <nz-tag [nzColor]="['OK'].includes(endpoint.status) ? '#87d068' : '#ff5858'">{{endpoint.status}}</nz-tag>
+                    </td>
+                    <td>{{endpoint.info?.Architecture ||'-'}}</td>
+                    <td>{{endpoint.info?.OperatingSystem ||'-'}}</td>
+                    <td class="text-muted">{{endpoint.use_socket ? '/var/run/docker.sock' : endpoint.url}}</td>
+                    <td>{{(endpoint.info?.MemTotal / (1024 * 1000000) | number:'1.0-0') || '-'}} Go</td>
+                    <td>{{endpoint.info?.NCPU || '-'}}</td>
+                    <td><span nz-icon nzType="delete" class="text-danger pointer" (click)="deleteEndpoint(endpoint)" nzTheme="fill"></span></td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

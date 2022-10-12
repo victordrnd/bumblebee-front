@@ -20,6 +20,13 @@ export class EndpointsService {
     return this.http.get(environment.apiUrl+"/endpoints") as Observable<any[]>
   }
 
+  create(endpoint : any){
+    return this.http.post(environment.apiUrl+"/endpoints", endpoint) as Observable<any[]>
+  }
+
+  delete(endpoint_id: number){
+    return this.http.delete(`${environment.apiUrl}/endpoints/${endpoint_id}`) as Observable<any[]>
+  }
 
   setCurrentEnv(endpoint:any){
     localStorage.setItem('currentEnv', JSON.stringify(endpoint));

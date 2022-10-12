@@ -1,0 +1,6 @@
+<nz-input-group [nzSuffix]="suffixIconSearch">
+    <input type="text" [(ngModel)]="name" nz-input placeholder="input search text" />
+  </nz-input-group>
+  <ng-template #suffixIconSearch>
+    <span nz-icon nzType="edit" ></span>
+  </ng-template>

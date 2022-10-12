@@ -6,6 +6,7 @@
             Environment</button>
     </div>
 
+
     <div class="col-12 mt-3" *ngFor="let endpoint of endpoints">
         <nz-spin [nzSpinning]="loading">
             <nz-card class="w-100 pointer" (click)="chooseEnvironment(endpoint)">
@@ -38,4 +39,5 @@
 
         </nz-spin>
     </div>
+
 </div>
