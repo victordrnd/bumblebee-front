@@ -1,52 +1,55 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, take } from 'rxjs';
 import { ContainersService } from 'src/app/core/services/containers.service';
 import { Terminal } from 'xterm';
-import { AttachAddon } from 'xterm-addon-attach';
-
 @Component({
   selector: 'app-container-terminal',
   templateUrl: './container-terminal.component.html',
   styleUrls: ['./container-terminal.component.scss']
 })
-export class ContainerTerminalComponent implements OnInit, AfterViewInit {
+export class ContainerTerminalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   container: any;
   id: string | null = null;
   terminal: any;
+  subscriptions :any[]= [];
   constructor(private route: ActivatedRoute, private containerService: ContainersService,
     private router: Router, private cdr: ChangeDetectorRef) { }
+  
 
 
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.container = await firstValueFrom(this.containerService.find(this.id!));
-    this.containerService.attach(this.container.Id).subscribe((res: any) => {
-      // const attachAddon = new AttachAddon(socket);
+    const sb = this.containerService.attach(this.container.Id).subscribe((res: any) => {
       this.terminal.write(new TextDecoder().decode(res))
-    })
+    });
+    this.subscriptions.push(sb);
   }
 
 
   ngAfterViewInit(): void {
-    this.terminal = new Terminal({ fontFamily: 'Courier New', fontSize: 14, cursorBlink : true, rows: 50});
-
+    this.terminal = new Terminal({ fontFamily: 'Courier New', fontSize: 15, cursorBlink: true, rows: 40, letterSpacing : 0, cols: 180,
+      theme: { background: '#2c2e31',black : "#2c2e31", cursorAccent : "#2c2e31" }
+    });
     this.terminal.open(document.getElementById('terminal')!);
     let line = "";
     const container_id = this.id;
     this.terminal.onKey((e: { key: string, domEvent: KeyboardEvent }) => {
       const ev = e.domEvent;
-      const printable = !ev.altKey && !ev.ctrlKey && !ev.metaKey;
-      if (ev.keyCode === 13) {
+      const printable = !ev.altKey && !ev.ctrlKey && !ev.metaKey && !ev.key.includes("Arrow");
+      if (ev.code == "Enter") {
         this.containerService.exec(container_id!, line)
-        this.terminal.write('\b \b'.repeat(line.length))  
+        this.terminal.write('\b \b'.repeat(line.length))
         line = "";
       }
-      else if (ev.keyCode === 8) {
-        // Do not delete the prompt
-        if (this.terminal._core.buffer.x > 2) {
-          this.terminal.write('\b \b');
+      else if (ev.key === "Backspace") {
+        if(line.length){
+          line = line.substring(1);
+          if (this.terminal._core.buffer.x > 2) {
+            this.terminal.write('\b \b');
+          }
         }
       }
       else if (printable) {
@@ -59,5 +62,11 @@ export class ContainerTerminalComponent implements OnInit, AfterViewInit {
 
   onBack() {
     this.router.navigate(["dashboard/containers"])
+  }
+
+
+  ngOnDestroy(): void {
+    this.subscriptions.map(s => s.unsubscribe())
+    this.containerService.detach()
   }
 }

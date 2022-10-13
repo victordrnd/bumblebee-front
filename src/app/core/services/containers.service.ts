@@ -79,6 +79,12 @@ export class ContainersService {
     return sock.fromEvent('docker.terminal')
   }
 
+  detach(){
+    this.socket.removeAllListeners("docker.terminal");
+    this.socket.ioSocket._callbacks = {}
+    this.socket.disconnect();
+  }
+
   exec(container_id : string, command : string){
     const endpoint = this.endpointService.currentEnvValue
     this.socket.emit('docker.terminal.command', {endpoint_id : endpoint.id, container_id : container_id, command})

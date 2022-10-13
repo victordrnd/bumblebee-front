@@ -18,6 +18,11 @@
 *{
     font-family: "Sailec";
 }
+#terminal{
+    *{
+        font-family: 'Courier New', Courier, monospace !important;
+    }
+}
 
 .pointer{
     cursor: pointer;
