@@ -19,9 +19,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { environment } from 'src/environments/environment';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
 registerLocaleData(fr);
-
+const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +42,7 @@ registerLocaleData(fr);
     NzInputModule,
     NzIconModule,
     NzProgressModule,
+    SocketIoModule.forRoot(config),
     NzTagModule,
   ],
   providers: [

@@ -101,6 +101,10 @@ export class ContainersComponent implements OnInit {
     })
   }
 
+  openTerminal(container : any){
+    
+  }
+
 
   isSwarm(container : any){
     return Object.keys(container.Labels).includes('com.docker.swarm.node.id')

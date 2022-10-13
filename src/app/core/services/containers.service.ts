@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EndpointsService } from './endpoints.service';
@@ -10,6 +11,7 @@ import { EndpointsService } from './endpoints.service';
 export class ContainersService {
 
   constructor(private endpointService: EndpointsService,
+    private socket : Socket,
     private http: HttpClient) { }
 
   list() : Observable<any>{
@@ -55,7 +57,6 @@ export class ContainersService {
 
   logs_sse(id : string) : Observable<String>{
     const endpoint = this.endpointService.currentEnvValue
-    // const evs= new EventSource(`${environment.apiUrl}/sse/containers/${endpoint.id}/${id}/logs`);
     return new Observable(observer => {
       const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/logs`);
       eventSource.onmessage = x => observer.next(x.data);
@@ -65,5 +66,21 @@ export class ContainersService {
         eventSource.close();
       };
     });
+  }
+
+
+  attach(container_id : string){
+    const endpoint = this.endpointService.currentEnvValue
+    this.socket.connect();
+    const sock = this.socket;
+    this.socket.on('connect', function(){
+      sock.emit('docker.terminal', {endpoint_id : endpoint.id, container_id : container_id})
+    })
+    return sock.fromEvent('docker.terminal')
+  }
+
+  exec(container_id : string, command : string){
+    const endpoint = this.endpointService.currentEnvValue
+    this.socket.emit('docker.terminal.command', {endpoint_id : endpoint.id, container_id : container_id, command})
   }
 }

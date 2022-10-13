@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContainerLogsComponent } from './containers/container-logs/container-logs.component';
+import { ContainerTerminalComponent } from './containers/container-terminal/container-terminal.component';
 import { ContainersComponent } from './containers/containers.component';
 import { DashboardComponent } from './dashboard.component';
 import { EndpointsComponent } from './endpoints/endpoints.component';
@@ -25,6 +26,10 @@ const routes: Routes = [
           {
             path : ":id/logs",
             component : ContainerLogsComponent
+          },
+          {
+            path : ":id/terminal",
+            component : ContainerTerminalComponent
           }
         ]
       },

@@ -46,6 +46,7 @@
                     <td>
                         <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-1" nz-icon nzType="file-text" nzTheme="fill"></span>
                         <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-1" (click)="openRenameModal(container)"></span>
+                        <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-1" routerLink="{{container.Id}}/terminal"></span>
                     </td>
                 </tr>
             </tbody>
