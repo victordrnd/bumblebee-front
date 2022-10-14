@@ -37,7 +37,7 @@ export class EndpointsComponent implements OnInit {
       nzWidth: "50vw",
       nzOnOk: async (component: EditEndpointComponent) => {
         let endpoint = component.endpoint;
-        if (!endpoint.use_socket) {
+        if (endpoint.protocol == 'http') {
           if (!endpoint.url.includes('http')) {
             let port = endpoint.url.split(':')[1]
             endpoint.port = parseInt(port);
@@ -47,6 +47,9 @@ export class EndpointsComponent implements OnInit {
               endpoint.url = `http://` + endpoint.url.split(':')[0];
             }
           }
+        }
+        if(endpoint.protocol == "ssh"){
+          // endpoint.url = ;
         }
         return await firstValueFrom(this.endpointsService.create(endpoint)).then(res => {
           this.notificationService.success('Success', "New endpoint created successfully");

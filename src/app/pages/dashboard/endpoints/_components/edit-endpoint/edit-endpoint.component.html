@@ -1,15 +1,15 @@
 <label>Name :</label>
 <input class="mt-2" nz-input placeholder="Endpoint name" [(ngModel)]="endpoint.name" />
 
-<nz-segmented (ngModelChange)="onConnectionTypeChange($event)" nzSize="large" class="mt-4"
-    [(ngModel)]="endpoint.use_socket" [nzOptions]="options"></nz-segmented>
+<nz-segmented (nzValueChange)="onConnectionTypeChange($event)" nzSize="large" class="mt-4"
+    [(ngModel)]="endpoint.protocol_index" [nzOptions]="options"></nz-segmented>
 <br />
-<ng-container *ngIf="endpoint.use_socket == 1; else httpBlock">
+<ng-container *ngIf="endpoint.protocol == 'socket'">
     <label class="mt-2">Socket Path :</label>
     <input class="mt-2" nz-input placeholder="Socket Path" [(ngModel)]="endpoint.url" />
 </ng-container>
 
-<ng-template #httpBlock>
+<ng-container *ngIf="endpoint.protocol == 'http'">
     <label class="mt-2">Endpoint URL :</label>
     <input class="mt-2" nz-input placeholder="Socket Path" [(ngModel)]="endpoint.url" />
     <label class="mt-2">TLS :</label><br />
@@ -55,4 +55,16 @@
             </div>
         </ng-container>
     </ng-container>
-</ng-template>
+</ng-container>
+
+
+<ng-container *ngIf="endpoint.protocol == 'ssh'">
+    <label class="mt-2">Host IP :</label>
+    <input class="mt-2" nz-input placeholder="Host IP" [(ngModel)]="endpoint.url" />
+    
+    <label class="mt-2">Host Port :</label>
+    <input class="mt-2" nz-input placeholder="Host IP" [(ngModel)]="endpoint.port" />
+
+    <label class="mt-2">Password :</label>
+    <input class="mt-2" nz-input placeholder="SSH password" [(ngModel)]="endpoint.password" />
+</ng-container>

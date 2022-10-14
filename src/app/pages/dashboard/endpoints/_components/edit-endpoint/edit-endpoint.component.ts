@@ -12,16 +12,19 @@ export class EditEndpointComponent implements OnInit {
   @Input() endpoint = {
     url: '/var/run/docker.sock',
     name: null,
-    use_socket: 1,
+    protocol_index : 0,
+    protocol: 'socket',
     tls: false,
     ca_certificat : null,
     tls_certificat : null,
     tls_key : null,
-    port : 0
+    port : 0,
+    password : null
   }
   options = [
-    { label: 'HTTP', value: 0, icon: 'cloud-sync' },
-    { label: 'Socket', value: 1, icon: 'node-index' },
+    { label: 'Socket', value: 'socket', icon: 'node-index' },
+    { label: 'HTTP', value: 'http', icon: 'cloud-sync' },
+    { label: 'SSH', value: 'ssh', icon: 'code' },
   ];
   constructor() { }
 
@@ -29,11 +32,17 @@ export class EditEndpointComponent implements OnInit {
   }
 
 
-  onConnectionTypeChange(use_socket: boolean) {
-    if (use_socket) {
+  onConnectionTypeChange(index: any) {
+    const protocol = this.options[index].value;
+    this.endpoint.protocol = protocol;
+    console.log(this.endpoint.protocol)
+    if (protocol == 'socket') {
       this.endpoint.url = "/var/run/docker.sock"
-    } else {
+    } else if(protocol == "http") {
       this.endpoint.url = "localhost:2375"
+    }else{
+      this.endpoint.port = 22;
+      this.endpoint.url = "ssh://user@127.0.0.1"
     }
   }
 
