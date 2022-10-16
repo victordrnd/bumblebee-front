@@ -1,5 +1,5 @@
 <div class="row mx-0 mt-5">
-    <div class="col-md-10 mx-auto">
+    <div class="col-md-11 mx-auto">
         <nz-page-header class="site-page-header px-0" nzTitle="Containers" nzSubtitle="Containers list">
             <nz-page-header-extra>
                 <button (click)="start()"  [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button><span nz-icon nzType="caret-right" nzTheme="outline"></span> Start</button>
@@ -45,9 +45,10 @@
                     <td class="text-muted">{{container.Status}}</td>
                     <td>
                         <div class="text-right">
-                            <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-1 disabled" (click)="openRenameModal(container)"></span>
-                            <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-1" nz-icon nzType="file-text" nzTheme="fill"></span>
-                            <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-1" routerLink="{{container.Id}}/terminal"></span>
+                            <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-2 disabled" (click)="openRenameModal(container)"></span>
+                            <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-2" nz-icon nzType="file-text" nzTheme="fill"></span>
+                            <span nz-icon routerLink="{{container.Id}}/stats" nzType="fund" class="pointer text-primary mx-2" nzTheme="fill"></span>
+                            <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-2" routerLink="{{container.Id}}/terminal"></span>
                         </div>
                     </td>
                 </tr>

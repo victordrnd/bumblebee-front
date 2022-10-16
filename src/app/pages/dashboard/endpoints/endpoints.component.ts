@@ -38,20 +38,22 @@ export class EndpointsComponent implements OnInit {
       nzOnOk: async (component: EditEndpointComponent) => {
         let endpoint = component.endpoint;
         if (endpoint.protocol == 'http') {
-          if (!endpoint.url.includes('http')) {
-            let port = endpoint.url.split(':')[1]
-            endpoint.port = parseInt(port);
-            if (endpoint.tls) {
-              endpoint.url = `https://` + endpoint.url.split(':')[0];
-            } else {
-              endpoint.url = `http://` + endpoint.url.split(':')[0];
-            }
+          let port = endpoint.url.split(':')[1]
+          endpoint.port = parseInt(port);
+          console.log(endpoint)
+          if (endpoint.tls) {
+            endpoint.url = endpoint.url.split(':')[0];
+          } else {
+            endpoint.url = `http://` + endpoint.url.split(':')[0];
           }
         }
-        if(endpoint.protocol == "ssh"){
-          // endpoint.url = ;
+        const form_data = new FormData();
+        for (var key in endpoint) {
+          //@ts-ignore
+          form_data.append(key, (endpoint[key] as string));
         }
-        return await firstValueFrom(this.endpointsService.create(endpoint)).then(res => {
+        console.log(form_data)
+        return await firstValueFrom(this.endpointsService.create(form_data)).then(res => {
           this.notificationService.success('Success', "New endpoint created successfully");
           this.getEndpoints();
           return true;

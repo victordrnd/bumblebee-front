@@ -28,6 +28,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { ContainerTerminalComponent } from './containers/container-terminal/container-terminal.component';
+import { ContainerStatsComponent } from './containers/container-stats/container-stats.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -37,7 +38,8 @@ import { ContainerTerminalComponent } from './containers/container-terminal/cont
     RenameContainerModalComponent,
     EndpointsComponent,
     EditEndpointComponent,
-    ContainerTerminalComponent
+    ContainerTerminalComponent,
+    ContainerStatsComponent
   ],
   imports: [
     CommonModule,
