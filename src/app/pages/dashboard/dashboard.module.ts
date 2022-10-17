@@ -29,6 +29,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { ContainerTerminalComponent } from './containers/container-terminal/container-terminal.component';
 import { ContainerStatsComponent } from './containers/container-stats/container-stats.component';
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -61,7 +62,8 @@ import { ContainerStatsComponent } from './containers/container-stats/container-
     NzSegmentedModule,
     NzSwitchModule,
     NzRadioModule,
-    NzUploadModule
+    NzUploadModule,
+    NgChartsModule
   ],
   exports: [DashboardComponent]
 })

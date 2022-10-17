@@ -22,6 +22,9 @@ import { environment } from 'src/environments/environment';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { ChartComponent } from './pages/home/_components/chart/chart.component';
 import { StatusComponent } from './pages/home/_components/status/status.component';
+import { NgChartsModule } from 'ng2-charts';
+import { LoginComponent } from './pages/login/login.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
@@ -33,6 +36,7 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     HomeComponent,
     ChartComponent,
     StatusComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +51,8 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NzProgressModule,
     SocketIoModule.forRoot(config),
     NzTagModule,
+    NzCardModule,
+    NgChartsModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +9,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService : UsersService) { }
   _isConnected = new BehaviorSubject<boolean>(true);
+  
   ngOnInit(): void {
-    this._isConnected.next(true);
+    this.userService.currentUser.subscribe(value => {
+      this._isConnected.next(value != null)
+    })
   }
 
 

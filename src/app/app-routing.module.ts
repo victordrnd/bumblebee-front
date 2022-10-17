@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ChartComponent} from './pages/home/_components/chart/chart.component';
 import { StatusComponent} from './pages/home/_components/status/status.component';
 import { StatsComponent } from './pages/home/_components/stats/stats.component';
+import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path : 'stats/:id',
     component : StatsComponent
+  },
+  {
+    path : 'login',
+    component : LoginComponent
   },
   {
     path: 'dashboard',

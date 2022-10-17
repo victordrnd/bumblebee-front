@@ -1,0 +1,26 @@
+<div class="row mx-0" style="height:89vh">
+    <div class="offset-md-1 col-md-7">
+        <div class="h-100 middle">
+            <img src="assets/img/login.png" class="rounded">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="h-100 middle">
+
+            <nz-card class="align-self-center">
+                <h3>Login</h3>
+                <label>Username / Email :</label>
+                <nz-input-group [nzPrefix]="prefixTemplateUser">
+                    <input type="text" [(ngModel)]="credentials.username" nz-input placeholder="Enter your username" />
+                </nz-input-group>
+                <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
+                
+                <label class="mt-4">Username / Email :</label>
+                <input nz-input type="password" [(ngModel)]="credentials.password">
+                <span class="text-primary">Forgot password ?</span>
+
+                <button nz-button nzType="primary" class="float-right mt-5">Go to Dashboard</button>
+            </nz-card>
+        </div>
+    </div>
+</div>

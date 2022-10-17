@@ -57,15 +57,15 @@ export class ContainersService {
 
   logs_sse(id : string) : Observable<String>{
     const endpoint = this.endpointService.currentEnvValue
-    return new Observable(observer => {
-      const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/logs`);
-      eventSource.onmessage = x => observer.next(x.data);
-      eventSource.onerror = x => observer.error(x);
+    const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/logs`);
+    return this.generateObservableFromEventSource(eventSource)
+   
+  }
 
-      return () => {
-        eventSource.close();
-      };
-    });
+  stats(id : string) : Observable<String>{
+    const endpoint = this.endpointService.currentEnvValue
+    const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/stats`);
+    return this.generateObservableFromEventSource(eventSource)
   }
 
 
@@ -88,5 +88,17 @@ export class ContainersService {
   exec(container_id : string, command : string){
     const endpoint = this.endpointService.currentEnvValue
     this.socket.emit('docker.terminal.command', {endpoint_id : endpoint.id, container_id : container_id, command})
+  }
+
+
+
+  private generateObservableFromEventSource(eventSource : EventSource) : Observable<any>{
+    return new Observable(observer => {
+      eventSource.onmessage = x => observer.next(x.data);
+      eventSource.onerror = x => observer.error(x);
+      return () => {
+        eventSource.close();
+      };
+    });
   }
 }
