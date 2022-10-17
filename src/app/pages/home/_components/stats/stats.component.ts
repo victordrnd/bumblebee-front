@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { SitesService } from 'src/app/core/services/sites.service';
 
@@ -9,10 +9,12 @@ import { SitesService } from 'src/app/core/services/sites.service';
 })
 export class StatsComponent implements OnInit {
 
+  @Input() site? : any = {};
+  checks : any[] = [];
+  @Input() currentSite? : any;
   constructor(private activatedRoute : ActivatedRoute,
     private siteService : SitesService) { }
 
-  site : any;
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.params['id'] || null;
     this.site = await this.siteService.find(id)

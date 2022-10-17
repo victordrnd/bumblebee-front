@@ -9,6 +9,7 @@ import { SitesService } from 'src/app/core/services/sites.service';
 export class HomeComponent implements OnInit {
 
   sites : any= [];
+  currentSite? : any;
   constructor(private siteService : SitesService) { }
 
   async ngOnInit() {
