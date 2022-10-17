@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   apiUrl: "http://localhost:3000",
-  socketServer : "http://localhost:3005"
+  socketServer: "http://localhost:3005",
+  cognito: {
+    userPoolId: 'us-east-1_tQMt0opMU',
+    userPoolWebClientId: '6ai0750mkbfdm7skoj9svg0qin',
+  },
 };
 
 /*
