@@ -1,13 +1,24 @@
 .liste {
     color: #F8ba16;
     font-weight: bold;
- }
+}
 
- .check{
+.check{
     display: inline-block;
     width: 5px;
     border-radius: 4px;
     margin-left: 3px;
     margin-right: 3px;
     height: 10px;
- }
+}
+
+.container {
+    margin: 1rem;
+    padding: 1rem 1rem;
+    text-align: center;
+  }
+.element {
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+}
