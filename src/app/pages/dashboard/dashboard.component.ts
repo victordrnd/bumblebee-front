@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { EndpointsService } from 'src/app/core/services/endpoints.service';
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   mobile: boolean = false;
   currentEnvironment :any = null;
   subscriptions : Subscription[]= [];
-  constructor(public endpointService: EndpointsService) { }
+  constructor(public endpointService: EndpointsService,
+    private router : Router,
+    private userService : UsersService) { }
   
 
   ngOnInit(): void {
@@ -28,6 +32,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sb);
   }
 
+
+  async signout(){
+    const res = await this.userService.signOut();
+    this.router.navigate(['login']);
+  }
 
   ngOnDestroy(): void {
    this.subscriptions.map(s => s.unsubscribe())

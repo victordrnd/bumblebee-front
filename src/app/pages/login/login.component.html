@@ -1,25 +1,42 @@
-<div class="row mx-0" style="height:89vh">
-    <div class="offset-md-1 col-md-7">
+<div class="row mx-0" style="height:91.1vh">
+    <div class="col-md-6 px-0">
         <div class="h-100 middle">
-            <img src="assets/img/login.png" class="rounded">
+            <img src="assets/img/container.webp" class="rounded">
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="h-100 middle">
+    <div class="col-md-6">
+        <div class="h-100 middle ">
 
-            <nz-card class="align-self-center">
-                <h3>Login</h3>
-                <label>Username / Email :</label>
-                <nz-input-group [nzPrefix]="prefixTemplateUser">
-                    <input type="text" [(ngModel)]="credentials.username" nz-input placeholder="Enter your username" />
-                </nz-input-group>
-                <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
-                
-                <label class="mt-4">Username / Email :</label>
-                <input nz-input type="password" [(ngModel)]="credentials.password">
-                <span class="text-primary">Forgot password ?</span>
+            <nz-card class="align-self-center mx-5">
+                <ng-container *ngIf="!needToChangePassword">
+                    <h3>Login</h3>
+                    <label>Username / Email :</label>
+                    <nz-input-group [nzPrefix]="prefixTemplateUser">
+                        <input type="text" [(ngModel)]="credentials.username" nz-input
+                            placeholder="Enter your username" />
+                    </nz-input-group>
+                    <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
-                <button nz-button nzType="primary" class="float-right mt-5">Go to Dashboard</button>
+                    <label class="mt-4">Username / Email :</label>
+                    <input nz-input type="password" [(ngModel)]="credentials.password">
+                    <span class="text-primary">Forgot password ?</span>
+
+                    <button nz-button nzType="primary" (click)="signin()" class="float-right mt-5">Go to
+                        Dashboard</button>
+                </ng-container>
+
+
+                <ng-container *ngIf="needToChangePassword">
+                    <h3>Change password</h3>
+                    <label>New password :</label>
+                    <input type="password" [(ngModel)]="credentials.new_password" nz-input
+                        placeholder="Enter your new password" />
+
+                    <label class="mt-4">Repeat new password :</label>
+                    <input nz-input type="password" placeholder="Repeat your new password" [(ngModel)]="credentials.new_password_repeat">
+
+                    <button nz-button nzType="primary" (click)="changePassword()" class="float-right mt-5">Change password</button>
+                </ng-container>
             </nz-card>
         </div>
     </div>

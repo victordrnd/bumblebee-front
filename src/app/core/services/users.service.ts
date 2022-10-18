@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UsersService {
 
-  currentUser : Subject<any> = new BehaviorSubject<any>(null)
+  currentUser : Subject<any> = new BehaviorSubject<any>(null);
   constructor() { 
     Amplify.configure({
       Auth: environment.cognito,
@@ -20,10 +20,12 @@ export class UsersService {
 
 
   public signIn(user:any): Promise<any> {
-    return Auth.signIn(user.email, user.password)
-    .then(() => {
+    return Auth.signIn(user.username, user.password)
+    .then((res) => {
+      
       delete user.password;
       this.currentUser.next(user);
+      return res;
     });
   }
 
@@ -35,6 +37,9 @@ export class UsersService {
     });
   }
 
+  changePassword(user : any, new_password : string){
+    return Auth.completeNewPassword(user,new_password)
+  }
 
   get currentUserValue(){
     return (this.currentUser as BehaviorSubject<any>).value;
