@@ -1,0 +1,13 @@
+<p>status works!</p>
+<div class="row m-5">
+    <div class="col-md-10 card p-4">
+        <div class="bordered pb-3 rounded">
+            <div class="liste d-inline" *ngFor="let check of checks">
+                <div class="check" [class.bg-danger]="!check.up" [class.bg-success]="check.up">
+                    &nbsp;
+                </div>
+            </div>
+        <nz-tag [nzColor]="'#f38C1C'" >  %</nz-tag>
+        <p *ngIf="site.check">Delete User</p>
+    </div>
+</div>

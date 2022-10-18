@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -12,7 +11,7 @@ import fr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StatsComponent } from './pages/stats/stats.component';
+import { StatsComponent } from './pages/home/_components/stats/stats.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -21,6 +20,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { environment } from 'src/environments/environment';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { ChartComponent } from './pages/home/_components/chart/chart.component';
+import { StatusComponent } from './pages/home/_components/status/status.component';
 import { NgChartsModule } from 'ng2-charts';
 import { LoginComponent } from './pages/login/login.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -34,7 +35,9 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     HeaderComponent,
     StatsComponent,
     HomeComponent,
-    LoginComponent,
+    ChartComponent,
+    StatusComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

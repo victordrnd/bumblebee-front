@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './core/guards/auth-guard.service';
 import { HomeComponent } from './pages/home/home.component';
+import { ChartComponent} from './pages/home/_components/chart/chart.component';
+import { StatusComponent} from './pages/home/_components/status/status.component';
+import { StatsComponent } from './pages/home/_components/stats/stats.component';
 import { LoginComponent } from './pages/login/login.component';
-import { StatsComponent } from './pages/stats/stats.component';
 
 const routes: Routes = [
   {
     path : "",
-    component : HomeComponent
+    component : HomeComponent, 
   },
   {
     path : 'stats/:id',
