@@ -7,7 +7,9 @@
                     &nbsp;
                 </div>
             </div>
-        <nz-tag [nzColor]="'#f38C1C'" >  %</nz-tag>
-        <p *ngIf="site.check">Delete User</p>
+            <nz-tag nzColor="#59a847" *ngIf="(site.checks[site.checks.length -1] || {}).up">EN LIGNE</nz-tag>
+            <nz-tag nzColor="#e9494c" *ngIf="site.checks.length == 0">HORS LIGNE</nz-tag>
+        </div>
+        <p>Vérifier toutes les 60 secondes</p>
     </div>
 </div>

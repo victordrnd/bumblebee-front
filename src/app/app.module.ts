@@ -27,6 +27,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
@@ -56,7 +57,8 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NzCardModule,
     NgChartsModule,
     NzNotificationModule,
-    HttpCacheInterceptorModule.forRoot()
+    HttpCacheInterceptorModule.forRoot(),
+    NzTypographyModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR }
