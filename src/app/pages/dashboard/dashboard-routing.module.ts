@@ -7,6 +7,7 @@ import { ContainersComponent } from './containers/containers.component';
 import { DashboardComponent } from './dashboard.component';
 import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -39,8 +40,17 @@ const routes: Routes = [
         ]
       },
       {
-        path : "endpoints",
-        component : EndpointsComponent
+        path : 'settings',
+        children : [
+          {
+            path : "endpoints",
+            component : EndpointsComponent
+          },
+          {
+            path : "users",
+            component : UsersComponent
+          }
+        ]
       }
     ]
   },

@@ -7,8 +7,46 @@
     <div class="col-md-6">
         <div class="h-100 middle ">
 
-            <nz-card class="align-self-center mx-5">
-                <ng-container *ngIf="!needToChangePassword">
+            <nz-card class="align-self-center mx-5" [ngSwitch]="action">
+
+                <ng-container *ngSwitchCase="'NEW_PASSWORD_REQUIRED'">
+                    <h3>Change password</h3>
+                    <label>New password :</label>
+                    <input [disabled]="loading" type="password" [(ngModel)]="credentials.new_password" nz-input
+                        placeholder="Enter your new password" />
+
+                    <label class="mt-4">Repeat new password :</label>
+                    <input [disabled]="loading" nz-input type="password" placeholder="Repeat your new password"
+                        [(ngModel)]="credentials.new_password_repeat">
+
+                    <button [nzLoading]="loading" nz-button nzType="primary" (click)="changePassword()" class="float-right mt-5">Change
+                        password</button>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'FORGOT_PASSWORD'">
+                    <h3>Forgot password</h3>
+                    <p>Write down your email in order the receive the verication code to reset your password</p>
+                    <label>Username / Email :</label>
+                    <nz-input-group [nzPrefix]="prefixTemplateUser">
+                        <input type="text" [(ngModel)]="credentials.username" nz-input
+                            placeholder="Enter your username" />
+                    </nz-input-group>
+                    <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
+                    <button nz-button nzType="primary" (click)="forgotPassword()" class="float-right mt-5">Get
+                        verification code</button>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'PASSWORD_FORGOT_CODE'">
+                    <h3>Verfication code</h3>
+                    <p>Check your email and write down your verication code to reset your password</p>
+                    <label>Verification code :</label>
+                    <input type="text" [(ngModel)]="credentials.verification_code" nz-input placeholder="Enter your verification code" />
+                    <button nz-button nzType="primary" (click)="action = 'NEW_PASSWORD_REQUIRED'" class="float-right mt-5">Get
+                        verification code</button>
+                </ng-container>
+
+
+                <ng-container *ngSwitchDefault>
                     <h3>Login</h3>
                     <label>Username / Email :</label>
                     <nz-input-group [nzPrefix]="prefixTemplateUser">
@@ -19,23 +57,10 @@
 
                     <label class="mt-4">Username / Email :</label>
                     <input nz-input type="password" [(ngModel)]="credentials.password">
-                    <span class="text-primary">Forgot password ?</span>
+                    <p class="text-primary mt-2 pointer" (click)="action = 'FORGOT_PASSWORD'">Forgot password ?</p>
 
-                    <button nz-button nzType="primary" (click)="signin()" class="float-right mt-5">Go to
+                    <button [nzLoading]="loading" nz-button nzType="primary" (click)="signin()" class="float-right mt-5">Go to
                         Dashboard</button>
-                </ng-container>
-
-
-                <ng-container *ngIf="needToChangePassword">
-                    <h3>Change password</h3>
-                    <label>New password :</label>
-                    <input type="password" [(ngModel)]="credentials.new_password" nz-input
-                        placeholder="Enter your new password" />
-
-                    <label class="mt-4">Repeat new password :</label>
-                    <input nz-input type="password" placeholder="Repeat your new password" [(ngModel)]="credentials.new_password_repeat">
-
-                    <button nz-button nzType="primary" (click)="changePassword()" class="float-right mt-5">Change password</button>
                 </ng-container>
             </nz-card>
         </div>

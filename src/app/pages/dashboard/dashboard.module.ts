@@ -30,6 +30,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { ContainerTerminalComponent } from './containers/container-terminal/container-terminal.component';
 import { ContainerStatsComponent } from './containers/container-stats/container-stats.component';
 import { NgChartsModule } from 'ng2-charts';
+import { UsersComponent } from './users/users.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -40,7 +41,8 @@ import { NgChartsModule } from 'ng2-charts';
     EndpointsComponent,
     EditEndpointComponent,
     ContainerTerminalComponent,
-    ContainerStatsComponent
+    ContainerStatsComponent,
+    UsersComponent
   ],
   imports: [
     CommonModule,
