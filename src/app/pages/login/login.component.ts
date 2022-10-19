@@ -78,11 +78,11 @@ export class LoginComponent implements OnInit {
           this.notification.error('Error', "An error has occurend");
         }
       } else {
-        this.userService.forgotPasswordSubmit(this.credentials.username!, this.credentials.verification_code, this.credentials.new_password!).then(res => {
+        this.userService.forgotPasswordSubmit(this.credentials.username!, this.credentials.verification_code, this.credentials.new_password!).then((res:any) => {
           this.notification.success("Success", "Password has been saved");
           this.credentials.password = this.credentials.new_password;
           this.signin();
-        }).catch(e => {
+        }).catch((e:any) => {
           this.notification.error('Error', e.message);
         })
       }

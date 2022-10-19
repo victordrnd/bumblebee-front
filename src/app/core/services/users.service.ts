@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import Amplify, { Auth } from 'aws-amplify';
+import { Auth, Amplify } from 'aws-amplify';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CognitoIdentityServiceProvider } from 'aws-sdk'
+import { HttpClient } from '@angular/common/http';
+import { HttpCacheManager, withCache } from '@ngneat/cashew';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +12,8 @@ export class UsersService {
 
   currentUser : Subject<any> = new BehaviorSubject<any>(null);
   private identityServiceProvider : CognitoIdentityServiceProvider | null = null;
-  constructor() { 
+  constructor(private http : HttpClient,
+    private cacheManager : HttpCacheManager) { 
     Amplify.configure({
       Auth: environment.cognito,
     });
@@ -54,31 +57,30 @@ export class UsersService {
     return (this.currentUser as BehaviorSubject<any>).value;
   }
 
-
-
-  private async getIdentityServiceProvider(){
-    const credentials =  await Auth.currentUserCredentials();
-    console.log(credentials);
-    if(!this.identityServiceProvider){
-      this.identityServiceProvider = new CognitoIdentityServiceProvider({
-        credentials
-      });
-    }
-    console.log(this.identityServiceProvider)
-    return this.identityServiceProvider;
-  }
   
   // ADMIN
 
-  async getAllUsers(){
-    const serviceProvider = await this.getIdentityServiceProvider();
-    console.log(serviceProvider)
-    // return serviceProvider?.listUsers(environment.cognito as any, (err,data) => {
-    //   console.log(data);
-    // });
+  getAllUsers(){
+    return this.http.get(environment.apiUrl+"/users",{context: withCache({key:'users_admin'})})
   }
 
+  createUser(user : any){
+    this.cacheManager.delete('users_admin');
+    return this.http.post(environment.apiUrl+"/users", user);
+  }
 
+  enable(username : string){
+    this.cacheManager.delete('users_admin');
+    return this.http.put(environment.apiUrl+`/users/enable/${username}`, {})
+  }
 
+  disable(username : string){
+    this.cacheManager.delete('users_admin');
+    return this.http.put(environment.apiUrl+`/users/disable/${username}`, {})
+  }
 
+  delete(username : string){
+    this.cacheManager.delete('users_admin');
+    return this.http.delete(environment.apiUrl+`/users/${username}`)
+  }
 }

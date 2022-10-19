@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { withCache } from '@ngneat/cashew';
+import { HttpCacheManager, withCache } from '@ngneat/cashew';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -11,20 +11,23 @@ export class EndpointsService {
 
   private currentEnvironment = new BehaviorSubject<any>(null);
   
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient,
+    private cacheManager : HttpCacheManager) {
    
    }
 
 
   list() : Observable<any[]>{
-    return this.http.get(environment.apiUrl+"/endpoints") as Observable<any[]>
+    return this.http.get(environment.apiUrl+"/endpoints", {context : withCache({key: 'endpoints_list'})}) as Observable<any[]>
   }
 
   create(endpoint : any){
+    this.cacheManager.delete('endpoints_list');
     return this.http.post(environment.apiUrl+"/endpoints", endpoint) as Observable<any[]>
   }
 
   delete(endpoint_id: number){
+    this.cacheManager.delete('endpoints_list');
     return this.http.delete(`${environment.apiUrl}/endpoints/${endpoint_id}`) as Observable<any[]>
   }
 

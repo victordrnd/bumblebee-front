@@ -1,0 +1,17 @@
+<label>Username :</label>
+<form [formGroup]="form">
+
+    <nz-input-group [nzPrefix]="prefixTemplateUser">
+        <input type="text" formControlName="username" nz-input
+        placeholder="Enter username" />
+    </nz-input-group>
+    <label class="mt-4">Email : </label>
+    <nz-input-group [nzPrefix]="prefixTemplateEmail">
+        <input type="email" formControlName="email" nz-input
+        placeholder="Enter user email" />
+    </nz-input-group>
+    
+    <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
+    <ng-template #prefixTemplateEmail><span nz-icon nzType="mail"></span></ng-template>
+    
+</form>

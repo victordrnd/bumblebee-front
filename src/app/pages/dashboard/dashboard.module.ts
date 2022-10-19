@@ -18,7 +18,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { ContainerLogsComponent } from './containers/container-logs/container-logs.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RenameContainerModalComponent } from './containers/_components/rename-container-modal/rename-container-modal.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { EndpointsComponent } from './endpoints/endpoints.component';
@@ -31,6 +31,9 @@ import { ContainerTerminalComponent } from './containers/container-terminal/cont
 import { ContainerStatsComponent } from './containers/container-stats/container-stats.component';
 import { NgChartsModule } from 'ng2-charts';
 import { UsersComponent } from './users/users.component';
+import { CreateUserModalComponent } from './users/_component/create-user-modal/create-user-modal.component';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -42,11 +45,13 @@ import { UsersComponent } from './users/users.component';
     EditEndpointComponent,
     ContainerTerminalComponent,
     ContainerStatsComponent,
-    UsersComponent
+    UsersComponent,
+    CreateUserModalComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     DashboardRoutingModule,
     NzLayoutModule,
     NzMenuModule,
@@ -65,7 +70,9 @@ import { UsersComponent } from './users/users.component';
     NzSwitchModule,
     NzRadioModule,
     NzUploadModule,
-    NgChartsModule
+    NgChartsModule,
+    NzPopconfirmModule,
+    HttpCacheInterceptorModule
   ],
   exports: [DashboardComponent]
 })

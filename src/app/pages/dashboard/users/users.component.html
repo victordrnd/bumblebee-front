@@ -1,1 +1,42 @@
-<p>users works!</p>
+<div class="row mx-0 mt-5">
+    <div class="col-md-11 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Users" nzSubtitle="Users list">
+            <nz-page-header-extra>
+                <button class="mx-1" (click)="createUserModal()" nz-button nzType="primary">Add user</button>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <nz-table #basicTable [nzData]="users">
+            <thead>
+                <tr>
+                    <th>Enabled</th>
+                    <th>Username</th>
+                    <th>Status</th>
+                    <th>Last Modified</th>
+                    <th>Created at</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td><nz-switch (ngModelChange)="switchUserEnable($event, user)" [(ngModel)]="user.Enabled"></nz-switch></td>
+                    <td class="text-primary pointer">{{user.Username}}</td>
+                    <td>
+                        <nz-tag [nzColor]="['CONFIRMED'].includes(user.UserStatus) ? '#87d068' : '#ff5858'">{{user.UserStatus}}</nz-tag>
+                    </td>
+                    <td>{{user.UserLastModifiedDate | date:'medium'}}</td>
+                    <td>{{user.UserCreateDate | date:'medium'}}</td>
+      
+                    <td>
+                        <div>
+                
+                            <span nz-icon nzType="delete"  nz-popconfirm
+                            nzPopconfirmTitle="Are you sure you want to delete this user?"
+                            (nzOnConfirm)="deleteUser(user)"
+                             nzTheme="fill" class="pointer text-danger mx-2" ></span>
+                        </div>
+                    </td> 
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
