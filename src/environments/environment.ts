@@ -4,11 +4,14 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://10.180.210.21:3000",
-  socketServer : "http://10.180.210.21:3005",
+  // apiUrl: "http://10.180.210.21:3000",
+  apiUrl : "http://localhost:3000",
+  socketServer : "http://localhost:3005",
+  // socketServer : "http://10.180.210.21:3005",
   cognito: {
-    userPoolId: 'us-east-1_tQMt0opMU',
-    userPoolWebClientId: '6ai0750mkbfdm7skoj9svg0qin',
+    region : "eu-west-2",
+    userPoolId: 'eu-west-2_xpVpljinf',
+    userPoolWebClientId: '4ljj2hsotq84l46pekpb46gc5c',
   },
 };
 
