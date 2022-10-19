@@ -21,8 +21,7 @@
                 </div>
 
                 <div>
-                    <nz-progress [nzPercent]="site.disponibility"
-                        [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }"></nz-progress>
+                    <nz-progress [nzPercent]="site.disponibility" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }"></nz-progress>
                 </div>
             </ng-container>
         </div>
@@ -30,6 +29,11 @@
     </div>
 
     <div class="col-md-9">
+        <ng-container *ngIf="currentSite">
+            <h1 class='nameSite'>{{currentSite.name}}</h1>
+            <p class='api'>{{currentSite.url}}</p>
+        </ng-container>
+
         <button nz-button class=" mr-2 px-3" nzType="primary">En pause</button>
         <button nz-button class="mr-2 px-3" nzType="default">Modifier</button>
         <button nz-button class="mr-2 px-3" nzType="primary" nzDanger>Supprimer</button>
@@ -40,3 +44,6 @@
             <app-chart [site]="currentSite"></app-chart>
         </ng-container>
     </div>
+</div>
+
+<canvas id="line-chart-K4neAY" width="828" height="250" style="max-width: 100%; max-height: 100%; display: block; box-sizing: border-box; height: 250px; width: 828px;"></canvas>

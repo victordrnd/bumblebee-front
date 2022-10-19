@@ -10,6 +10,7 @@ export class HomeComponent implements OnInit {
 
   sites : any= [];
   currentSite? : any;
+
   constructor(private siteService : SitesService) { }
 
   async ngOnInit() {
