@@ -96,7 +96,8 @@ export class ContainerStatsComponent implements OnInit, OnDestroy  {
       legend: { display: true }
     },
     animation:{
-      duration: 1500
+      
+      duration: 400
     }
   };
 

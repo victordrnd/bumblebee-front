@@ -50,16 +50,16 @@
                     <h3>Login</h3>
                     <label>Username / Email :</label>
                     <nz-input-group [nzPrefix]="prefixTemplateUser">
-                        <input type="text" [(ngModel)]="credentials.username" nz-input
+                        <input type="text" (keydown.enter)="signin()" [(ngModel)]="credentials.username" nz-input
                             placeholder="Enter your username" />
                     </nz-input-group>
                     <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
                     <label class="mt-4">Username / Email :</label>
-                    <input nz-input type="password" [(ngModel)]="credentials.password">
-                    <p class="text-primary mt-2 pointer" (click)="action = 'FORGOT_PASSWORD'">Forgot password ?</p>
+                    <input nz-input type="password" (keydown.enter)="signin()" [(ngModel)]="credentials.password">
+                    <p class="text-primary mt-2 pointer"  (click)="action = 'FORGOT_PASSWORD'">Forgot password ?</p>
 
-                    <button [nzLoading]="loading" nz-button nzType="primary" (click)="signin()" class="float-right mt-5">Go to
+                    <button  type="submit" [nzLoading]="loading" nz-button nzType="primary" (click)="signin()" class="float-right mt-5">Go to
                         Dashboard</button>
                 </ng-container>
             </nz-card>

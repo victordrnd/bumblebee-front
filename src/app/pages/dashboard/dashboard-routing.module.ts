@@ -7,6 +7,7 @@ import { ContainersComponent } from './containers/containers.component';
 import { DashboardComponent } from './dashboard.component';
 import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
+import { ImagesComponent } from './images/images.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
@@ -36,6 +37,15 @@ const routes: Routes = [
           {
             path : ":id/stats",
             component : ContainerStatsComponent
+          }
+        ]
+      },
+      {
+        path : "images",
+        children : [
+          {
+            path :"",
+            component : ImagesComponent
           }
         ]
       },

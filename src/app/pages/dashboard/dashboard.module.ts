@@ -34,6 +34,7 @@ import { UsersComponent } from './users/users.component';
 import { CreateUserModalComponent } from './users/_component/create-user-modal/create-user-modal.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { ImagesComponent } from './images/images.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -46,7 +47,8 @@ import { HttpCacheInterceptorModule } from '@ngneat/cashew';
     ContainerTerminalComponent,
     ContainerStatsComponent,
     UsersComponent,
-    CreateUserModalComponent
+    CreateUserModalComponent,
+    ImagesComponent
   ],
   imports: [
     CommonModule,

@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
           const res = await this.userService.changePassword(this.user, this.credentials.new_password!);
           this.router.navigate(['/dashboard'])
         } catch (e: any) {
-          this.notification.error('Error', "An error has occurend");
+          this.notification.error('Error', e.message);
         }
       } else {
         this.userService.forgotPasswordSubmit(this.credentials.username!, this.credentials.verification_code, this.credentials.new_password!).then((res:any) => {
