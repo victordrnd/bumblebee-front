@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -7,13 +7,18 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, AfterViewInit {
 
   @Input() site? : any = {};
-  @Input() currentSite? : any;
   checks: any;
   @ViewChild(BaseChartDirective) chart?:  BaseChartDirective;
   constructor() { }
+  ngAfterViewInit(): void {
+    this.site.checks = this.site.checks.splice(-400);
+    this.lineChartData.datasets[0].data = this.site.checks.map((check:any) => check.latency);
+    this.lineChartData.labels = this.site.checks.map((c:any) => new Date(c.created_at).toLocaleTimeString());
+    this.chart?.update();
+  }
 
   ngOnInit(): void {
   }
@@ -22,6 +27,9 @@ export class ChartComponent implements OnInit {
     elements: {
       line: {
         tension: 0.5
+      },
+      point : {
+        radius : 0
       }
     },
     scales: {
@@ -44,11 +52,11 @@ export class ChartComponent implements OnInit {
     datasets: [
       {
         data: [],
-        label: '% Memory',
-        backgroundColor: 'rgba(148,159,177,0.2)',
-        borderColor: 'rgba(148,159,177,1)',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
+        label: 'Latency in ms',
+        backgroundColor: '#F8ba1644',
+        borderColor: '#F8ba16',
+        pointBackgroundColor: 'rgba(148,159,177,0)',
+        pointBorderColor: '#ffffffff',
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(148,159,177,0.8)',
         fill: 'origin',
@@ -57,3 +65,4 @@ export class ChartComponent implements OnInit {
     labels: []
   };
 }
+

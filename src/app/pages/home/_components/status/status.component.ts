@@ -13,7 +13,6 @@ export class StatusComponent implements OnInit {
   constructor() { }
   
   ngOnInit(): void {
-    console.log("init",this.site)
     this.checks = this.site.checks.slice(-30);
   }
 

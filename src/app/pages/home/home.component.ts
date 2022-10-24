@@ -15,8 +15,13 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.sites = await this.siteService.findAll().toPromise();
-    console.log(this.sites)
+    this.sites = this.sites.map((s:any) => {s.disponibility = Math.round(s.disponibility); return s})
+    console.log(this.sites);
+   
+  
+
   }
 
 }
+    
 

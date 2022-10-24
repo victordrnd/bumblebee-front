@@ -1,15 +1,20 @@
-<p>status works!</p>
 <div class="row m-5">
     <div class="col-md-10 card p-4">
         <div class="bordered pb-3 rounded">
-            <div class="liste d-inline" *ngFor="let check of checks">
-                <div class="check" [class.bg-danger]="!check.up" [class.bg-success]="check.up">
-                    &nbsp;
+            <div class="row">
+                <div class="col-10">
+                    <div class="liste d-inline" *ngFor="let check of checks">
+                        <div class="check" [class.bg-danger]="!check.up" [class.bg-success]="check.up">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <nz-tag nzColor="#59a847" *ngIf="(site.checks[site.checks.length -1] || {}).up">EN LIGNE</nz-tag>
+                    <nz-tag nzColor="#e9494c" *ngIf="site.checks.length == 0">HORS LIGNE</nz-tag>
                 </div>
             </div>
-            <nz-tag nzColor="#59a847" *ngIf="(site.checks[site.checks.length -1] || {}).up">EN LIGNE</nz-tag>
-            <nz-tag nzColor="#e9494c" *ngIf="site.checks.length == 0">HORS LIGNE</nz-tag>
         </div>
-        <p>Vérifier toutes les 60 secondes</p>
+        <p class="verify">Check every 60 seconds</p>
     </div>
 </div>

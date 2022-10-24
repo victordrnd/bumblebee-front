@@ -2,7 +2,7 @@
     <div class="col-md-3 card p-4">
         <div class="bordered pb-3 rounded">
             <nz-input-group class="w-50 float-right" [nzSuffix]="suffixIconSearch">
-                <input type="text" nz-input placeholder="Rechercher" />
+                <input type="text" nz-input placeholder="Search" />
             </nz-input-group>
 
             <ng-template #suffixIconSearch>
@@ -13,7 +13,7 @@
         <div class="liste" *ngFor="let site of sites">
             <ng-container (click)="currentSite = site">
                 <div class="col-md-2">
-                    <nz-tag [nzColor]="'#f38c1c'">{{site.disponibility}} %</nz-tag>
+                    <nz-tag [nzColor]="'#f38c1c'">{{site.disponibility | number:'1.0-0'}} %</nz-tag>   
                 </div>
 
                 <div class="col-md-4 pointer" (click)="currentSite=site">
@@ -29,21 +29,22 @@
     </div>
 
     <div class="col-md-9">
-        <ng-container *ngIf="currentSite">
+        <div class="nameApi" *ngIf="currentSite">
             <h1 class='nameSite'>{{currentSite.name}}</h1>
             <p class='api'>{{currentSite.url}}</p>
-        </ng-container>
+        </div>
 
-        <button nz-button class=" mr-2 px-3" nzType="primary">En pause</button>
-        <button nz-button class="mr-2 px-3" nzType="default">Modifier</button>
-        <button nz-button class="mr-2 px-3" nzType="primary" nzDanger>Supprimer</button>
+        <div class="nameApi">
+            <button nz-button class="mr-2 px-3" nzType="primary">On break</button>
+            <button nz-button class="mr-2 px-3" nzType="default">Modify</button>
+            <button nz-button class="mr-2 px-3" nzType="primary" nzDanger>Delete</button>
+        </div>
 
-        <ng-container *ngIf="currentSite">
+        <div *ngIf="currentSite">
             <app-status [site]="currentSite"></app-status>
             <app-stats [site]="currentSite"></app-stats>
             <app-chart [site]="currentSite"></app-chart>
-        </ng-container>
+        </div>
     </div>
 </div>
 
-<canvas id="line-chart-K4neAY" width="828" height="250" style="max-width: 100%; max-height: 100%; display: block; box-sizing: border-box; height: 250px; width: 828px;"></canvas>

@@ -1,32 +1,28 @@
-<p>stats works!</p>
 <div class="row m-5">
     <div class="col-md-10 card p-4">
         <div class="bordered pb-3 rounded"> 
             <div class='container'>
-                <div class='element'>
-                    <div class='element1'>Temps de réponse</div>
-                    <div class='element2'>(Actuellement)</div>
-                    <div>value</div>
-                </div>
-                <div class='element'>
-                    <div class='element1'>Réponse moyenne</div>
-                    <div class='element2'>(24 heures)</div>
-                    <div>Value</div>
-                </div>
-                <div class='element'>
-                    <div class='element1'>Uptime</div>
-                    <div class='element2'>(24 heures)</div>
-                    <div>Value</div>
-                </div>
-                <div class='element'>
-                    <div class='element1'>Uptime</div>
-                    <div class='element2'>(30 jours)</div>
-                    <div>Value</div>
-                </div>
-                <div class='element'>
-                    <div class='element1'>Expiration SSL</div>
-                    <div class='element2'>(Date expiration SSL)</div>
-                    <div>Value</div>
+                <div class="row">
+                    <div class="col">
+                        <div class='element1'>Response time</div>
+                        <div class='element2'>(Currently)</div>
+                        <div>{{responseTime}} ms</div>
+                    </div>
+                    <div class="col">
+                        <div class='element1'>Average response</div>
+                        <div class='element2'>(24 hours)</div>
+                        <div>{{dailyDisponibility | number : "1.0-0"}} ms</div>
+                    </div>
+                    <div class="col">
+                        <div class='element1'>Daily Uptime</div>
+                        <div class='element2'>(24 hours)</div>
+                        <div>{{(dailyUptime || 0) | number:'1.0-2'}} %</div>
+                    </div>
+                    <div class="col">
+                        <div class='element1'>Monthly Uptime</div>
+                        <div class='element2'>(30 days)</div>
+                        <div>{{monthlyUptime | number : "1.0-0"}} %</div>
+                    </div>
                 </div>
             </div>
         </div>
