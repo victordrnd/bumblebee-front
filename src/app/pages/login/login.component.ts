@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       res = await this.userService.signIn(this.credentials);
     } catch (e: any) {
       this.notification.error('Error', e.message);
+      this.loading = false;
       return;
     }
     this.loading = false;

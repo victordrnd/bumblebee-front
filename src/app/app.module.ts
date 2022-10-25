@@ -28,7 +28,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-
+import { FileSizePipe } from 'src/app/core/pipes/file-size.pipe';
+import { PipeModule } from './core/pipes/pipe.module';
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
@@ -39,13 +40,14 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     HomeComponent,
     ChartComponent,
     StatusComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    PipeModule,
     NzLayoutModule,
     BrowserAnimationsModule,
     NzButtonModule,
@@ -58,10 +60,10 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NgChartsModule,
     NzNotificationModule,
     HttpCacheInterceptorModule.forRoot(),
-    NzTypographyModule
+    NzTypographyModule,
   ],
   providers: [
-    { provide: NZ_I18N, useValue: fr_FR }
+    { provide: NZ_I18N, useValue: fr_FR },
   ],
   bootstrap: [AppComponent]
 })

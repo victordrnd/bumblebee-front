@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { firstValueFrom, map } from 'rxjs';
 import { ImagesService } from 'src/app/core/services/images.service';
+import { ImagePullModalComponent } from './_components/image-pull-modal/image-pull-modal.component';
 
 @Component({
   selector: 'app-images',
@@ -9,9 +12,13 @@ import { ImagesService } from 'src/app/core/services/images.service';
 })
 export class ImagesComponent implements OnInit {
   images: any[] = [];
+  loading = false;
   checked = false;
   setOfCheckedId = new Set<string>();
-  constructor(private imagesSerive : ImagesService) { }
+  imageName : string | null = null;
+  constructor(private imageService : ImagesService,
+    private modalService : NzModalService,
+    private notificationService : NzNotificationService) { }
 
   ngOnInit(): void {
     this.getImages();
@@ -19,10 +26,45 @@ export class ImagesComponent implements OnInit {
 
 
   async getImages() {
-    this.images = await firstValueFrom(this.imagesSerive.list())
-    this.images = this.images.map(c => { c.Ports = c.Ports.filter((p: any) => p.IP != "::"); return c });
-    console.log(this.images)
+    this.images = await firstValueFrom(this.imageService.list())
     this.setOfCheckedId.clear();
+  }
+
+  async pull(){
+    const modalRef : NzModalRef= this.modalService.create({
+      nzContent : ImagePullModalComponent,
+      nzWidth : "60vw",
+      nzTitle : "Pulling progress",
+      nzComponentParams : {
+        image_name : this.imageName!
+      },
+      nzOnOk : () => {
+       this.getImages();
+      },
+      nzCancelText : null
+    });
+  }
+
+  async downloadImage(image : any){
+    console.log(image.Id +'.tar');
+    let blob = await fetch(this.imageService.download(image.Id)).then(r => r.blob());
+      let link :any = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = image.RepoTags[0] +'.tar';
+      link.target= "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  }
+
+  async delete(){
+    this.loading = true;
+    const reqs = this.imageService.delete(Array.from(this.setOfCheckedId))
+
+    await Promise.all(reqs.map(req => firstValueFrom(req.pipe(map(c => { this.notificationService.success("Success", "Image has successfully been deleted"); }))).catch(e => {
+      this.notificationService.error('Error', e.error.message)
+    })))
+    await this.getImages();
   }
 
 

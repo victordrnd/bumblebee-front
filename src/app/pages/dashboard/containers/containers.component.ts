@@ -44,6 +44,9 @@ export class ContainersComponent implements OnInit {
     await Promise.all(reqs.map(req => firstValueFrom(req.pipe(map(c => { this.notificationService.success('Container successfully stopped', c.Name) })))))
     this.getContainers();
   }
+
+
+  
   async restart() {
     this.isRestarting = true;
     const reqs = this.containerService.restart(Array.from(this.setOfCheckedId))

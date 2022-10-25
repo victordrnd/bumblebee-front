@@ -7,7 +7,7 @@ import { EndpointsService } from './endpoints.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ImagesService {
+export class NetworksService {
 
   constructor(private http : HttpClient,
     private endpointService: EndpointsService) { }
@@ -15,19 +15,19 @@ export class ImagesService {
 
   list() : Observable<any>{
     const endpoint = this.endpointService.currentEnvValue
-    return this.http.get(environment.apiUrl+`/images/${endpoint.id}`);
+    return this.http.get(environment.apiUrl+`/networks/${endpoint.id}`);
   }
 
   pull(image_name : string){
     const endpoint = this.endpointService.currentEnvValue
-    const eventSource = new EventSource(`${environment.apiUrl}/images/sse/${endpoint.id}/pull?image=${encodeURI(image_name)}`);
+    const eventSource = new EventSource(`${environment.apiUrl}/networks/sse/${endpoint.id}/pull?image=${encodeURI(image_name)}`);
     return this.generateObservableFromEventSource(eventSource)
   }
 
 
   download(image_id:number){
     const endpoint = this.endpointService.currentEnvValue
-    return environment.apiUrl+`/images/${endpoint.id}/${image_id}/download`;
+    return environment.apiUrl+`/networks/${endpoint.id}/${image_id}/download`;
 
   }
 
@@ -35,7 +35,7 @@ export class ImagesService {
 
   delete(ids : Array<string>) {
     const endpoint = this.endpointService.currentEnvValue
-    return ids.map(id => this.http.delete(environment.apiUrl+`/images/${endpoint.id}/${id}`));
+    return ids.map(id => this.http.delete(environment.apiUrl+`/networks/${endpoint.id}/${id}`));
   }
 
   private generateObservableFromEventSource(eventSource : EventSource) : Observable<any>{

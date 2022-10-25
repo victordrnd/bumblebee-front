@@ -1,52 +1,53 @@
 <div class="row mx-0 mt-5">
     <div class="col-md-11 mx-auto">
         <nz-page-header class="site-page-header px-0" nzTitle="Images" nzSubtitle="Images list">
+            <nz-page-header-content>
+                <nz-card nzTitle="Pull Image">
+                    <label>Image name</label>
+                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag"/>
+                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull image</button>
+                  </nz-card>
+            </nz-page-header-content>
             <nz-page-header-extra>
-                <button class="mx-1" nz-button nzType="primary">Pull image</button>
+                <!-- <button class="mx-1" nz-button nzType="primary">Pull image</button> -->
             </nz-page-header-extra>
         </nz-page-header>
+        <div class="d-flex flex-row-reverse my-3">
+            <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
+            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
+        </div>
         <nz-table #basicTable [nzData]="images">
             <thead>
                 <tr>
-                    <th [nzChecked]="checked"
-                    (nzCheckedChange)="onAllChecked($event)"></th>
-                    <th>Name</th>
+                    <th [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
+                    <th>Id</th>
                     <th>State</th>
-                    <th>Image</th>
+                    <th>Tags</th>
+                    <th>Size</th>
                     <th>Created</th>
-                    <th>IP Address</th>
-                    <th>Published Ports</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let image of images">
-                    <!-- <td [nzChecked]="setOfCheckedId.has(container.Id)"
-                        (nzCheckedChange)="onItemChecked(container.Id, $event)"></td>
-                    <td class="text-primary pointer">{{container.Name.split(".") | slice:0:1}}</td>
-                    <td>
-                        <nz-tag [nzColor]="['Up', 'running'].includes(container.State) ? '#87d068' : '#ff5858'">{{container.State}}</nz-tag>
+                    <td [nzChecked]="setOfCheckedId.has(image.Id)" (nzCheckedChange)="onItemChecked(image.Id, $event)">
                     </td>
-                    <td>{{container.Image.split('@')[0].includes('sha256') ? '-' :container.Image.split('@') | slice:0:1}}</td>
-                    <td>{{container.Created*1000 | date:'medium'}}</td>
-                    <td>{{container.NetworkSettings?.Networks?.bridge?.IPAddress}}</td>
+                    <td class="text-primary">{{image.Id}}</td>
                     <td>
-                        <div *ngFor="let port of container.Ports" class="text-primary d-inline mr-1">
-                            <a (click)="openUrl(port.PublicPort)">
-                                <span nz-icon nzType="link" nzTheme="outline"></span> {{port.PublicPort}}:{{port.PrivatePort}}
-                            </a>
-                        </div>
+                        <nz-tag *ngIf="!image.used" nzColor="#f8b601">Unused</nz-tag>
                     </td>
-                    <td class="text-muted">{{container.Status}}</td>
+                    <td *ngFor="let tag of image.RepoTags"><nz-tag nzColor="orange">{{tag}}</nz-tag></td>
+                    <td>{{image.Size | fileSize}}</td>
+                    <td>{{image.Created*1000 | date:'medium'}}</td>
                     <td>
-                        <div class="text-right">
-                            <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-2 disabled" (click)="openRenameModal(container)"></span>
+                        <div>
+                            <!-- <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-2 disabled" (click)="openRenameModal(container)"></span>
                             <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-2" nz-icon nzType="file-text" nzTheme="fill"></span>
                             <span nz-icon routerLink="{{container.Id}}/stats" nzType="fund" class="pointer text-primary mx-2" nzTheme="fill"></span>
-                            <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-2" routerLink="{{container.Id}}/terminal"></span>
+                            <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-2" routerLink="{{container.Id}}/terminal"></span> -->
+                            <span class="text-primary pointer" (click)="downloadImage(image)" nz-icon nzType="download" nzTheme="outline"></span>
                         </div>
-                    </td> -->
+                    </td>
                 </tr>
             </tbody>
         </nz-table>

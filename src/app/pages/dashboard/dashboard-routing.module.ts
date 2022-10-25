@@ -8,7 +8,9 @@ import { DashboardComponent } from './dashboard.component';
 import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
 import { ImagesComponent } from './images/images.component';
+import { NetworksComponent } from './networks/networks.component';
 import { UsersComponent } from './users/users.component';
+import { VolumesComponent } from './volumes/volumes.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,24 @@ const routes: Routes = [
           {
             path :"",
             component : ImagesComponent
+          }
+        ]
+      },
+      {
+        path : "volumes",
+        children : [
+          {
+            path : "",
+            component : VolumesComponent
+          }
+        ]
+      },
+      {
+        path : "networks",
+        children : [
+          {
+            path : "",
+            component : NetworksComponent
           }
         ]
       },
