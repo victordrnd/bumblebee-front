@@ -40,6 +40,8 @@ import { PipeModule } from 'src/app/core/pipes/pipe.module';
 import { ImagePullModalComponent } from './images/_components/image-pull-modal/image-pull-modal.component';
 import { VolumesComponent } from './volumes/volumes.component';
 import { NetworksComponent } from './networks/networks.component';
+import { NzPipesModule } from 'ng-zorro-antd/pipes';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import { NetworksComponent } from './networks/networks.component';
     NgChartsModule,
     NzPopconfirmModule,
     HttpCacheInterceptorModule,
-    PipeModule
+    PipeModule,
+    NzPipesModule,
+    NzToolTipModule
   ],
   providers : [FileSizePipe],
   exports: [DashboardComponent]

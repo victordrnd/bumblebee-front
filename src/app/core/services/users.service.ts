@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Auth, Amplify } from 'aws-amplify';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CognitoIdentityServiceProvider } from 'aws-sdk'
 import { HttpClient } from '@angular/common/http';
 import { HttpCacheManager, withCache } from '@ngneat/cashew';
 @Injectable({
@@ -11,7 +10,6 @@ import { HttpCacheManager, withCache } from '@ngneat/cashew';
 export class UsersService {
 
   currentUser : Subject<any> = new BehaviorSubject<any>(null);
-  private identityServiceProvider : CognitoIdentityServiceProvider | null = null;
   constructor(private http : HttpClient,
     private cacheManager : HttpCacheManager) { 
     Amplify.configure({
@@ -39,7 +37,6 @@ export class UsersService {
   public signOut(): Promise<any> {
     return Auth.signOut()
     .then(() => {
-      this.identityServiceProvider = null;
       this.currentUser.next(null);
     });
   }

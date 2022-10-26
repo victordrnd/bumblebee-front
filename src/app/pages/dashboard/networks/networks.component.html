@@ -13,8 +13,8 @@
             </nz-page-header-extra>
         </nz-page-header>
         <div class="d-flex flex-row-reverse my-3">
-            <!-- <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
-            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button> -->
+            <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
+            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
         </div>
         <nz-table #basicTable [nzData]="networks" [nzShowPagination]="false">
             <thead>
@@ -25,6 +25,8 @@
                     <th>Driver</th>
                     <th>Attachable</th>
                     <th>Internal</th>
+                    <th>Subnet</th>
+                    <th>Gateway</th>
                     <th>Created</th>
                     <!-- <th>Actions</th> -->
                 </tr>
@@ -40,19 +42,9 @@
                     <td>{{network.Driver}}</td>
                     <td>{{network.Attachable}}</td>
                     <td>{{network.Internal}}</td>
+                    <td>{{network.IPAM.Config.length ? network.IPAM.Config[0].Subnet : "-"}}</td>
+                    <td>{{network.IPAM.Config.length ? network.IPAM.Config[0].Gateway : "-"}}</td>
                     <td>{{network.Created | date:'medium'}}</td>
-                    <!-- <td *ngFor="let tag of network.RepoTags"><nz-tag nzColor="orange">{{tag}}</nz-tag></td> -->
-                    <!-- <td>{{network.Size | fileSize}}</td> -->
-                    <!-- <td>{{network.Created*1000 | date:'medium'}}</td> -->
-                    <!-- <td>
-                        <div> -->
-                            <!-- <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-2 disabled" (click)="openRenameModal(container)"></span>
-                            <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-2" nz-icon nzType="file-text" nzTheme="fill"></span>
-                            <span nz-icon routerLink="{{container.Id}}/stats" nzType="fund" class="pointer text-primary mx-2" nzTheme="fill"></span>
-                            <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-2" routerLink="{{container.Id}}/terminal"></span> -->
-                            <!-- <span class="text-primary pointer" (click)="downloadnetwork(network)" nz-icon nzType="download" nzTheme="outline"></span> -->
-                        <!-- </div>
-                    </td> -->
                 </tr>
             </tbody>
         </nz-table>
