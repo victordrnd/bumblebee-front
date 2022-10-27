@@ -1,0 +1,52 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-11 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Networks" nzSubtitle="Networks list">
+            <nz-page-header-content>
+                <!-- <nz-card nzTitle="Pull network">
+                    <label>Image name</label>
+                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag"/>
+                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull image</button>
+                  </nz-card> -->
+            </nz-page-header-content>
+            <nz-page-header-extra>
+                <!-- <button class="mx-1" nz-button nzType="primary">Pull image</button> -->
+            </nz-page-header-extra>
+        </nz-page-header>
+        <div class="d-flex flex-row-reverse my-3">
+            <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
+            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
+        </div>
+        <nz-table #basicTable [nzData]="networks" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>Driver</th>
+                    <th>Attachable</th>
+                    <th>Internal</th>
+                    <th>Subnet</th>
+                    <th>Gateway</th>
+                    <th>Created</th>
+                    <!-- <th>Actions</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let network of networks">
+                    <td [nzDisabled]="['host', 'ingress', 'none', 'bridge'].includes(network.Name)" [nzChecked]="setOfCheckedId.has(network.Id)" (nzCheckedChange)="onItemChecked(network.Id, $event)">
+                    </td>
+                    <td class="text-primary">{{network.Name}}</td>
+                    <td>
+                        <nz-tag *ngIf="!network.used" nzColor="#f8b601">Unused</nz-tag>
+                    </td>
+                    <td>{{network.Driver}}</td>
+                    <td>{{network.Attachable}}</td>
+                    <td>{{network.Internal}}</td>
+                    <td>{{network.IPAM.Config.length ? network.IPAM.Config[0].Subnet : "-"}}</td>
+                    <td>{{network.IPAM.Config.length ? network.IPAM.Config[0].Gateway : "-"}}</td>
+                    <td>{{network.Created | date:'medium'}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

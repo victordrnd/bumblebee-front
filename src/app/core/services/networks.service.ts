@@ -7,7 +7,7 @@ import { EndpointsService } from './endpoints.service';
 @Injectable({
   providedIn: 'root'
 })
-export class VolumesService {
+export class NetworksService {
 
   constructor(private http : HttpClient,
     private endpointService: EndpointsService) { }
@@ -15,12 +15,13 @@ export class VolumesService {
 
   list() : Observable<any>{
     const endpoint = this.endpointService.currentEnvValue
-    return this.http.get(environment.apiUrl+`/volumes/${endpoint.id}`);
+    return this.http.get(environment.apiUrl+`/networks/${endpoint.id}`);
   }
 
 
   delete(ids : Array<string>) {
     const endpoint = this.endpointService.currentEnvValue
-    return ids.map(id => this.http.delete(environment.apiUrl+`/volumes/${endpoint.id}/${id}`));
+    return ids.map(id => this.http.delete(environment.apiUrl+`/networks/${endpoint.id}/${id}`));
   }
+
 }

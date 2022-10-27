@@ -1,0 +1,46 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-11 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Volumes" nzSubtitle="Volumes list">
+            <nz-page-header-content>
+                <!-- <nz-card nzTitle="Pull network">
+                    <label>Image name</label>
+                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag"/>
+                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull image</button>
+                  </nz-card> -->
+            </nz-page-header-content>
+            <nz-page-header-extra>
+                <!-- <button class="mx-1" nz-button nzType="primary">Pull image</button> -->
+            </nz-page-header-extra>
+        </nz-page-header>
+        <div class="d-flex flex-row-reverse my-3">
+            <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
+            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
+        </div>
+        <nz-table #basicTable [nzData]="volumes" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>Driver</th>
+                    <th>Mountpoint</th>
+                    <th>Created</th>
+                    <!-- <th>Actions</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let volume of volumes">
+                    <td [nzChecked]="setOfCheckedId.has(volume.Name)" (nzCheckedChange)="onItemChecked(volume.Name, $event)">
+                    </td>
+                    <td class="text-primary">{{volume.Name}}</td>
+                    <td>
+                        <nz-tag *ngIf="!volume.used" nzColor="#f8b601">Unused</nz-tag>
+                    </td>
+                    <td>{{volume.Driver}}</td>
+                    <td nz-tooltip [nzTooltipTitle]="volume.Mountpoint">{{volume.Mountpoint | nzEllipsis: 36:'...'}}</td>
+                    <td>{{volume.CreatedAt | date:'medium'}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
