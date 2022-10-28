@@ -82,6 +82,9 @@ export class ContainerStatsComponent implements OnInit, OnDestroy  {
     elements: {
       line: {
         tension: 0.5
+      },
+      point : {
+        radius : 0
       }
     },
     scales: {

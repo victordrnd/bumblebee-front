@@ -30,17 +30,17 @@ export class EndpointsComponent implements OnInit {
   }
 
   openEndpointModal() {
-    this.modalService.create({
+    const modalRef = this.modalService.create({
       nzContent: EditEndpointComponent,
       nzMaskClosable: false,
       nzTitle: "Create new Endpoint",
       nzWidth: "50vw",
+      nzOkDisabled : true,
       nzOnOk: async (component: EditEndpointComponent) => {
         let endpoint = component.endpoint;
         if (endpoint.protocol == 'http') {
           let port = endpoint.url.split(':')[1]
           endpoint.port = parseInt(port);
-          console.log(endpoint)
           if (endpoint.tls) {
             endpoint.url = endpoint.url.split(':')[0];
           } else {
@@ -52,14 +52,15 @@ export class EndpointsComponent implements OnInit {
           //@ts-ignore
           form_data.append(key, (endpoint[key] as string));
         }
-        console.log(form_data)
         return await firstValueFrom(this.endpointsService.create(form_data)).then(res => {
           this.notificationService.success('Success', "New endpoint created successfully");
           this.getEndpoints();
           return true;
-        }).catch(err => { this.notificationService.error('Error', "An error has occurred"); return false });
+        }).catch(err => { this.notificationService.error('Error', err.error.message); return false });
       }
     })
+
+    modalRef.componentInstance!.modalRef = modalRef;
   }
 
 

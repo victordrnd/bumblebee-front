@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { firstValueFrom } from 'rxjs';
+import { EndpointsService } from 'src/app/core/services/endpoints.service';
 
 @Component({
   selector: 'app-edit-endpoint',
@@ -7,7 +11,7 @@ import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
   styleUrls: ['./edit-endpoint.component.scss']
 })
 export class EditEndpointComponent implements OnInit {
-
+  modalRef! : NzModalRef;
   tls_type = "A";
   @Input() endpoint = {
     url: '/var/run/docker.sock',
@@ -26,7 +30,10 @@ export class EditEndpointComponent implements OnInit {
     { label: 'HTTP', value: 'http', icon: 'cloud-sync' },
     { label: 'SSH', value: 'ssh', icon: 'code' },
   ];
-  constructor() { }
+
+  checkOk = false
+  constructor(private notificationService : NzNotificationService,
+    private endpointsService : EndpointsService) { }
 
   ngOnInit(): void {
   }
@@ -44,35 +51,52 @@ export class EditEndpointComponent implements OnInit {
       this.endpoint.port = 22;
       this.endpoint.url = "ssh://user@127.0.0.1"
     }
+
+    this.setOk(false)
   }
 
 
-  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) : any => {
-    // new Observable((observer: Observer<boolean>) => {
-    //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    //   if (!isJpgOrPng) {
-    //     this.msg.error('You can only upload JPG file!');
-    //     observer.complete();
-    //     return;
-    //   }
-    //   const isLt2M = file.size! / 1024 / 1024 < 2;
-    //   if (!isLt2M) {
-    //     this.msg.error('Image must smaller than 2MB!');
-    //     observer.complete();
-    //     return;
-    //   }
-    //   observer.next(isJpgOrPng && isLt2M);
-    //   observer.complete();
-    // });
-  }
+  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) : any => {}
 
 
   onChange(evt : NzUploadChangeParam, type : string){
     delete evt.file.error;
     evt.fileList = evt.fileList.map(f => {f.status = "done"; return f})
-    console.log(evt, type)
     // @ts-ignore
     this.endpoint[type] = evt.file.originFileObj
+    this.setOk(false)
+  }
 
+
+  async checkEndpoint(){
+    let endpoint_clone = {...this.endpoint} 
+    if (endpoint_clone.protocol == 'http') {
+      let port = endpoint_clone.url.split(':')[1]
+      endpoint_clone.port = parseInt(port);
+      if (endpoint_clone.tls) {
+        endpoint_clone.url = endpoint_clone.url.split(':')[0];
+      } else {
+        endpoint_clone.url = `http://` + endpoint_clone.url.split(':')[0];
+      }
+    } 
+    const form_data = new FormData();
+    for (var key in endpoint_clone) {
+      //@ts-ignore
+      form_data.append(key, (endpoint_clone[key] as string));
+    }
+    form_data.append('check_only', "1");
+    this.checkOk  = await firstValueFrom(this.endpointsService.create(form_data)).then(res => {
+      this.notificationService.success('Ping', "Host successfully reacheable");
+      return true;
+    }).catch(err => { this.notificationService.error('Error', "Host not reachable"); return false });
+
+    this.setOk(this.checkOk)
+  }
+
+
+  setOk(value : boolean){
+    this.modalRef.updateConfig({
+      nzOkDisabled : !value
+    });
   }
 }
