@@ -25,7 +25,7 @@ export class UsersService {
 
   public signIn(user:any): Promise<any> {
     return Auth.signIn(user.username, user.password)
-    .then(async (res) => {
+    .then(async (res : any) => {
       delete user.password;
       
       this.currentUser.next(user);
