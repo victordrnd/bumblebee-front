@@ -26,6 +26,11 @@ export class EndpointsService {
     return this.http.post(environment.apiUrl+"/endpoints", endpoint) as Observable<any[]>
   }
 
+  update(endpoint : any){
+    this.cacheManager.delete('endpoints_list');
+    return this.http.put(environment.apiUrl+`/endpoints`, endpoint) as Observable<any[]>
+  }
+
   delete(endpoint_id: number){
     this.cacheManager.delete('endpoints_list');
     return this.http.delete(`${environment.apiUrl}/endpoints/${endpoint_id}`) as Observable<any[]>

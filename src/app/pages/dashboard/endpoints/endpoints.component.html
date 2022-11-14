@@ -29,7 +29,7 @@
                     <td class="text-muted">{{endpoint.protocol == "socket" ? '/var/run/docker.sock' : (endpoint.url+':'+endpoint.port)}}</td>
                     <td>{{(endpoint.info?.MemTotal / (1024 * 1000000) | number:'1.0-0') || '-'}} Go</td>
                     <td>{{endpoint.info?.NCPU || '-'}}</td>
-                    <td><span nz-icon nzType="delete" class="text-danger pointer" (click)="deleteEndpoint(endpoint)" nzTheme="fill"></span></td>
+                    <td><span nz-icon nzType="edit" class="text-primary pointer mx-2" (click)="editEndpoint(endpoint)" nzTheme="fill"></span> <span nz-icon nzType="delete" class="text-danger pointer" (click)="deleteEndpoint(endpoint)" nzTheme="fill"></span></td>
                 </tr>
             </tbody>
         </nz-table>

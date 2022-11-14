@@ -30,15 +30,18 @@
 
     <div class="col-md-9">
         <div class="nameApi" *ngIf="currentSite">
-            <h1 class='nameSite'>{{currentSite.name}}</h1>
-            <p class='api'>{{currentSite.url}}</p>
+            <div class="d-inline">
+                <h1 class="nameSite mb-1">{{currentSite.name}} </h1>
+                <span class="text-primary">{{currentSite.url}}</span>
+            </div>
+            
         </div>
 
-        <div class="nameApi">
+        <!-- <div class="nameApi">
             <button nz-button class="mr-2 px-3" nzType="primary">On break</button>
             <button nz-button class="mr-2 px-3" nzType="default">Modify</button>
             <button nz-button class="mr-2 px-3" nzType="primary" nzDanger>Delete</button>
-        </div>
+        </div> -->
 
         <div *ngIf="currentSite">
             <app-status [site]="currentSite"></app-status>

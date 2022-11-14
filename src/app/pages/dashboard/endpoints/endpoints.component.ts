@@ -25,9 +25,6 @@ export class EndpointsComponent implements OnInit {
     console.log(this.endpoints);
   }
 
-  editEndpoint(endpoint: any) {
-
-  }
 
   openEndpointModal() {
     const modalRef = this.modalService.create({
@@ -35,23 +32,9 @@ export class EndpointsComponent implements OnInit {
       nzMaskClosable: false,
       nzTitle: "Create new Endpoint",
       nzWidth: "50vw",
-      nzOkDisabled : true,
+      nzOkDisabled: true,
       nzOnOk: async (component: EditEndpointComponent) => {
-        let endpoint = component.endpoint;
-        if (endpoint.protocol == 'http') {
-          let port = endpoint.url.split(':')[1]
-          endpoint.port = parseInt(port);
-          if (endpoint.tls) {
-            endpoint.url = endpoint.url.split(':')[0];
-          } else {
-            endpoint.url = `http://` + endpoint.url.split(':')[0];
-          }
-        }
-        const form_data = new FormData();
-        for (var key in endpoint) {
-          //@ts-ignore
-          form_data.append(key, (endpoint[key] as string));
-        }
+       const form_data = this.buildFormData(component.endpoint);
         return await firstValueFrom(this.endpointsService.create(form_data)).then(res => {
           this.notificationService.success('Success', "New endpoint created successfully");
           this.getEndpoints();
@@ -64,6 +47,27 @@ export class EndpointsComponent implements OnInit {
   }
 
 
+  editEndpoint(endpoint: any) {
+    const modalRef = this.modalService.create({
+      nzContent: EditEndpointComponent,
+      nzMaskClosable: false,
+      nzTitle: `Edit Endpoint ${endpoint.name}`,
+      nzWidth: "50vw",
+      nzOkDisabled: true,
+      nzComponentParams: { endpoint: { ...endpoint } },
+      nzOnOk: async (component: EditEndpointComponent) => {
+        const form_data = this.buildFormData(component.endpoint);
+        return await firstValueFrom(this.endpointsService.update(form_data)).then(res => {
+          this.notificationService.success('Success', "Endpoint successfully updated");
+          this.getEndpoints();
+          return true;
+        }).catch(err => { this.notificationService.error('Error', err.error.message); return false });
+      }
+    });
+    modalRef.componentInstance!.modalRef = modalRef;
+  }
+
+
   async deleteEndpoint(endpoint: any) {
     firstValueFrom(this.endpointsService.delete(endpoint.id)).then(res => {
       this.notificationService.success('Success', "Endpoint deleted successfully");
@@ -71,5 +75,26 @@ export class EndpointsComponent implements OnInit {
     }).catch(err => {
       this.notificationService.error('Error', "An error has occurred")
     })
+  }
+
+  private buildFormData(endpoint: any) {
+    // let endpoint = component.endpoint;
+    if (endpoint.protocol == 'http') {
+      const uri = new URL("http://" + endpoint.url);
+      let port = uri.port
+      endpoint.port = parseInt(port);
+      if (endpoint.tls) {
+        endpoint.url = "https://" + uri.hostname;
+      } else {
+        endpoint.url = `http://` + uri.hostname;
+      }
+    }
+    const form_data = new FormData();
+    for (var key in endpoint) {
+      //@ts-ignore
+      form_data.append(key, (endpoint[key] as string));
+    }
+
+    return form_data
   }
 }

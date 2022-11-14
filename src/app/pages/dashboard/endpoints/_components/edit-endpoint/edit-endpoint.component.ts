@@ -4,7 +4,6 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { firstValueFrom } from 'rxjs';
 import { EndpointsService } from 'src/app/core/services/endpoints.service';
-
 @Component({
   selector: 'app-edit-endpoint',
   templateUrl: './edit-endpoint.component.html',
@@ -23,7 +22,8 @@ export class EditEndpointComponent implements OnInit {
     tls_certificat : null,
     tls_key : null,
     port : 0,
-    password : null
+    password : null,
+    info : null
   }
   options = [
     { label: 'Socket', value: 'socket', icon: 'node-index' },
@@ -36,13 +36,21 @@ export class EditEndpointComponent implements OnInit {
     private endpointsService : EndpointsService) { }
 
   ngOnInit(): void {
+    this.endpoint.protocol_index = this.options.findIndex(el => el.value == this.endpoint.protocol);
+    //@ts-ignore
+    delete this.endpoint.info;
+    if(this.endpoint.port){
+      this.endpoint.url = this.endpoint.url + `:${this.endpoint.port}`
+    }
+    const uri = new URL(this.endpoint.url!);
+    this.endpoint.url = uri.host;
+    console.log(this.endpoint)
   }
 
 
   onConnectionTypeChange(index: any) {
     const protocol = this.options[index].value;
     this.endpoint.protocol = protocol;
-    console.log(this.endpoint.protocol)
     if (protocol == 'socket') {
       this.endpoint.url = "/var/run/docker.sock"
     } else if(protocol == "http") {
@@ -71,12 +79,13 @@ export class EditEndpointComponent implements OnInit {
   async checkEndpoint(){
     let endpoint_clone = {...this.endpoint} 
     if (endpoint_clone.protocol == 'http') {
-      let port = endpoint_clone.url.split(':')[1]
+      const uri = new URL("http://"+endpoint_clone.url);
+      let port = uri.port
       endpoint_clone.port = parseInt(port);
       if (endpoint_clone.tls) {
-        endpoint_clone.url = endpoint_clone.url.split(':')[0];
+        endpoint_clone.url = "https://" + uri.hostname;
       } else {
-        endpoint_clone.url = `http://` + endpoint_clone.url.split(':')[0];
+        endpoint_clone.url = `http://` + uri.hostname;
       }
     } 
     const form_data = new FormData();
