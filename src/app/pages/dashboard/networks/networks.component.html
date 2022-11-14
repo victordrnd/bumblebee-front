@@ -37,7 +37,7 @@
                     </td>
                     <td class="text-primary">{{network.Name}}</td>
                     <td>
-                        <nz-tag *ngIf="!network.used" nzColor="#f8b601">Unused</nz-tag>
+                        <nz-tag *ngIf="!network.used && !['host', 'ingress', 'none', 'bridge'].includes(network.Name)" nzColor="#f8b601">Unused</nz-tag>
                     </td>
                     <td>{{network.Driver}}</td>
                     <td>{{network.Attachable}}</td>
