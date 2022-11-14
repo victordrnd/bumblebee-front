@@ -30,6 +30,7 @@ import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FileSizePipe } from 'src/app/core/pipes/file-size.pipe';
 import { PipeModule } from './core/pipes/pipe.module';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
@@ -61,6 +62,7 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NzNotificationModule,
     HttpCacheInterceptorModule.forRoot(),
     NzTypographyModule,
+    NzDividerModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR },

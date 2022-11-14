@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -7,7 +7,7 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit, AfterViewInit {
+export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() site? : any = {};
   checks: any;
@@ -20,6 +20,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.chart?.update();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngAfterViewInit()
+   }
+   
   ngOnInit(): void {
   }
 

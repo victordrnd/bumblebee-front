@@ -17,6 +17,6 @@ export class StatusComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.checks = this.site.checks.slice(-30);
+    this.ngOnInit();
   }
 }

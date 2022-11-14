@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { SitesService } from 'src/app/core/services/sites.service';
 
@@ -7,7 +7,7 @@ import { SitesService } from 'src/app/core/services/sites.service';
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, OnChanges {
 
   @Input() site? : any = {};
   checks : any[] = [];
@@ -19,6 +19,7 @@ export class StatsComponent implements OnInit {
 
   constructor(private activatedRoute : ActivatedRoute,
     private siteService : SitesService) { }
+  
 
   async ngOnInit() {
     const midnight = new Date();
@@ -35,12 +36,11 @@ export class StatsComponent implements OnInit {
     console.log(this.checks)
     this.checks = this.site.checks.filter((c:any) => new Date(c.created_at) > midnight);
     this.monthlyUptime = (this.checks.filter(c => c.up).length / this.checks.length) * 100
-    
-    
-    
-
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+   this.ngOnInit()
+  }
 
   
 
