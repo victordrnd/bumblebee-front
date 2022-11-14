@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // apiUrl: "http://10.180.210.21:3000",
   apiUrl : "http://localhost:3000",
-  socketServer : "http://10.180.209.99:3000",
+  socketServer : "http://localhost:3005",
   // socketServer : "http://10.180.210.21:3005",
   cognito: {
     region : "eu-west-2",

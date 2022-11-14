@@ -6,7 +6,7 @@
                 <button (click)="stop()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button><span nz-icon nzType="pause" nzTheme="outline"></span> Stop</button>
                 <button (click)="restart()" [nzLoading]="isRestarting" [disabled]="setOfCheckedId.size == 0" class="mx-1" nz-button><span nz-icon nzType="reload" nzTheme="outline"></span> Restart</button>
                 <button (click)="delete()" [disabled]="setOfCheckedId.size == 0"  class="mx-1" nzType="primary" nzDanger nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Delete</button>
-                <button class="mx-1" nz-button nzType="primary">Add container</button>
+                <button class="mx-1" nz-button routerLink="create" nzType="primary">Add container</button>
             </nz-page-header-extra>
         </nz-page-header>
         <nz-table #basicTable [nzData]="containers">

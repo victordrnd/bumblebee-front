@@ -42,7 +42,11 @@ import { VolumesComponent } from './volumes/volumes.component';
 import { NetworksComponent } from './networks/networks.component';
 import { NzPipesModule } from 'ng-zorro-antd/pipes';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
+import { ContainerCreateComponent } from './containers/container-create/container-create.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -60,6 +64,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     ImagePullModalComponent,
     VolumesComponent,
     NetworksComponent,
+    ContainerCreateComponent,
   ],
   imports: [
     CommonModule,
@@ -88,7 +93,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     HttpCacheInterceptorModule,
     PipeModule,
     NzPipesModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzFormModule,
+    NzDividerModule,
+    NzInputNumberModule,
+    NzTabsModule
   ],
   providers : [FileSizePipe],
   exports: [DashboardComponent]

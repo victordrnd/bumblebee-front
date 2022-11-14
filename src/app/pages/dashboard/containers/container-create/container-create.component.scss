@@ -1,0 +1,17 @@
+::ng-deep{
+    label{
+        margin-bottom: 0em;
+    }
+    .ant-divider-horizontal.ant-divider-with-text-left::before{
+        width: 0%;
+    }
+    .ant-divider-inner-text{
+        padding-left: 0em;
+    }
+    .fit-content{
+        width: fit-content;
+    }
+    .ant-select{
+        min-width: 294px;
+    }
+}

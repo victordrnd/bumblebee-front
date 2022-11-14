@@ -1,0 +1,134 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-10 mx-auto">
+        <nz-page-header (nzBack)="onBack()" nzBackIcon class="site-page-header px-0" nzTitle="Create container"
+            nzSubtitle="Add container">
+        </nz-page-header>
+    </div>
+    <div class="col-md-10 mx-auto">
+        <form nz-form [formGroup]="validateForm">
+            <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+            <input nz-input formControlName="name" placeholder="redis-container" />
+
+            <nz-divider nzText="Image configuration" nzOrientation="left"></nz-divider>
+
+            <nz-form-label [nzSpan]="7" nzRequired>Registry</nz-form-label>
+            <nz-select class="w-100" nzDisabled formControlName="registry">
+                <nz-option nzValue="Dockerhub" nzLabel="Dockerhub"></nz-option>
+            </nz-select>
+
+            <nz-form-label [nzSpan]="7" nzRequired>Image</nz-form-label>
+            <input nz-input formControlName="Image" placeholder="memcached:latest" />
+
+            <nz-divider nzText="Network configuration" nzOrientation="left"></nz-divider>
+
+            <div class="d-inline">
+                <nz-form-label [nzSpan]="7" nzRequired>Manual port publishing </nz-form-label>
+                <button nz-button nzSize="small" nzType="primary" (click)="addPortPublishing()"><span nz-icon
+                        nzType="plus-circle" nzTheme="outline"></span> publish a new port</button>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12 mt-2" *ngFor="let exposure of ExposedPorts; let i = index">
+                    <nz-input-number-group nzAddOnBefore="host">
+                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="80" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="exposure.host">
+                        </nz-input-number>
+                    </nz-input-number-group>
+                    ->
+                    <nz-input-number-group nzAddOnBefore="container">
+                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="8080" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="exposure.container">
+                        </nz-input-number>
+                    </nz-input-number-group>
+                    <nz-radio-group class="mx-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="exposure.protocol"
+                        nzButtonStyle="solid">
+                        <label nz-radio-button nzValue="tcp">TCP</label>
+                        <label nz-radio-button nzValue="udp">UDP</label>
+                    </nz-radio-group>
+                    <button nz-button (click)="deletePort(i)" nzType="primary"><span nz-icon
+                            nzType="delete"></span></button>
+                </div>
+            </div>
+            <nz-divider nzText="Volumes configuration" nzOrientation="left"></nz-divider>
+            <div class="d-inline">
+                <nz-form-label [nzSpan]="7" nzRequired>Map additional volume</nz-form-label>
+                <button nz-button nzSize="small" nzType="primary" (click)="addVolumeMapping()"><span nz-icon
+                        nzType="plus-circle" nzTheme="outline"></span> map a new volume</button>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12 mt-2" *ngFor="let volume of Volumes; let j = index" style="display: inline-flex">
+
+                    <nz-input-group *ngIf="volume.type=='bind'" class="fit-content" nzAddOnBefore="host">
+                        <input type="text" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="volume.host" />
+                    </nz-input-group>
+                    <nz-select class="fit-content" *ngIf="volume.type=='volume'" [(ngModel)]="volume.host"
+                        [ngModelOptions]="{standalone: true}">
+                        <nz-option *ngFor="let v of $any(volumeList)" [nzValue]="v.Name" [nzLabel]="v.Name"></nz-option>
+                    </nz-select>
+                    <span class="mx-1">-></span>
+                    <nz-input-group class="fit-content" nzAddOnBefore="container">
+                        <input type="text" [ngModelOptions]="{standalone: true}" nz-input
+                            [(ngModel)]="volume.container" />
+                    </nz-input-group>
+                    <nz-radio-group class="mx-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="volume.type"
+                        nzButtonStyle="solid">
+                        <label nz-radio-button nzValue="bind">Bind</label>
+                        <label nz-radio-button nzValue="volume">Volume</label>
+                    </nz-radio-group>
+                    <button nz-button (click)="deleteVolume(j)" nzType="primary"><span nz-icon
+                        nzType="delete"></span></button>
+                </div>
+            </div>
+            <nz-tabset>
+                <!-- <nz-tab nzDisabled nzTitle="Network">Content of Tab Pane 1</nz-tab> -->
+                <nz-tab nzTitle="Environments">
+                    <label class="mx-2">Environments variables</label>
+                    <button nz-button nzSize="small" (click)="addEnvVariable()" nzType="primary"><span nz-icon
+                        nzType="plus-circle" nzTheme="outline"></span>  add an environment variable</button>
+                    <div class="row mt-4">
+                        <div class="col-md-12 mt-3" *ngFor="let variable of Env; let i = index">
+                            <nz-input-group class="fit-content mr-2" nzAddOnBefore="name">
+                                <input type="text" placeholder="foo" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="variable.name" />
+                            </nz-input-group>
+                            <nz-input-group class="fit-content ml-2" nzAddOnBefore="value">
+                                <input type="text" placeholder="bar" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="variable.value" />
+                            </nz-input-group>
+                            <button nz-button  class="mx-3" (click)="deleteEnv(i)" nzType="primary"><span nz-icon
+                                nzType="delete"></span></button>
+                        </div>
+                    </div>
+                </nz-tab>
+                <nz-tab nzTitle="Labels">
+                    <label class="mx-2">Labels</label>
+                    <button nz-button nzSize="small" (click)="addLabel()" nzType="primary"><span nz-icon
+                        nzType="plus-circle" nzTheme="outline"></span>  add label</button>
+                    <div class="row mt-4">
+                        <div class="col-md-12 mt-3" *ngFor="let label of Labels; let i = index">
+                            <nz-input-group class="fit-content mr-2" nzAddOnBefore="name">
+                                <input type="text" placeholder="foo" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="label.name" />
+                            </nz-input-group>
+                            <nz-input-group class="fit-content ml-2" nzAddOnBefore="value">
+                                <input type="text" placeholder="bar" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="label.value" />
+                            </nz-input-group>
+                            <button nz-button  class="mx-3" (click)="deleteLabel(i)" nzType="primary"><span nz-icon
+                                nzType="delete"></span></button>
+                        </div>
+                    </div>
+                </nz-tab>
+                <nz-tab nzTitle="Restart Policy">
+                    <label class="mx-2">Restart policy</label>
+                    <nz-radio-group [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="restartPolicy" nzButtonStyle="solid">
+                        <label nz-radio-button nzValue="never">Never</label>
+                        <label nz-radio-button nzValue="always">Always</label>
+                        <label nz-radio-button nzValue="on-failure">On failure</label>
+                        <label nz-radio-button nzValue="unless-stopped">Unless stopped</label>
+                      </nz-radio-group>
+                </nz-tab>
+                <nz-tab nzDisabled nzTitle="Runtime & Resources">Content of Tab Pane 3</nz-tab>
+                <nz-tab nzDisabled nzTitle="Traefik">Content of Tab Pane 3</nz-tab>
+            </nz-tabset>
+
+            <button nz-button [nzLoading]="loading" (click)="submitForm()" [disabled]="!validateForm.valid"
+                nzType="primary" class="mt-5 float-right" type="submit">Create container</button>
+        </form>
+    </div>
+</div>

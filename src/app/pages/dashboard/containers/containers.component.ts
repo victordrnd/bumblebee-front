@@ -83,7 +83,7 @@ export class ContainersComponent implements OnInit {
 
   openUrl(port : number){
     const endpoint = this.endpointService.currentEnvValue;
-    if(endpoint.use_socket){
+    if(endpoint.protocol == "socket"){
       window.open(`http://localhost:${port}`, "_blank");
     }else{
       window.open(`${endpoint.url}:${port}`, "_blank");

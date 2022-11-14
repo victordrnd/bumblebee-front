@@ -24,6 +24,10 @@ export class ContainersService {
     return this.http.get(environment.apiUrl+`/containers/${endpoint.id}/${id}`);
   }
   
+  create(body : any){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.post(environment.apiUrl+`/containers/${endpoint.id}`, body);
+  }
   start(ids : string[]) : Array<Observable<any>>{
     const endpoint = this.endpointService.currentEnvValue
     return ids.map(id => this.http.post(environment.apiUrl+`/containers/${endpoint.id}/${id}/start`, {}))
