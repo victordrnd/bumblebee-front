@@ -47,6 +47,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { SitesComponent } from './sites/sites.component';
+import { AppModule } from 'src/app/app.module';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -65,6 +67,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     VolumesComponent,
     NetworksComponent,
     ContainerCreateComponent,
+    SitesComponent,
   ],
   imports: [
     CommonModule,
@@ -97,7 +100,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzFormModule,
     NzDividerModule,
     NzInputNumberModule,
-    NzTabsModule
+    NzTabsModule,
   ],
   providers : [FileSizePipe],
   exports: [DashboardComponent]

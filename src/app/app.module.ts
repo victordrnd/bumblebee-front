@@ -32,6 +32,7 @@ import { FileSizePipe } from 'src/app/core/pipes/file-size.pipe';
 import { PipeModule } from './core/pipes/pipe.module';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { HttpTokenInterceptor } from './core/interceptors/http.token.interceptor';
+import { SitesComponent } from './pages/dashboard/sites/sites.component';
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
@@ -65,6 +66,7 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NzTypographyModule,
     NzDividerModule
   ],
+  exports : [StatsComponent],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR },
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }

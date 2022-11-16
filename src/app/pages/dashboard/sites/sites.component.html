@@ -1,0 +1,59 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-11 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Sites & SLO" nzSubtitle="Website disponibility">
+            <nz-page-header-content>
+                <!-- <nz-card nzTitle="Pull network">
+                    <label>Image name</label>
+                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag"/>
+                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull image</button>
+                  </nz-card> -->
+            </nz-page-header-content>
+            <nz-page-header-extra>
+                <div class="d-flex flex-row-reverse my-3">
+                    <button class="mx-1" nzType="primary" nz-button><span nz-icon nzType="appstore-add" nzTheme="outline"></span> Add website</button>
+                </div>
+            </nz-page-header-extra>
+        </nz-page-header>
+    </div>
+    <div class="col-md-4" *ngFor="let site of sites">
+        <nz-card [nzTitle]="cardTitle">
+            <div class="row mx-2 mb-2">
+                <div class="col-md-12">
+                    <div class="text-muted">
+                        <div class="d-flex justify-content-between">
+                            <span>
+                                URL : {{site.url}}
+                            </span>
+                            <nz-tag nzColor="#00000073">{{site.method}}</nz-tag>
+                        </div>
+                        <nz-divider></nz-divider>
+                        <p class="text-muted">Check : every {{site.interval}} seconds</p>
+                        <nz-divider></nz-divider>
+                    </div>
+                    <div class="rounded mt-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="liste d-inline" *ngFor="let check of site.checks">
+                                    <div class="check" [class.bg-danger]="!check.up" [class.bg-secondary]="check.up">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <nz-tag nzColor="#F8ba16" *ngIf="(site.checks[site.checks.length -1] || {}).up">EN LIGNE
+                                </nz-tag>
+                                <nz-tag nzColor="#e9494c" *ngIf="site.checks.length == 0">HORS LIGNE</nz-tag>
+                            </div>
+                        </div>
+                    </div>
+                    <button nz-button class="w-100 mt-4 bg-secondary border-secondary" nzType="primary"><span nz-icon nzType="delete" nzTheme="outline"></span> Delete webiste</button>
+                </div>
+            </div>
+        </nz-card>
+        <ng-template #cardTitle>
+            {{site.name | titlecase}}
+            <nz-tag class="float-right" [nzColor]="'#F8ba16'">Disponibility : {{site.disponibility | number:'1.0-0'}} %
+            </nz-tag>
+        </ng-template>
+    </div>
+</div>

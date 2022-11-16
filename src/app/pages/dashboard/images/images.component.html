@@ -4,18 +4,19 @@
             <nz-page-header-content>
                 <nz-card nzTitle="Pull Image">
                     <label>Image name</label>
-                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag"/>
-                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull image</button>
-                  </nz-card>
+                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag" />
+                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull
+                        image</button>
+                </nz-card>
+                <div class="d-flex flex-row-reverse my-3">
+                    <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary"
+                        nzDanger nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
+                </div>
             </nz-page-header-content>
             <nz-page-header-extra>
                 <!-- <button class="mx-1" nz-button nzType="primary">Pull image</button> -->
             </nz-page-header-extra>
         </nz-page-header>
-        <div class="d-flex flex-row-reverse my-3">
-            <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
-            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
-        </div>
         <nz-table #basicTable [nzData]="images">
             <thead>
                 <tr>
@@ -36,7 +37,9 @@
                     <td>
                         <nz-tag *ngIf="!image.used" nzColor="#f8b601">Unused</nz-tag>
                     </td>
-                    <td *ngFor="let tag of image.RepoTags | slice:0:1"><nz-tag nzColor="orange">{{tag}}</nz-tag></td>
+                    <td *ngFor="let tag of image.RepoTags | slice:0:1">
+                        <nz-tag nzColor="orange">{{tag}}</nz-tag>
+                    </td>
                     <td>{{image.Size | fileSize}}</td>
                     <td>{{image.Created*1000 | date:'medium'}}</td>
                     <td>
@@ -45,7 +48,8 @@
                             <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-2" nz-icon nzType="file-text" nzTheme="fill"></span>
                             <span nz-icon routerLink="{{container.Id}}/stats" nzType="fund" class="pointer text-primary mx-2" nzTheme="fill"></span>
                             <span nz-icon nzType="code" nzTheme="fill" class="pointer text-primary mx-2" routerLink="{{container.Id}}/terminal"></span> -->
-                            <span class="text-primary pointer" (click)="downloadImage(image)" nz-icon nzType="download" nzTheme="outline"></span>
+                            <span class="text-primary pointer" (click)="downloadImage(image)" nz-icon nzType="download"
+                                nzTheme="outline"></span>
                         </div>
                     </td>
                 </tr>

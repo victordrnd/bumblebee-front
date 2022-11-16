@@ -9,13 +9,12 @@
                   </nz-card> -->
             </nz-page-header-content>
             <nz-page-header-extra>
-                <!-- <button class="mx-1" nz-button nzType="primary">Pull image</button> -->
+                <div class="d-flex flex-row-reverse my-3">
+                    <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
+                    nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
+                </div>
             </nz-page-header-extra>
         </nz-page-header>
-        <div class="d-flex flex-row-reverse my-3">
-            <button (click)="delete()" [disabled]="setOfCheckedId.size == 0" class="mx-1" nzType="primary" nzDanger
-            nz-button><span nz-icon nzType="delete" nzTheme="fill"></span> Remove</button>
-        </div>
         <nz-table #basicTable [nzData]="networks" [nzShowPagination]="false">
             <thead>
                 <tr>

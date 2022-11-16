@@ -10,6 +10,7 @@ import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
 import { ImagesComponent } from './images/images.component';
 import { NetworksComponent } from './networks/networks.component';
+import { SitesComponent } from './sites/sites.component';
 import { UsersComponent } from './users/users.component';
 import { VolumesComponent } from './volumes/volumes.component';
 
@@ -73,6 +74,10 @@ const routes: Routes = [
             component : NetworksComponent
           }
         ]
+      },
+      {
+        path :"sites",
+        component : SitesComponent
       },
       {
         path : 'settings',
