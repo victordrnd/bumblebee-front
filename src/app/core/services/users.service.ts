@@ -10,6 +10,7 @@ import { HttpCacheManager, withCache } from '@ngneat/cashew';
 export class UsersService {
 
   currentUser : Subject<any> = new BehaviorSubject<any>(null);
+  jwt : string|null = null;
   constructor(private http : HttpClient,
     private cacheManager : HttpCacheManager) { 
     Amplify.configure({
@@ -19,6 +20,7 @@ export class UsersService {
   }
 
   public getUser(): Promise<any> {
+    this.getJwtToken();
     return Auth.currentAuthenticatedUser();
   }
 
@@ -54,6 +56,11 @@ export class UsersService {
     return (this.currentUser as BehaviorSubject<any>).value;
   }
 
+  async getJwtToken(){
+    const jwt = (await Auth.currentSession()).getAccessToken().getJwtToken();
+    this.jwt = jwt;
+    return jwt;
+  }
   
   // ADMIN
 

@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.currentEnvironment = e
     });
     this.subscriptions.push(sb);
+    this.userService.getJwtToken();
   }
 
 

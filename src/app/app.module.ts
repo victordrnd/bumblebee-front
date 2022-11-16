@@ -9,7 +9,7 @@ import { fr_FR } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import fr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StatsComponent } from './pages/home/_components/stats/stats.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -31,6 +31,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FileSizePipe } from 'src/app/core/pipes/file-size.pipe';
 import { PipeModule } from './core/pipes/pipe.module';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { HttpTokenInterceptor } from './core/interceptors/http.token.interceptor';
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
@@ -66,6 +67,7 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
   ],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
