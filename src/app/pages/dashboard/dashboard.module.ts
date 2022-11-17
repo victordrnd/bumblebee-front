@@ -49,6 +49,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SitesComponent } from './sites/sites.component';
 import { AppModule } from 'src/app/app.module';
+import { SiteCreateModalComponent } from './sites/_components/site-create-modal/site-create-modal.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -68,6 +69,7 @@ import { AppModule } from 'src/app/app.module';
     NetworksComponent,
     ContainerCreateComponent,
     SitesComponent,
+    SiteCreateModalComponent,
   ],
   imports: [
     CommonModule,

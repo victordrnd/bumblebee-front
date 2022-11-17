@@ -10,7 +10,7 @@
             </nz-page-header-content>
             <nz-page-header-extra>
                 <div class="d-flex flex-row-reverse my-3">
-                    <button class="mx-1" nzType="primary" nz-button><span nz-icon nzType="appstore-add" nzTheme="outline"></span> Add website</button>
+                    <button class="mx-1" nzType="primary" (click)="create()" nz-button><span nz-icon nzType="appstore-add" nzTheme="outline"></span> Add website</button>
                 </div>
             </nz-page-header-extra>
         </nz-page-header>
@@ -34,19 +34,22 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="liste d-inline" *ngFor="let check of site.checks">
-                                    <div class="check" [class.bg-danger]="!check.up" [class.bg-secondary]="check.up">
+                                    <div class="check" [class.bg-danger]="!check.up" [class.bg-success]="check.up">
                                         &nbsp;
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
-                                <nz-tag nzColor="#F8ba16" *ngIf="(site.checks[site.checks.length -1] || {}).up">EN LIGNE
+                                <nz-tag nzColor="#59a847" *ngIf="(site.checks[site.checks.length -1] || {}).up">EN LIGNE
                                 </nz-tag>
                                 <nz-tag nzColor="#e9494c" *ngIf="site.checks.length == 0">HORS LIGNE</nz-tag>
                             </div>
                         </div>
                     </div>
-                    <button nz-button class="w-100 mt-4 bg-secondary border-secondary" nzType="primary"><span nz-icon nzType="delete" nzTheme="outline"></span> Delete webiste</button>
+                    <button nz-popconfirm
+                    nzPopconfirmTitle="Are you sure you want to delete this site ?"
+                    nzPopconfirmPlacement="bottom"
+                    (nzOnConfirm)="delete(site.id)" nz-button class="w-100 mt-4 bg-secondary border-secondary" nzType="primary"><span nz-icon nzType="delete" nzTheme="outline"></span> Delete webiste</button>
                 </div>
             </div>
         </nz-card>

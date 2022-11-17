@@ -1,0 +1,25 @@
+<label>Name : </label>
+<input type="text" nz-input [(ngModel)]="site.name" />
+
+<label class="mt-4">URL : </label>
+<nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+    <input type="text" nz-input [(ngModel)]="site.url" />
+</nz-input-group>
+<ng-template #addOnBeforeTemplate>
+    <nz-select [(ngModel)]="site.protocol">
+        <nz-option nzLabel="http://" nzValue="http://"></nz-option>
+        <nz-option nzLabel="https://" nzValue="https://"></nz-option>
+    </nz-select>
+</ng-template>
+
+<label class="mt-4">Method : </label><br />
+<nz-select class="w-100" [(ngModel)]="site.method">
+    <nz-option nzValue="GET" nzLabel="GET"></nz-option>
+    <nz-option nzValue="POST" nzLabel="POST"></nz-option>
+    <nz-option nzValue="HEAD" nzLabel="HEAD"></nz-option>
+    <nz-option nzValue="PATCH" nzLabel="PATCH"></nz-option>
+    <nz-option nzValue="DELETE" nzLabel="DELETE"></nz-option>
+</nz-select>
+
+<label class="mt-4">Interval in second : </label><br/>
+<nz-input-number [(ngModel)]="site.interval" [nzMin]="10" [nzStep]="1"></nz-input-number>

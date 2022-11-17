@@ -18,5 +18,11 @@ export class SitesService {
     return this.http.get(environment.apiUrl+`/sites/${id}`);
   }
 
+  create(site : any){
+    return this.http.post(environment.apiUrl+"/sites", site);
+  }
 
+  delete(id : number){
+    return this.http.delete(environment.apiUrl+`/sites/${id}`);
+  }
 }
