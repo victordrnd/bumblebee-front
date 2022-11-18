@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EndpointsService } from './endpoints.service';
@@ -20,7 +21,7 @@ export class ImagesService {
 
   pull(image_name : string){
     const endpoint = this.endpointService.currentEnvValue
-    const eventSource = new EventSource(`${environment.apiUrl}/images/sse/${endpoint.id}/pull?image=${encodeURI(image_name)}`);
+    const eventSource = new EventSourcePolyfill(`${environment.apiUrl}/images/sse/${endpoint.id}/pull?image=${encodeURI(image_name)}`,{headers :{ authorization :"Bearer " + localStorage.getItem('jwt_token')}});
     return this.generateObservableFromEventSource(eventSource)
   }
 

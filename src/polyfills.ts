@@ -50,3 +50,7 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+ import './eventsource.min.js'
+
+//  global.EventSource =  NativeEventSource || EventSourcePolyfill;
+ declare var EventSourcePolyfill: any;

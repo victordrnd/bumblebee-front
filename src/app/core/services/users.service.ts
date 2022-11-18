@@ -39,6 +39,8 @@ export class UsersService {
   public signOut(): Promise<any> {
     return Auth.signOut()
     .then(() => {
+      localStorage.removeItem('jwt_token');
+      this.jwt = null;
       this.currentUser.next(null);
     });
   }
@@ -58,6 +60,7 @@ export class UsersService {
 
   async getJwtToken(){
     const jwt = (await Auth.currentSession()).getAccessToken().getJwtToken();
+    localStorage.setItem('jwt_token', jwt);
     this.jwt = jwt;
     return jwt;
   }

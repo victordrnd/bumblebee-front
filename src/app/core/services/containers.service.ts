@@ -4,6 +4,7 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EndpointsService } from './endpoints.service';
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class ContainersService {
 
   constructor(private endpointService: EndpointsService,
     private socket : Socket,
-    private http: HttpClient) { }
+    private http: HttpClient) {
+
+     }
 
   list() : Observable<any>{
     const endpoint = this.endpointService.currentEnvValue
@@ -61,14 +64,14 @@ export class ContainersService {
 
   logs_sse(id : string) : Observable<String>{
     const endpoint = this.endpointService.currentEnvValue
-    const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/logs`);
+    const eventSource = new EventSourcePolyfill(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/logs`,{headers :{ authorization :"Bearer " + localStorage.getItem('jwt_token')}});
     return this.generateObservableFromEventSource(eventSource)
    
   }
 
   stats(id : string) : Observable<String>{
     const endpoint = this.endpointService.currentEnvValue
-    const eventSource = new EventSource(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/stats`);
+    const eventSource = new EventSourcePolyfill(`${environment.apiUrl}/containers/sse/${endpoint.id}/${id}/stats`, {headers :{ authorization :"Bearer " + localStorage.getItem('jwt_token')}});
     return this.generateObservableFromEventSource(eventSource)
   }
 
