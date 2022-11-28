@@ -124,10 +124,34 @@
                       </nz-radio-group>
                 </nz-tab>
                 <nz-tab nzDisabled nzTitle="Runtime & Resources">Content of Tab Pane 3</nz-tab>
-                <nz-tab nzDisabled nzTitle="Traefik">Content of Tab Pane 3</nz-tab>
+                <nz-tab [nzDisabled]="!isTraefikEnabled" nzTitle="Traefik">
+                     <nz-alert [nzType]="dnsCheck ? 'success' : 'warning'" [nzAction]="actionTemplate1" nzMessage="Warning"
+                    nzDescription="Before publishing online, you need to make sure that the domain {{traefik.domain}} is pointing to {{ip}}" nzShowIcon></nz-alert>
+
+                    <ng-template #actionTemplate1>
+                        <button nz-button nzType="default" (click)="checkDNS()">Check</button></ng-template>
+
+
+                    <label class="mt-4">Publish online </label><br/>
+                    <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="traefik.enabled"></nz-switch><br/>
+                    
+                    <label class="mt-4">Domain name</label>
+                    <input nz-input [ngModelOptions]="{standalone: true}" placeholder="test.example.com" [(ngModel)]="traefik.domain" />
+
+                    <label class="mt-4">Use TLS </label><br/>
+                    <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="traefik.tls"></nz-switch><br/>
+
+                    <label class="mt-4">Published port</label><br/>
+                    <nz-input-number-group nzAddOnBefore="container">
+                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="8080" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="traefik.port">
+                        </nz-input-number>
+                    </nz-input-number-group>
+                    
+                </nz-tab>
             </nz-tabset>
 
-            <button nz-button [nzLoading]="loading" (click)="submitForm()" [disabled]="!validateForm.valid"
+            <button nz-button [nzLoading]="loading" (click)="submitForm()" [disabled]="!validateForm.valid || (traefik.enabled && ! traefik.domain)"
                 nzType="primary" class="mt-5 float-right" type="submit">Create container</button>
         </form>
     </div>

@@ -19,6 +19,16 @@ export class NetworksService {
   }
 
 
+  getIp() : any{
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.get(environment.apiUrl+`/networks/${endpoint.id}/ip`)
+  }
+
+  checkDNS(domain : string){
+    return this.http.get(environment.apiUrl+`/networks/dns?domain=${domain}`)
+  }
+
+
   delete(ids : Array<string>) {
     const endpoint = this.endpointService.currentEnvValue
     return ids.map(id => this.http.delete(environment.apiUrl+`/networks/${endpoint.id}/${id}`));

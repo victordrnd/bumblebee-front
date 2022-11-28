@@ -5,6 +5,7 @@ import { registry } from 'chart.js';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { firstValueFrom } from 'rxjs';
 import { ContainersService } from 'src/app/core/services/containers.service';
+import { NetworksService } from 'src/app/core/services/networks.service';
 import { VolumesService } from 'src/app/core/services/volumes.service';
 
 @Component({
@@ -14,87 +15,108 @@ import { VolumesService } from 'src/app/core/services/volumes.service';
 })
 export class ContainerCreateComponent implements OnInit {
   restartPolicy = ""
-  ExposedPorts : any[]= [];
-  Env : any[] = [];
-  Labels : any[] = [];
-  Volumes : any[] = []
+  ExposedPorts: any[] = [];
+  Env: any[] = [];
+  Labels: any[] = [];
+  Volumes: any[] = []
   validateForm!: UntypedFormGroup;
   volumeList = [];
   loading = false;
+  isTraefikEnabled = false;
+  traefik: any = {
+    enabled: false,
+    domain: null,
+    tls: false,
+    port: 8000
+  }
+  ip: string | null = null;
+  dnsCheck = false;
   constructor(private fb: FormBuilder,
-    private volumeService : VolumesService,
-    private containerService : ContainersService,
-    private notificationService : NzNotificationService,
+    private volumeService: VolumesService,
+    private networkService: NetworksService,
+    private containerService: ContainersService,
+    private notificationService: NzNotificationService,
     private router: Router) { }
 
-  async ngOnInit(){
-    const { required, maxLength, minLength, email} = Validators;
+  async ngOnInit() {
+    const { required, maxLength, minLength, email } = Validators;
     this.validateForm = this.fb.group({
       name: [null, [required, maxLength(20)]],
       Image: [null, [required]],
-      User : ['root', [required]],
-      Tty : [true, [required]],
-      Env :  this.fb.array([]),
-      Cmd : [null, []],
+      User: ['root', [required]],
+      Tty: [true, [required]],
+      Env: this.fb.array([]),
+      Cmd: [null, []],
       // Labels : this.fb.array([]),
-      registry : ["Dockerhub", []],
+      registry: ["Dockerhub", []],
     });
     this.volumeList = await firstValueFrom(this.volumeService.list())
     this.addPortPublishing();
+
+    this.checkTraefikEnabled();
+    this.ip = (await firstValueFrom(this.networkService.getIp()) as any).ip! as string;
+    console.log(this.ip);
   }
 
 
-  addPortPublishing(){
+  async checkTraefikEnabled(){
+    const containers = await firstValueFrom(this.containerService.list())
+    this.isTraefikEnabled = containers.filter((c: any) => c.Image.includes('traefik')).length > 0;
+  }
+  addPortPublishing() {
     this.ExposedPorts.push({
-      host : null,
-      container : null,
-      protocol : "tcp"
+      host: null,
+      container: null,
+      protocol: "tcp"
     });
   }
-  deletePort(index:  number){
+  deletePort(index: number) {
     this.ExposedPorts.splice(index, 1)
   }
 
-  addVolumeMapping(){
+  addVolumeMapping() {
     this.Volumes.push({
-      container : null,
-      host : null,
-      type : "bind"
+      container: null,
+      host: null,
+      type: "bind"
     })
   }
 
-  addEnvVariable(){
-    this.Env.push({name : null, value : null})
+  addEnvVariable() {
+    this.Env.push({ name: null, value: null })
   }
 
-  addLabel(){
-    this.Labels.push({name : null, value : null})
+  addLabel() {
+    this.Labels.push({ name: null, value: null })
   }
 
-  deleteVolume(index : number){
+  deleteVolume(index: number) {
     this.Volumes.splice(index, 1)
   }
 
-  deleteEnv(index : number){
+  deleteEnv(index: number) {
     this.Env.splice(index, 1)
   }
 
-  deleteLabel(index : number){
+  deleteLabel(index: number) {
     this.Labels.splice(index, 1)
   }
 
 
-  async submitForm(){
+  async submitForm() {
     let body = this.validateForm.value;
     body.HostConfig = {};
     body.HostConfig.Binds = this.buildVolumes();
     body.HostConfig.PortBindings = this.buildPorts();
-    body.HostConfig.restartPolicy = {Name : this.restartPolicy, MaximumRetryCount : 0}
+    body.HostConfig.restartPolicy = { Name: this.restartPolicy, MaximumRetryCount: 0 }
     body.Labels = this.buildLabels();
+    if (this.traefik.enabled) {
+      body.Labels = { ...body.Labels, ...this.buildTraefikLabels() }
+    }
     body.Env = this.buildEnv();
 
     this.loading = true
-    await firstValueFrom(this.containerService.create(body)).then(res =>{
+    await firstValueFrom(this.containerService.create(body)).then(res => {
       this.notificationService.success('Success', "Container have been created");
       this.onBack();
     }).catch(err => {
@@ -102,36 +124,77 @@ export class ContainerCreateComponent implements OnInit {
     }).finally(() => this.loading = false)
   }
 
-  buildPorts(){
+  buildPorts() {
     const map = new Map()
     this.ExposedPorts.forEach(port => {
-      if(port.container && port.host){
-        const key = port.container+"/"+ port.protocol;
+      if (port.container && port.host) {
+        const key = port.container + "/" + port.protocol;
         let mapping = [];
-        if(map.has(key)){
+        if (map.has(key)) {
           mapping = map.get(key);
         }
-        mapping = [...mapping, {HostPort : `${port.host}`}]
-        map.set(key,mapping);
+        mapping = [...mapping, { HostPort: `${port.host}` }]
+        map.set(key, mapping);
       }
     });
     return Object.fromEntries(map)
   }
 
-  buildVolumes(){
+  buildVolumes() {
     return this.Volumes.map(v => v.host && v.container ? `${v.host}:${v.container}` : null).filter(x => !!x);
   }
 
-  buildLabels(){
-    return this.Labels.reduce(function(r, e) {
+  buildLabels() {
+    return this.Labels.reduce(function (r, e) {
       r[e.name] = e.value;
       return r;
     }, {});
   }
 
-  buildEnv(){
+  buildEnv() {
     return this.Env.map(env => env.name ? `${env.name.toUpperCase()}=${env.value || ""}` : null).filter(x => !!x);
   }
+
+  buildTraefikLabels() {
+    const service_name = this.validateForm.value.name + "_" + (Math.random() + 1).toString(36).substring(7);
+    if (this.traefik.tls) {
+      return {
+        "traefik.enable": "true",
+        [`traefik.http.routers.${service_name}-https.rule`]: `Host("${this.traefik.domain}")`,
+        [`traefik.http.routers.${service_name}-https.tls`]: "true",
+        [`traefik.http.routers.${service_name}-https.tls.certresolver`]: "myresolver",
+        [`traefik.http.routers.${service_name}-https.entrypoints`] : "websecure",
+        [`traefik.http.routers.${service_name}-https.service`] : service_name,
+        [`traefik.http.services.${service_name}.loadbalancer.server.port`]: this.traefik.port.toString(),
+        ["traefik.docker.network"] : "web"
+      }
+    } else {
+      return {
+        "traefik.enable": "true",
+        [`traefik.http.routers.${service_name}-http.rule`]: `Host("${this.traefik.domain}")`,
+        [`traefik.http.routers.${service_name}-http.entrypoints`] : "web",
+        [`traefik.http.routers.${service_name}-http.service`] : service_name,
+        [`traefik.http.services.${service_name}.loadbalancer.server.port`]: this.traefik.port.toString(),
+        ["traefik.docker.network"] : "web"
+      }
+    }
+  }
+
+  async checkDNS() {
+    if (this.ip && this.traefik.domain) {
+      const res: any = await firstValueFrom(this.networkService.checkDNS(this.traefik.domain));
+      if (res.Answer) {
+        this.dnsCheck = res.Answer.find((answer: any) => answer.data == this.ip);
+        if (this.dnsCheck) {
+          this.notificationService.success('Success', "DNS Record found !")
+          return;
+        }
+      }
+    }
+    this.notificationService.error("Not Found", "DNS record not found for this domain");
+  }
+
+
   onBack() {
     this.router.navigate(["dashboard/containers"])
   }

@@ -48,15 +48,15 @@ export class ReverseProxyComponent implements OnInit {
           ]),
           PortBindings: this.buildPorts([
             {
+              host: 443,
+              container: 443,
+              protocol: "tcp"
+            },
+            {
               host: 80,
               container: 80,
               protocol: "tcp"
             },
-            {
-              host: 443,
-              container: 443,
-              protocol: "tcp"
-            }
           ]),
           restartPolicy: { Name: "unless-stopped", MaximumRetryCount: 0 }
         },
