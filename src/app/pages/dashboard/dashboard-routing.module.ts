@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContainerCreateComponent } from './containers/container-create/container-create.component';
+import { ContainerFsComponent } from './containers/container-fs/container-fs.component';
 import { ContainerLogsComponent } from './containers/container-logs/container-logs.component';
 import { ContainerStatsComponent } from './containers/container-stats/container-stats.component';
 import { ContainerTerminalComponent } from './containers/container-terminal/container-terminal.component';
@@ -10,6 +11,7 @@ import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
 import { ImagesComponent } from './images/images.component';
 import { NetworksComponent } from './networks/networks.component';
+import { ReverseProxyComponent } from './reverse-proxy/reverse-proxy.component';
 import { SitesComponent } from './sites/sites.component';
 import { UsersComponent } from './users/users.component';
 import { VolumesComponent } from './volumes/volumes.component';
@@ -45,7 +47,11 @@ const routes: Routes = [
           {
             path : ":id/stats",
             component : ContainerStatsComponent
-          }
+          },
+          {
+            path : ":id/fs",
+            component : ContainerFsComponent
+          },
         ]
       },
       {
@@ -63,6 +69,15 @@ const routes: Routes = [
           {
             path : "",
             component : VolumesComponent
+          }
+        ]
+      },
+      {
+        path : "reverse-proxy",
+        children : [
+          {
+            path : "",
+            component : ReverseProxyComponent
           }
         ]
       },

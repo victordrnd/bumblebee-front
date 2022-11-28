@@ -24,6 +24,7 @@
     "aws-amplify": "^4.3.39",
     "chart.js": "^3.6.0",
     "event-source-polyfill": "^1.0.31",
+    "js-untar": "^2.0.0",
     "ng-zorro-antd": "^14.0.0",
     "ng2-charts": "^4.0.1",
     "ngx-socket-io": "^4.2.0",

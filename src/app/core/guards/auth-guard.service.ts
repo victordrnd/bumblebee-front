@@ -17,6 +17,7 @@ export class AuthGuardService {
     try {
       const session = await this.userService.getUser(); 
       if (session.username) {
+        this.userService.currentUser.next(session);
         return true;
       }
       this.router.navigate(['login']);

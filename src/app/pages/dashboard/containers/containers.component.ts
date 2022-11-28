@@ -110,7 +110,7 @@ export class ContainersComponent implements OnInit {
 
 
   isSwarm(container : any){
-    return Object.keys(container.Labels).includes('com.docker.swarm.node.id')
+    return Object.keys(container.Labels || {}).includes('com.docker.swarm.node.id')
   }
 
 }

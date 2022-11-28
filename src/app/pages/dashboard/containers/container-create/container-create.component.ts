@@ -13,7 +13,7 @@ import { VolumesService } from 'src/app/core/services/volumes.service';
   styleUrls: ['./container-create.component.scss']
 })
 export class ContainerCreateComponent implements OnInit {
-  restartPolicy = "never"
+  restartPolicy = ""
   ExposedPorts : any[]= [];
   Env : any[] = [];
   Labels : any[] = [];

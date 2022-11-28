@@ -54,3 +54,4 @@ import 'zone.js';  // Included with Angular CLI.
 
 //  global.EventSource =  NativeEventSource || EventSourcePolyfill;
  declare var EventSourcePolyfill: any;
+ global.Buffer = global.Buffer || require('buffer').Buffer;

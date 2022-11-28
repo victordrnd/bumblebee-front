@@ -61,6 +61,10 @@ export class ContainersService {
     return this.http.get(environment.apiUrl+`/containers/${endpoint.id}/${id}/logs`)
   }
 
+  filesystem(id: string, path : string = ""){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.get(environment.apiUrl+`/containers/${endpoint.id}/${id}/fs/${path}`, {responseType : "arraybuffer"})
+  }
 
   logs_sse(id : string) : Observable<String>{
     const endpoint = this.endpointService.currentEnvValue

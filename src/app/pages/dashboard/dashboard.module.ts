@@ -50,6 +50,10 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SitesComponent } from './sites/sites.component';
 import { AppModule } from 'src/app/app.module';
 import { SiteCreateModalComponent } from './sites/_components/site-create-modal/site-create-modal.component';
+import { ContainerFsComponent } from './containers/container-fs/container-fs.component';
+import { ReverseProxyComponent } from './reverse-proxy/reverse-proxy.component';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -70,6 +74,8 @@ import { SiteCreateModalComponent } from './sites/_components/site-create-modal/
     ContainerCreateComponent,
     SitesComponent,
     SiteCreateModalComponent,
+    ContainerFsComponent,
+    ReverseProxyComponent,
   ],
   imports: [
     CommonModule,
@@ -103,6 +109,8 @@ import { SiteCreateModalComponent } from './sites/_components/site-create-modal/
     NzDividerModule,
     NzInputNumberModule,
     NzTabsModule,
+    NzAlertModule,
+    NzStepsModule
   ],
   providers : [FileSizePipe],
   exports: [DashboardComponent]
