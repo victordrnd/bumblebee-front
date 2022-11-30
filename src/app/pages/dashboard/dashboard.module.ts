@@ -54,6 +54,8 @@ import { ContainerFsComponent } from './containers/container-fs/container-fs.com
 import { ReverseProxyComponent } from './reverse-proxy/reverse-proxy.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { RegistriesComponent } from './registries/registries.component';
+import { CreateRegistryModalComponent } from './registries/_components/create-registry-modal/create-registry-modal.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -76,6 +78,8 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
     SiteCreateModalComponent,
     ContainerFsComponent,
     ReverseProxyComponent,
+    RegistriesComponent,
+    CreateRegistryModalComponent,
   ],
   imports: [
     CommonModule,

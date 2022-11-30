@@ -11,6 +11,7 @@ import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
 import { ImagesComponent } from './images/images.component';
 import { NetworksComponent } from './networks/networks.component';
+import { RegistriesComponent } from './registries/registries.component';
 import { ReverseProxyComponent } from './reverse-proxy/reverse-proxy.component';
 import { SitesComponent } from './sites/sites.component';
 import { UsersComponent } from './users/users.component';
@@ -104,6 +105,10 @@ const routes: Routes = [
           {
             path : "users",
             component : UsersComponent
+          },
+          {
+            path : "registries",
+            component : RegistriesComponent
           }
         ]
       }

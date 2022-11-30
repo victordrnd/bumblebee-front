@@ -25,12 +25,14 @@
 
             <li nz-submenu nzTitle="Settings" nzIcon="setting" nzOpen>
                 <ul>
-                    <li nz-menu-item nzDisabled routerLink="settings/endpoints">
+                    <li nz-menu-item routerLink="settings/registries">
                         Registries</li>
                     <li nz-menu-item routerLink="settings/endpoints">
                         Environnements</li>
                     <li nz-menu-item routerLink="settings/users">
                         Users management</li>
+                    <li nz-menu-item routerLink="settings/dns">
+                        DNS Configuration</li>
                 </ul>
             </li>
             <li class="mt-0" nz-menu-item (click)="signout()"><i nz-icon nzType="api"

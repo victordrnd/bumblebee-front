@@ -1,0 +1,37 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-11 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="Registries" nzSubtitle="Registries list">
+            <nz-page-header-content>
+                <!-- <nz-card nzTitle="Pull network">
+                    <label>Image name</label>
+                    <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag"/>
+                    <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull image</button>
+                  </nz-card> -->
+            </nz-page-header-content>
+            <nz-page-header-extra>
+                <div class="d-flex flex-row-reverse my-3">
+                    <button class="mx-1" (click)="addRegistry()" nzType="primary" nz-button>Add Regisry</button>
+                </div>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <nz-table #basicTable [nzData]="registries" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>URL</th>
+                    <th>Action</th>
+                    <!-- <th>Actions</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let registry of registries">
+                    <td>{{registry.name}}</td>
+                    <td>{{registry.url}}</td>
+                    <td>
+                        <span nz-icon nzType="delete"  class="text-danger pointer" (click)="delete(registry.id)" nzTheme="fill"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

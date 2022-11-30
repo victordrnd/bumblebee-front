@@ -27,6 +27,7 @@ export class ReverseProxyComponent implements OnInit {
   async init(){
     this.containers = await firstValueFrom(this.containerService.list())
     this.isActivated = this.containers.filter((c: any) => c.Image.includes('traefik')).length > 0;
+    this.loading = false;
   }
   async toggleReverseProxy(evt: boolean) {
     if (evt) {

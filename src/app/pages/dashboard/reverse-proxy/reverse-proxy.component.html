@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-12">
                 <label class="mt-3">Enable Traefik : </label><br />
-                <nz-switch (ngModelChange)="toggleReverseProxy($event)" [(ngModel)]="isActivated"></nz-switch>
+                <nz-switch [nzLoading]="loading" (ngModelChange)="toggleReverseProxy($event)" [(ngModel)]="isActivated"></nz-switch>
                 
             </div>
         </div>
