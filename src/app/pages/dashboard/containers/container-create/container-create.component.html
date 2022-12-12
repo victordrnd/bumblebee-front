@@ -29,14 +29,14 @@
             <div class="row mt-2">
                 <div class="col-md-12 mt-2" *ngFor="let exposure of ExposedPorts; let i = index">
                     <nz-input-number-group nzAddOnBefore="host">
-                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="80" [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="exposure.host">
+                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="80"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="exposure.host">
                         </nz-input-number>
                     </nz-input-number-group>
                     ->
                     <nz-input-number-group nzAddOnBefore="container">
-                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="8080" [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="exposure.container">
+                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="8080"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="exposure.container">
                         </nz-input-number>
                     </nz-input-number-group>
                     <nz-radio-group class="mx-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="exposure.protocol"
@@ -75,7 +75,7 @@
                         <label nz-radio-button nzValue="volume">Volume</label>
                     </nz-radio-group>
                     <button nz-button (click)="deleteVolume(j)" nzType="primary"><span nz-icon
-                        nzType="delete"></span></button>
+                            nzType="delete"></span></button>
                 </div>
             </div>
             <nz-tabset>
@@ -83,76 +83,103 @@
                 <nz-tab nzTitle="Environments">
                     <label class="mx-2">Environments variables</label>
                     <button nz-button nzSize="small" (click)="addEnvVariable()" nzType="primary"><span nz-icon
-                        nzType="plus-circle" nzTheme="outline"></span>  add an environment variable</button>
+                            nzType="plus-circle" nzTheme="outline"></span> add an environment variable</button>
                     <div class="row mt-4">
                         <div class="col-md-12 mt-3" *ngFor="let variable of Env; let i = index">
                             <nz-input-group class="fit-content mr-2" nzAddOnBefore="name">
-                                <input type="text" placeholder="foo" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="variable.name" />
+                                <input type="text" placeholder="foo" [ngModelOptions]="{standalone: true}" nz-input
+                                    [(ngModel)]="variable.name" />
                             </nz-input-group>
                             <nz-input-group class="fit-content ml-2" nzAddOnBefore="value">
-                                <input type="text" placeholder="bar" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="variable.value" />
+                                <input type="text" placeholder="bar" [ngModelOptions]="{standalone: true}" nz-input
+                                    [(ngModel)]="variable.value" />
                             </nz-input-group>
-                            <button nz-button  class="mx-3" (click)="deleteEnv(i)" nzType="primary"><span nz-icon
-                                nzType="delete"></span></button>
+                            <button nz-button class="mx-3" (click)="deleteEnv(i)" nzType="primary"><span nz-icon
+                                    nzType="delete"></span></button>
                         </div>
                     </div>
                 </nz-tab>
                 <nz-tab nzTitle="Labels">
                     <label class="mx-2">Labels</label>
                     <button nz-button nzSize="small" (click)="addLabel()" nzType="primary"><span nz-icon
-                        nzType="plus-circle" nzTheme="outline"></span>  add label</button>
+                            nzType="plus-circle" nzTheme="outline"></span> add label</button>
                     <div class="row mt-4">
                         <div class="col-md-12 mt-3" *ngFor="let label of Labels; let i = index">
                             <nz-input-group class="fit-content mr-2" nzAddOnBefore="name">
-                                <input type="text" placeholder="foo" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="label.name" />
+                                <input type="text" placeholder="foo" [ngModelOptions]="{standalone: true}" nz-input
+                                    [(ngModel)]="label.name" />
                             </nz-input-group>
                             <nz-input-group class="fit-content ml-2" nzAddOnBefore="value">
-                                <input type="text" placeholder="bar" [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="label.value" />
+                                <input type="text" placeholder="bar" [ngModelOptions]="{standalone: true}" nz-input
+                                    [(ngModel)]="label.value" />
                             </nz-input-group>
-                            <button nz-button  class="mx-3" (click)="deleteLabel(i)" nzType="primary"><span nz-icon
-                                nzType="delete"></span></button>
+                            <button nz-button class="mx-3" (click)="deleteLabel(i)" nzType="primary"><span nz-icon
+                                    nzType="delete"></span></button>
                         </div>
                     </div>
                 </nz-tab>
                 <nz-tab nzTitle="Restart Policy">
                     <label class="mx-2">Restart policy</label>
-                    <nz-radio-group [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="restartPolicy" nzButtonStyle="solid">
+                    <nz-radio-group [ngModelOptions]="{standalone: true}" nz-input [(ngModel)]="restartPolicy"
+                        nzButtonStyle="solid">
                         <label nz-radio-button nzValue="">Never</label>
                         <label nz-radio-button nzValue="always">Always</label>
                         <label nz-radio-button nzValue="on-failure">On failure</label>
                         <label nz-radio-button nzValue="unless-stopped">Unless stopped</label>
-                      </nz-radio-group>
+                    </nz-radio-group>
                 </nz-tab>
                 <nz-tab nzDisabled nzTitle="Runtime & Resources">Content of Tab Pane 3</nz-tab>
                 <nz-tab [nzDisabled]="!isTraefikEnabled" nzTitle="Traefik">
-                     <nz-alert [nzType]="dnsCheck ? 'success' : 'warning'" [nzAction]="actionTemplate1" nzMessage="Warning"
-                    nzDescription="Before publishing online, you need to make sure that the domain {{traefik.domain}} is pointing to {{ip}}" nzShowIcon></nz-alert>
-
-                    <ng-template #actionTemplate1>
-                        <button nz-button nzType="default" (click)="checkDNS()">Check</button></ng-template>
 
 
-                    <label class="mt-4">Publish online </label><br/>
-                    <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="traefik.enabled"></nz-switch><br/>
-                    
-                    <label class="mt-4">Domain name</label>
-                    <input nz-input [ngModelOptions]="{standalone: true}" placeholder="test.example.com" [(ngModel)]="traefik.domain" />
+                    <label class="mt-4">Publish online </label><br />
+                    <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="traefik.enabled"></nz-switch><br />
 
-                    <label class="mt-4">Use TLS - Lets encrypt</label><br/>
-                    <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="traefik.tls"></nz-switch><br/>
+                    <div *ngFor="let site of traefik.sites; let i = index">
+                        <hr />
+                        <nz-alert [nzType]="dnsCheck ? 'success' : 'warning'" [nzAction]="actionTemplate1"
+                            nzMessage="Warning"
+                            nzDescription="Before publishing online, you need to make sure that the domain {{site.domain}} is pointing to {{ip}}"
+                            nzShowIcon></nz-alert>
 
-                    <label class="mt-4">Published port</label><br/>
-                    <nz-input-number-group nzAddOnBefore="container">
-                        <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="8080" [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="traefik.port">
-                        </nz-input-number>
-                    </nz-input-number-group>
-                    
+                        <ng-template #actionTemplate1>
+                            <button nz-button nzType="default" (click)="checkDNS(site.domain)">Check</button>
+                        </ng-template>
+                        <div class="row mt-2">
+                            <div class="col-11">
+                                <label class="">Domain name</label>
+                                <input nz-input [ngModelOptions]="{standalone: true}" placeholder="test.example.com"
+                                    [(ngModel)]="site.domain" />
+
+                                <label class="mt-4">Use TLS - Lets encrypt</label><br />
+                                <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="site.tls"></nz-switch>
+                                <br />
+
+                                <label class="mt-4">Published port</label><br />
+                                <nz-input-number-group nzAddOnBefore="container">
+                                    <nz-input-number [nzMin]="0" [nzMax]="65535" nzPlaceHolder="8080"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="site.port">
+                                    </nz-input-number>
+                                </nz-input-number-group>
+                            </div>
+                            <div class="col-1">
+                                <div class="text-center pointer" (click)="deleteSite(i)"
+                                    style="height: 200px;display: table-cell; vertical-align: middle;">
+                                    <span  nz-icon nzType="delete" class="text-danger" nzTheme="fill"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <button class="mt-4" (click)="addEntryPoint()" nz-button nzType="default"><span nz-icon
+                            nzType="plus" nzTheme="outline"></span> Add Entrypoint</button>
                 </nz-tab>
             </nz-tabset>
 
-            <button nz-button [nzLoading]="loading" (click)="submitForm()" [disabled]="!validateForm.valid || (traefik.enabled && ! traefik.domain)"
-                nzType="primary" class="mt-5 float-right" type="submit">Create container</button>
+            <button nz-button [nzLoading]="loading" (click)="submitForm()"
+                [disabled]="!validateForm.valid" nzType="primary"
+                class="mt-5 float-right" type="submit">Create container</button>
         </form>
     </div>
 </div>

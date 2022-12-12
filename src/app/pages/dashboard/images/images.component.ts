@@ -3,6 +3,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { firstValueFrom, map } from 'rxjs';
 import { ImagesService } from 'src/app/core/services/images.service';
+import { RegistriesService } from 'src/app/core/services/registries.service';
 import { ImagePullModalComponent } from './_components/image-pull-modal/image-pull-modal.component';
 
 @Component({
@@ -12,18 +13,25 @@ import { ImagePullModalComponent } from './_components/image-pull-modal/image-pu
 })
 export class ImagesComponent implements OnInit {
   images: any[] = [];
+  registries : any[] = [];
   loading = false;
   checked = false;
   setOfCheckedId = new Set<string>();
   imageName : string | null = null;
+  registry_id : number | null = null
   constructor(private imageService : ImagesService,
+    private registryService : RegistriesService,
     private modalService : NzModalService,
     private notificationService : NzNotificationService) { }
 
   ngOnInit(): void {
     this.getImages();
+    this.getRegistries();
   }
 
+  async getRegistries() {
+    this.registries = await firstValueFrom(this.registryService.getAll() as any)
+  }
 
   async getImages() {
     this.images = await firstValueFrom(this.imageService.list())
@@ -36,7 +44,8 @@ export class ImagesComponent implements OnInit {
       nzWidth : "60vw",
       nzTitle : "Pulling progress",
       nzComponentParams : {
-        image_name : this.imageName!
+        image_name : this.imageName!,
+        registry_id : this.registry_id
       },
       nzOnOk : () => {
        this.getImages();

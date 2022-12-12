@@ -19,9 +19,9 @@ export class ImagesService {
     return this.http.get(environment.apiUrl+`/images/${endpoint.id}`);
   }
 
-  pull(image_name : string){
+  pull(image_name : string, registry_id : number | null){
     const endpoint = this.endpointService.currentEnvValue
-    const eventSource = new EventSourcePolyfill(`${environment.apiUrl}/images/sse/${endpoint.id}/pull?image=${encodeURI(image_name)}`,{headers :{ authorization :"Bearer " + localStorage.getItem('jwt_token')}});
+    const eventSource = new EventSourcePolyfill(`${environment.apiUrl}/images/sse/${endpoint.id}/pull?image=${encodeURI(image_name)}&registry_id=${registry_id}`,{headers :{ authorization :"Bearer " + localStorage.getItem('jwt_token')}});
     return this.generateObservableFromEventSource(eventSource)
   }
 

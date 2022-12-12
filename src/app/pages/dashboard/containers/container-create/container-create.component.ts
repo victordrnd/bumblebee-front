@@ -25,9 +25,13 @@ export class ContainerCreateComponent implements OnInit {
   isTraefikEnabled = false;
   traefik: any = {
     enabled: false,
-    domain: null,
-    tls: false,
-    port: 8000
+    sites: [
+      {
+        domain: null,
+        tls: false,
+        port: 8000
+      }
+    ]
   }
   ip: string | null = null;
   dnsCheck = false;
@@ -59,10 +63,24 @@ export class ContainerCreateComponent implements OnInit {
   }
 
 
-  async checkTraefikEnabled(){
+  async checkTraefikEnabled() {
     const containers = await firstValueFrom(this.containerService.list())
     this.isTraefikEnabled = containers.filter((c: any) => c.Image.includes('traefik')).length > 0;
   }
+
+  addEntryPoint() {
+    this.traefik.sites.push({
+      domain: null,
+      tls: false,
+      port: 8000
+    })
+  }
+
+
+  deleteSite(index: number) {
+    this.traefik.sites.splice(index, 1);
+  }
+
   addPortPublishing() {
     this.ExposedPorts.push({
       host: null,
@@ -156,42 +174,52 @@ export class ContainerCreateComponent implements OnInit {
   }
 
   buildTraefikLabels() {
-    const service_name = this.validateForm.value.name + "_" + (Math.random() + 1).toString(36).substring(7);
-    if (this.traefik.tls) {
-      return {
-        "traefik.enable": "true",
-        [`traefik.http.routers.${service_name}-https.rule`]: `Host("${this.traefik.domain}")`,
-        [`traefik.http.routers.${service_name}-https.tls`]: "true",
-        [`traefik.http.routers.${service_name}-https.tls.certresolver`]: "myresolver",
-        [`traefik.http.routers.${service_name}-https.entrypoints`] : "websecure",
-        [`traefik.http.routers.${service_name}-https.service`] : service_name,
-        [`traefik.http.services.${service_name}.loadbalancer.server.port`]: this.traefik.port.toString(),
-        ["traefik.docker.network"] : "web"
+    const sites = this.traefik.sites.map((s: any) => ({ ...s }));
+
+    const res = sites.map((site: { domain: string, tls: boolean, port: number }) => {
+      const service_name = this.validateForm.value.name + "_" + (Math.random() + 1).toString(36).substring(7);
+      if (site.tls) {
+        return {
+          "traefik.enable": "true",
+          [`traefik.http.routers.${service_name}-https.rule`]: `Host("${site.domain}")`,
+          [`traefik.http.routers.${service_name}-https.tls`]: "true",
+          [`traefik.http.routers.${service_name}-https.tls.certresolver`]: "myresolver",
+          [`traefik.http.routers.${service_name}-https.entrypoints`]: "websecure",
+          [`traefik.http.routers.${service_name}-https.service`]: service_name,
+          [`traefik.http.services.${service_name}.loadbalancer.server.port`]: site.port.toString(),
+          ["traefik.docker.network"]: "web"
+        }
+      } else {
+        return {
+          "traefik.enable": "true",
+          [`traefik.http.routers.${service_name}-http.rule`]: `Host("${site.domain}")`,
+          [`traefik.http.routers.${service_name}-http.entrypoints`]: "web",
+          [`traefik.http.routers.${service_name}-http.service`]: service_name,
+          [`traefik.http.services.${service_name}.loadbalancer.server.port`]: site.port.toString(),
+          ["traefik.docker.network"]: "web"
+        }
       }
-    } else {
-      return {
-        "traefik.enable": "true",
-        [`traefik.http.routers.${service_name}-http.rule`]: `Host("${this.traefik.domain}")`,
-        [`traefik.http.routers.${service_name}-http.entrypoints`] : "web",
-        [`traefik.http.routers.${service_name}-http.service`] : service_name,
-        [`traefik.http.services.${service_name}.loadbalancer.server.port`]: this.traefik.port.toString(),
-        ["traefik.docker.network"] : "web"
-      }
-    }
+    });
+    // var mapped = res.map(site => ({ [site.key]: item.value }));
+    var newObj = Object.assign({}, ...res);
+    console.log(newObj)
+    return newObj;
   }
 
-  async checkDNS() {
-    if (this.ip && this.traefik.domain) {
-      const res: any = await firstValueFrom(this.networkService.checkDNS(this.traefik.domain));
+
+  async checkDNS(domain: string) {
+    const res: any = await firstValueFrom(this.networkService.checkDNS(domain));
+    if (this.ip && domain) {
+      const res: any = await firstValueFrom(this.networkService.checkDNS(domain));
       if (res.Answer) {
-        this.dnsCheck = res.Answer.find((answer: any) => answer.data == this.ip);
+        this.dnsCheck = this.ip == res.address
         if (this.dnsCheck) {
           this.notificationService.success('Success', "DNS Record found !")
           return;
         }
       }
     }
-    this.notificationService.error("Not Found", "DNS record not found for this domain");
+    this.notificationService.error("Not Found", `Invalid DNS record found for this domain ${res ? " Found : " + res.address : ""}`);
   }
 
 

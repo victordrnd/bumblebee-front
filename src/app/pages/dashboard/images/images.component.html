@@ -3,8 +3,15 @@
         <nz-page-header class="site-page-header px-0" nzTitle="Images" nzSubtitle="Images list">
             <nz-page-header-content>
                 <nz-card nzTitle="Pull Image">
-                    <label>Image name</label>
+
+                    <label>Registry</label>
+                    <nz-select class="w-100" [(ngModel)]="registry_id">
+                        <nz-option *ngFor="let registry of registries" [nzValue]="registry.id" [nzLabel]="registry.name"></nz-option>
+                    </nz-select><br/>
+
+                    <label class="mt-2">Image name</label>
                     <input nz-input [(ngModel)]="imageName" placeholder="username/imagename:tag" />
+                    
                     <button class="mt-4" (click)="pull()" [disabled]="!imageName" nz-button nzType="primary">Pull
                         image</button>
                 </nz-card>
