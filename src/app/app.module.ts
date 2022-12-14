@@ -33,6 +33,8 @@ import { PipeModule } from './core/pipes/pipe.module';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { HttpTokenInterceptor } from './core/interceptors/http.token.interceptor';
 import { SitesComponent } from './pages/dashboard/sites/sites.component';
+import { MessageComponent } from './pages/home/_components/message/message.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
@@ -44,6 +46,7 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     ChartComponent,
     StatusComponent,
     LoginComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NzNotificationModule,
     HttpCacheInterceptorModule.forRoot(),
     NzTypographyModule,
-    NzDividerModule
+    NzDividerModule,
+    NzGridModule
   ],
   exports : [StatsComponent],
   providers: [
