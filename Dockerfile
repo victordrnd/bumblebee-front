@@ -12,5 +12,4 @@ WORKDIR /usr/share/app
 COPY --from=build /usr/src/app/dist/pt/ /usr/share/nginx/html
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}                                                                                
-#CMD ["dist/src/main"]
 EXPOSE 80

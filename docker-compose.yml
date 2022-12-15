@@ -1,0 +1,21 @@
+version: '3.6'
+services:
+  bumblebee-front:
+    image: registry.cpe.granux.fr/bumblebee/bumblebee-front
+    restart: unless-stopped
+    labels:
+        - traefik.enable=true
+        - "traefik.http.routers.bumblebee-front-https.rule=Host(`bumblebee.victordurand.fr`)"
+        - traefik.http.routers.bumblebee-front-https.tls=true
+        - traefik.http.routers.bumblebee-front-https.tls.certresolver=myresolver
+        - "traefik.http.routers.bumblebee-front-https.entrypoints=websecure"
+        - "traefik.http.routers.bumblebee-front-https.service=bumblebee-front"
+        - "traefik.http.services.bumblebee-front.loadbalancer.server.port=80"
+        - "traefik.docker.network=web"
+    networks:
+      - web
+
+networks:
+  web:
+    external:
+      name: web
