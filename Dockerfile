@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM nginx:alpine as bumblebee-front
 WORKDIR /usr/share/app
-COPY --from=build dist/pt/ /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/pt/ /usr/share/nginx/html
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}                                                                                
 #CMD ["dist/src/main"]
