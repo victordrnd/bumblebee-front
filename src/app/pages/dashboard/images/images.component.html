@@ -40,12 +40,12 @@
                 <tr *ngFor="let image of images">
                     <td [nzChecked]="setOfCheckedId.has(image.Id)" (nzCheckedChange)="onItemChecked(image.Id, $event)">
                     </td>
-                    <td class="text-primary">{{image.Id}}</td>
+                    <td class="text-primary">{{image.imageTag}}</td>
                     <td>
                         <nz-tag *ngIf="!image.used" nzColor="#f8b601">Unused</nz-tag>
                     </td>
                     <td>
-                        <nz-tag nzColor="orange">{{image.imageTag}}</nz-tag>
+                        <nz-tag *ngFor="let tag of image.RepoTags | slice:0:1" nzColor="orange">{{tag}}</nz-tag>
                     </td>
                     <td>{{image.Size | fileSize}}</td>
                     <td>{{image.Created*1000 | date:'medium'}}</td>
