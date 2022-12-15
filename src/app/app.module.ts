@@ -37,6 +37,7 @@ import { MessageComponent } from './pages/home/_components/message/message.compo
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
@@ -73,7 +74,12 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     NzDividerModule,
     NzGridModule,
     NzListModule,
-    NzTableModule
+    NzTableModule,
+    ServiceWorkerModule.register('ngsw-worker-custom.js', {
+      enabled : !window.location.href.includes('4200'),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+
   ],
   exports : [StatsComponent],
   providers: [
