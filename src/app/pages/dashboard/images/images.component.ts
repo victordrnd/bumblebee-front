@@ -34,7 +34,7 @@ export class ImagesComponent implements OnInit {
   }
 
   async getImages() {
-    this.images = await firstValueFrom(this.imageService.list())
+    this.images = (await firstValueFrom(this.imageService.list())).map((image:any) => {image.imageTag = image.RepoDigests[0].split('@')[0]; return image})
     this.setOfCheckedId.clear();
   }
 
