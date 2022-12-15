@@ -1,14 +1,30 @@
 <div class="row m-5">
     <div class="col-md-10 card p-4">
-        <div class="bordered pb-3 rounded"> 
-            <div class='container'>
-                <div class="row">
-                    <div class="col">
-                        <div class='element1'>Error code</div>
-                        <div> ms</div>
-                    </div>
+        <div class='container'>
+            <div class="row">
+                <div class="col">
+                    <div class='errorBox'>Error code</div>
+                        <ol class="list-group list-group-light list-group-numbered d-flex justify-content-center">
+                            <nz-table class="errorPolice" #basicTable [nzData]="checks">
+                                <thead>
+                                  <tr>
+                                    <th>Latency (ms)</th>
+                                    <th>ERROR CODE</th>
+                                    <th>TIME</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let check of checks">
+                                    <td>{{ check.latency }}</td>
+                                    <td class="codePolice">{{ check.code }}</td>
+                                    <td>{{ check.created_at | date:'medium'}}</td>
+                                  </tr>
+                                </tbody>
+                              </nz-table>
+                        </ol>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
-</div> 
+</div>
+

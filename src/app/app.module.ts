@@ -35,6 +35,9 @@ import { HttpTokenInterceptor } from './core/interceptors/http.token.interceptor
 import { SitesComponent } from './pages/dashboard/sites/sites.component';
 import { MessageComponent } from './pages/home/_components/message/message.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzTableModule } from 'ng-zorro-antd/table';
+
 registerLocaleData(fr);
 const config: SocketIoConfig = { url: environment.socketServer, options: { transports: ['websocket'], autoConnect: false, query : {authorization : 'Bearer '+localStorage.getItem('token')}}};
 @NgModule({
@@ -68,7 +71,9 @@ const config: SocketIoConfig = { url: environment.socketServer, options: { trans
     HttpCacheInterceptorModule.forRoot(),
     NzTypographyModule,
     NzDividerModule,
-    NzGridModule
+    NzGridModule,
+    NzListModule,
+    NzTableModule
   ],
   exports : [StatsComponent],
   providers: [
