@@ -21,6 +21,7 @@ export class ContainerCreateComponent implements OnInit {
   Volumes: any[] = []
   validateForm!: UntypedFormGroup;
   volumeList = [];
+  networksList :any[]= [];
   loading = false;
   isTraefikEnabled = false;
   traefik: any = {
@@ -56,7 +57,7 @@ export class ContainerCreateComponent implements OnInit {
     });
     this.volumeList = await firstValueFrom(this.volumeService.list())
     this.addPortPublishing();
-
+    this.networksList = await firstValueFrom(this.networkService.list());
     this.checkTraefikEnabled();
     this.ip = (await firstValueFrom(this.networkService.getIp()) as any).ip! as string;
     console.log(this.ip);
@@ -130,9 +131,13 @@ export class ContainerCreateComponent implements OnInit {
     body.Labels = this.buildLabels();
     if (this.traefik.enabled) {
       body.Labels = { ...body.Labels, ...this.buildTraefikLabels() }
+      body.NetworkingConfig = {
+        web : {
+          NetworkId : this.networksList.find((el:any) => el.Name == "web")?.Id
+        }
+      }
     }
     body.Env = this.buildEnv();
-
     this.loading = true
     await firstValueFrom(this.containerService.create(body)).then(res => {
       this.notificationService.success('Success', "Container have been created");
