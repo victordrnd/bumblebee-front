@@ -4,10 +4,8 @@
 
 export const environment = {
   production: true,
-  // apiUrl: "http://10.180.210.21:3000",
-  apiUrl : "http://localhost:3000",
-  socketServer : "http://localhost:3005",
-  // socketServer : "http://10.180.210.21:3005",
+  apiUrl : "https://bumblebee-back.victordurand.fr",
+  socketServer : "https://bumblebee-socket.victordurand.fr",
   cognito: {
     region : "eu-west-2",
     userPoolId: 'eu-west-2_xpVpljinf',
