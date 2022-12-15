@@ -5,20 +5,22 @@
                 <div class="col">
                     <div class='errorBox'>Error code</div>
                         <ol class="list-group list-group-light list-group-numbered d-flex justify-content-center">
-                            <li class="d-flex justify-content-center align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div *ngFor="let check of checks">
-                                        <div class="errorPolice" *ngIf="check"><li>ID : {{check.id}}</li>
-                                            <ul>
-                                                - CODE ERROR : {{check.code}}
-                                            </ul>
-                                            <ul>
-                                                - TIME : {{check.created_at}}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            <nz-table class="errorPolice" #basicTable [nzData]="checks">
+                                <thead>
+                                  <tr>
+                                    <th>Latency (ms)</th>
+                                    <th>ERROR CODE</th>
+                                    <th>TIME</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let check of checks">
+                                    <td>{{ check.latency }}</td>
+                                    <td>{{ check.code }}</td>
+                                    <td>{{ check.created_at | date:'medium'}}</td>
+                                  </tr>
+                                </tbody>
+                              </nz-table>
                         </ol>
                 </div>
             </div>
