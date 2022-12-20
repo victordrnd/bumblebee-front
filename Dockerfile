@@ -1,6 +1,6 @@
 FROM node:alpine As build
 WORKDIR /usr/src/app
-COPY package.json ./
+COPY package* ./
 #RUN apk add build-base pkgconfig libusb-dev linux-headers eudev-dev
 RUN npm ci --legacy-peer-deps --cache /tmp/npm-cache
 COPY . .
