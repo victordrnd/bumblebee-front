@@ -1,0 +1,12 @@
+# Ignore files that are generated during the build process
+dist/
+
+# Ignore development and testing tools
+node_modules/
+
+# Ignore IDEs and editor-specific files
+.idea/
+.vscode/
+
+# Ignore local configuration files
+.env

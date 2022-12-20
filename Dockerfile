@@ -1,8 +1,8 @@
 FROM node:alpine As build
 WORKDIR /usr/src/app
 COPY package.json ./
-RUN apk add build-base pkgconfig libusb-dev linux-headers eudev-dev
-RUN npm install --legacy-peer-deps
+#RUN apk add build-base pkgconfig libusb-dev linux-headers eudev-dev
+RUN npm ci --legacy-peer-deps --cache /tmp/npm-cache
 COPY . .
 RUN npm run build
 
