@@ -15,7 +15,6 @@ export class MessageComponent implements OnInit {
     const midnight = new Date();
     midnight.setHours(0);
     midnight.setMinutes(0);
-    console.log(midnight);
 
     //Compare n-1 and n+1 checksresponseTime
     this.checks = this.site.checks.filter((c:any) => !c.up);

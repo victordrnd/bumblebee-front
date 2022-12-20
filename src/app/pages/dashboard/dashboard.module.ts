@@ -40,7 +40,7 @@ import { PipeModule } from 'src/app/core/pipes/pipe.module';
 import { ImagePullModalComponent } from './images/_components/image-pull-modal/image-pull-modal.component';
 import { VolumesComponent } from './volumes/volumes.component';
 import { NetworksComponent } from './networks/networks.component';
-import { NzPipesModule } from 'ng-zorro-antd/pipes';
+import { NzBytesPipe, NzPipesModule } from 'ng-zorro-antd/pipes';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ContainerCreateComponent } from './containers/container-create/container-create.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -56,6 +56,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RegistriesComponent } from './registries/registries.component';
 import { CreateRegistryModalComponent } from './registries/_components/create-registry-modal/create-registry-modal.component';
+import { DnsComponent } from './dns/dns.component';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -80,6 +82,7 @@ import { CreateRegistryModalComponent } from './registries/_components/create-re
     ReverseProxyComponent,
     RegistriesComponent,
     CreateRegistryModalComponent,
+    DnsComponent,
   ],
   imports: [
     CommonModule,
@@ -114,9 +117,10 @@ import { CreateRegistryModalComponent } from './registries/_components/create-re
     NzInputNumberModule,
     NzTabsModule,
     NzAlertModule,
-    NzStepsModule
+    NzStepsModule,
+    NzSliderModule,
   ],
-  providers : [FileSizePipe],
+  providers : [FileSizePipe, NzBytesPipe],
   exports: [DashboardComponent]
 })
 export class DashboardModule { }

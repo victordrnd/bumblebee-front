@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.sites = await firstValueFrom(this.siteService.findAll())
     this.sites = this.sites.map((s:any) => {s.disponibility = Math.round(s.disponibility); return s})
-    console.log(this.sites);
     if(this.sites.length){
       this.currentSite = this.sites[0]
     }

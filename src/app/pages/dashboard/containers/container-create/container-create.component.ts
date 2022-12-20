@@ -3,8 +3,10 @@ import { FormArray, FormBuilder, FormControl, UntypedFormGroup, Validators } fro
 import { Router } from '@angular/router';
 import { registry } from 'chart.js';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzBytesPipe } from 'ng-zorro-antd/pipes';
 import { firstValueFrom } from 'rxjs';
 import { ContainersService } from 'src/app/core/services/containers.service';
+import { EndpointsService } from 'src/app/core/services/endpoints.service';
 import { NetworksService } from 'src/app/core/services/networks.service';
 import { VolumesService } from 'src/app/core/services/volumes.service';
 
@@ -15,13 +17,20 @@ import { VolumesService } from 'src/app/core/services/volumes.service';
 })
 export class ContainerCreateComponent implements OnInit {
   restartPolicy = ""
-  ExposedPorts: any[] = [];
+  ExposedPorts: { host: string | null; container: string | null; protocol: 'tcp' | 'udp' }[] = [];
   Env: any[] = [];
   Labels: any[] = [];
   Volumes: any[] = []
   validateForm!: UntypedFormGroup;
   volumeList = [];
-  networksList :any[]= [];
+  networksList: any[] = [];
+  network: any = null;
+  runtime = {
+    Privileged: false,
+    MemoryReservation: 0,
+    Memory: 0
+  };
+  endpoint: any;
   loading = false;
   isTraefikEnabled = false;
   traefik: any = {
@@ -41,6 +50,8 @@ export class ContainerCreateComponent implements OnInit {
     private networkService: NetworksService,
     private containerService: ContainersService,
     private notificationService: NzNotificationService,
+    private endpointService: EndpointsService,
+    private nzBytesPipe: NzBytesPipe,
     private router: Router) { }
 
   async ngOnInit() {
@@ -60,7 +71,7 @@ export class ContainerCreateComponent implements OnInit {
     this.networksList = await firstValueFrom(this.networkService.list());
     this.checkTraefikEnabled();
     this.ip = (await firstValueFrom(this.networkService.getIp()) as any).ip! as string;
-    console.log(this.ip);
+    this.endpoint = this.endpointService.currentEnvValue.info;
   }
 
 
@@ -124,19 +135,17 @@ export class ContainerCreateComponent implements OnInit {
 
   async submitForm() {
     let body = this.validateForm.value;
-    body.HostConfig = {};
+    body.HostConfig = this.runtime;
     body.HostConfig.Binds = this.buildVolumes();
     body.HostConfig.PortBindings = this.buildPorts();
     body.HostConfig.restartPolicy = { Name: this.restartPolicy, MaximumRetryCount: 0 }
     body.Labels = this.buildLabels();
     if (this.traefik.enabled) {
       body.Labels = { ...body.Labels, ...this.buildTraefikLabels() }
-      body.NetworkingConfig = {
-        web : {
-          NetworkId : this.networksList.find((el:any) => el.Name == "web")?.Id
-        }
-      }
+      this.network = this.networksList.find((el: any) => el.Name == "web")?.Id;
     }
+    body.NetworkingConfig = { EndpointsConfig: this.buildNetworks() };
+    console.log(body.NetworkingConfig);
     body.Env = this.buildEnv();
     this.loading = true
     await firstValueFrom(this.containerService.create(body)).then(res => {
@@ -176,6 +185,13 @@ export class ContainerCreateComponent implements OnInit {
 
   buildEnv() {
     return this.Env.map(env => env.name ? `${env.name.toUpperCase()}=${env.value || ""}` : null).filter(x => !!x);
+  }
+
+  buildNetworks() {
+    const map = new Map();
+    const net_info = this.networksList.find(el => el.Id == this.network);
+    map.set(net_info.Name, { NetworkId: this.network });
+    return Object.fromEntries(map);
   }
 
   buildTraefikLabels() {
@@ -233,4 +249,7 @@ export class ContainerCreateComponent implements OnInit {
   }
 
 
+  tipFormatter = (value: number) => {
+    return this.nzBytesPipe.transform(value)
+  }
 }

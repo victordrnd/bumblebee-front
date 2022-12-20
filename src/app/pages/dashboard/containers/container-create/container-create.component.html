@@ -128,7 +128,29 @@
                         <label nz-radio-button nzValue="unless-stopped">Unless stopped</label>
                     </nz-radio-group>
                 </nz-tab>
-                <nz-tab nzDisabled nzTitle="Runtime & Resources">Content of Tab Pane 3</nz-tab>
+                <nz-tab nzTitle="Runtime & Resources">
+                    
+                    <label>Privileged mode</label><br/>
+                    <nz-switch class="mt-2" [ngModelOptions]="{standalone: true}" [(ngModel)]="runtime.Privileged"></nz-switch><br/>
+
+
+                    <label class="mt-4">Memory Reservation (MB)</label>
+                    <nz-slider [ngModelOptions]="{standalone: true}" [nzTipFormatter]="tipFormatter" [nzMax]="endpoint?.MemTotal" [(ngModel)]="runtime.MemoryReservation" ></nz-slider>
+
+                    <label class="mt-4">Memory Limit (MB)</label>
+                    <nz-slider [ngModelOptions]="{standalone: true}" [nzTipFormatter]="tipFormatter" [nzMax]="endpoint?.MemTotal" [(ngModel)]="runtime.Memory" ></nz-slider>
+                </nz-tab>
+
+                <nz-tab nzTitle="Networks">
+                    
+                    <label>Attached network</label><br/>
+
+                    <nz-select class="w-100" [ngModelOptions]="{standalone: true}" [(ngModel)]="network">
+                        <nz-option *ngFor="let net of networksList" [nzValue]="net.Id" [nzLabel]="net.Name"></nz-option>
+                      </nz-select>
+                </nz-tab>
+
+
                 <nz-tab [nzDisabled]="!isTraefikEnabled" nzTitle="Traefik">
 
 

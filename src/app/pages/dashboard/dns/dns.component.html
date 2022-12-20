@@ -1,0 +1,23 @@
+<div class="row mx-0 mt-5">
+    <div class="col-md-11 mx-auto">
+        <nz-page-header class="site-page-header px-0" nzTitle="DNS" nzSubtitle="DNS configuration">
+            <nz-page-header-content>
+               
+            </nz-page-header-content>
+            <nz-page-header-extra>
+                <div class="d-flex flex-row-reverse my-3">
+
+                </div>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <div class="row">
+            <div class="col-12">
+                <label>
+                    Enter one DNS server address per line.
+                </label>
+                <textarea rows="8" [(ngModel)]="dns_addresses" nz-input></textarea>
+                <button nz-button nzType="primary" class="mt-4" (click)="save()">Save DNS configuration</button>
+            </div>
+        </div>
+    </div>
+</div>

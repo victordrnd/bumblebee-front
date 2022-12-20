@@ -7,6 +7,7 @@ import { ContainerStatsComponent } from './containers/container-stats/container-
 import { ContainerTerminalComponent } from './containers/container-terminal/container-terminal.component';
 import { ContainersComponent } from './containers/containers.component';
 import { DashboardComponent } from './dashboard.component';
+import { DnsComponent } from './dns/dns.component';
 import { EndpointsComponent } from './endpoints/endpoints.component';
 import { HomeComponent } from './home/home.component';
 import { ImagesComponent } from './images/images.component';
@@ -109,6 +110,10 @@ const routes: Routes = [
           {
             path : "registries",
             component : RegistriesComponent
+          },
+          {
+            path : "dns",
+            component : DnsComponent
           }
         ]
       }

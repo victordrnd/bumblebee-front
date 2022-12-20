@@ -36,8 +36,11 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
   async getLogs() {
     this.logs = await firstValueFrom(this.containerService.logs(this.id!))
   
-    this.logs = this.logs.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '').replaceAll("\u0000", "").replaceAll("\u001b", "").replaceAll("\u0002", "").replaceAll('[36m', "");
+    this.logs = this.logs.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '').replace(ansiRegex(), '').replaceAll("\u0000", "").replaceAll("\u001b", "").replaceAll("\u0002", "").replaceAll("\u0000d", "").replaceAll('[36m', "");
+    console.log(this.logs);
   }
+
+  
 
   onBack() {
     this.router.navigate(["dashboard/containers"])
@@ -61,4 +64,14 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
     this.subscriptions.map(s => s.unsubscribe());
   }
 
+}
+
+
+export function ansiRegex({ onlyFirst = false } = {}) {
+  const pattern = [
+    '[\\u001b\\u009b][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+    '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))',
+    // '[\u0000-\u00FF]'
+  ].join('|');
+  return new RegExp(pattern, onlyFirst ? undefined : 'g');
 }

@@ -44,7 +44,6 @@ export class EndpointsService {
   get currentEnv(){
     if(!this.currentEnvironment.value){
       const storedEnv = JSON.parse(localStorage.getItem('currentEnv') || "{}");
-      console.log(storedEnv)
       if(Object.keys(storedEnv).length){
         this.setCurrentEnv(storedEnv);
       }
