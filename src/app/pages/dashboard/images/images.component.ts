@@ -13,16 +13,16 @@ import { ImagePullModalComponent } from './_components/image-pull-modal/image-pu
 })
 export class ImagesComponent implements OnInit {
   images: any[] = [];
-  registries : any[] = [];
+  registries: any[] = [];
   loading = false;
   checked = false;
   setOfCheckedId = new Set<string>();
-  imageName : string | null = null;
-  registry_id : number | null = null
-  constructor(private imageService : ImagesService,
-    private registryService : RegistriesService,
-    private modalService : NzModalService,
-    private notificationService : NzNotificationService) { }
+  imageName: string | null = null;
+  registry_id: number | null = null
+  constructor(private imageService: ImagesService,
+    private registryService: RegistriesService,
+    private modalService: NzModalService,
+    private notificationService: NzNotificationService) { }
 
   ngOnInit(): void {
     this.getImages();
@@ -34,39 +34,49 @@ export class ImagesComponent implements OnInit {
   }
 
   async getImages() {
-    this.images = (await firstValueFrom(this.imageService.list())).map((image:any) => {image.imageTag = image.RepoDigests[0].split('@')[0]; return image})
+    this.images = (await firstValueFrom(this.imageService.list())).map((image: any) => { if (image.RepoDigests) { image.imageTag = image.RepoDigests[0].split('@')[0]; } return image });
+    this.images.forEach(async (image) => {
+      image.uptodate = (await firstValueFrom(this.imageService.isUpToDate(image.Id)) as any).uptodate;
+      if (image.uptodate == "undefined") {
+        image.color = "grey"
+      } else if (image.uptodate === true) {
+        image.color = "green"
+      } else {
+        image.color = "red"
+      }
+    });
     this.setOfCheckedId.clear();
   }
 
-  async pull(){
-    const modalRef : NzModalRef= this.modalService.create({
-      nzContent : ImagePullModalComponent,
-      nzWidth : "60vw",
-      nzTitle : "Pulling progress",
-      nzComponentParams : {
-        image_name : this.imageName!,
-        registry_id : this.registry_id
+  async pull() {
+    const modalRef: NzModalRef = this.modalService.create({
+      nzContent: ImagePullModalComponent,
+      nzWidth: "60vw",
+      nzTitle: "Pulling progress",
+      nzComponentParams: {
+        image_name: this.imageName!,
+        registry_id: this.registry_id
       },
-      nzOnOk : () => {
-       this.getImages();
+      nzOnOk: () => {
+        this.getImages();
       },
-      nzCancelText : null
+      nzCancelText: null
     });
   }
 
-  async downloadImage(image : any){
-    console.log(image.Id +'.tar');
+  async downloadImage(image: any) {
+    console.log(image.Id + '.tar');
     let blob = await fetch(this.imageService.download(image.Id)).then(r => r.blob());
-      let link :any = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = image.RepoTags[0] +'.tar';
-      link.target= "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    let link: any = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = image.RepoTags[0] + '.tar';
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
-  async delete(){
+  async delete() {
     this.loading = true;
     const reqs = this.imageService.delete(Array.from(this.setOfCheckedId))
 

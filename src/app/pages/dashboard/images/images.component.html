@@ -45,6 +45,7 @@
                         <nz-tag *ngIf="!image.used" nzColor="#f8b601">Unused</nz-tag>
                     </td>
                     <td>
+                        <nz-badge [nzColor]="image.color"></nz-badge>
                         <nz-tag *ngFor="let tag of image.RepoTags | slice:0:1" nzColor="orange">{{tag}}</nz-tag>
                     </td>
                     <td>{{image.Size | fileSize}}</td>

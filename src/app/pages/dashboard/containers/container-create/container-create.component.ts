@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { ContainersService } from 'src/app/core/services/containers.service';
 import { EndpointsService } from 'src/app/core/services/endpoints.service';
 import { NetworksService } from 'src/app/core/services/networks.service';
+import { RegistriesService } from 'src/app/core/services/registries.service';
 import { VolumesService } from 'src/app/core/services/volumes.service';
 
 @Component({
@@ -24,12 +25,14 @@ export class ContainerCreateComponent implements OnInit {
   validateForm!: UntypedFormGroup;
   volumeList = [];
   networksList: any[] = [];
-  network: any = null;
+  network: any = "bridge";
   runtime = {
     Privileged: false,
     MemoryReservation: 0,
     Memory: 0
   };
+  registryList :any[] = [];
+  currentRegistry :any = "index.docker.io";
   endpoint: any;
   loading = false;
   isTraefikEnabled = false;
@@ -51,6 +54,7 @@ export class ContainerCreateComponent implements OnInit {
     private containerService: ContainersService,
     private notificationService: NzNotificationService,
     private endpointService: EndpointsService,
+    private registryService : RegistriesService,
     private nzBytesPipe: NzBytesPipe,
     private router: Router) { }
 
@@ -64,13 +68,15 @@ export class ContainerCreateComponent implements OnInit {
       Env: this.fb.array([]),
       Cmd: [null, []],
       // Labels : this.fb.array([]),
-      registry: ["Dockerhub", []],
     });
     this.volumeList = await firstValueFrom(this.volumeService.list())
     this.addPortPublishing();
     this.networksList = await firstValueFrom(this.networkService.list());
+    this.network = this.networksList.find(el => el.Name =="bridge").Id;
     this.checkTraefikEnabled();
-    this.ip = (await firstValueFrom(this.networkService.getIp()) as any).ip! as string;
+
+    this.registryList = await firstValueFrom(this.registryService.getAll());
+    this.ip = ((await firstValueFrom(this.networkService.getIp()) as any).ip! as string)
     this.endpoint = this.endpointService.currentEnvValue.info;
   }
 
@@ -135,6 +141,9 @@ export class ContainerCreateComponent implements OnInit {
 
   async submitForm() {
     let body = this.validateForm.value;
+    if(!body.Image.includes(this.currentRegistry)){
+      body.Image = this.currentRegistry + "/" + body.Image; 
+    }
     body.HostConfig = this.runtime;
     body.HostConfig.Binds = this.buildVolumes();
     body.HostConfig.PortBindings = this.buildPorts();
@@ -251,5 +260,10 @@ export class ContainerCreateComponent implements OnInit {
 
   tipFormatter = (value: number) => {
     return this.nzBytesPipe.transform(value)
+  }
+
+  
+  get registry(){
+    return this.validateForm.get('registry')!.value
   }
 }

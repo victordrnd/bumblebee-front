@@ -12,12 +12,19 @@
             <nz-divider nzText="Image configuration" nzOrientation="left"></nz-divider>
 
             <nz-form-label [nzSpan]="7" nzRequired>Registry</nz-form-label>
-            <nz-select class="w-100" nzDisabled formControlName="registry">
-                <nz-option nzValue="Dockerhub" nzLabel="Dockerhub"></nz-option>
+            <nz-select class="w-100" [ngModelOptions]="{standalone: true}" [(ngModel)]="currentRegistry">
+                <nz-option *ngFor="let registry of registryList" [nzValue]="registry.url" [nzLabel]="registry.name"></nz-option>
             </nz-select>
 
             <nz-form-label [nzSpan]="7" nzRequired>Image</nz-form-label>
-            <input nz-input formControlName="Image" placeholder="memcached:latest" />
+            <ng-template #prefixTemplateUser>
+                <ng-container *ngIf="currentRegistry != 1">
+                    {{currentRegistry}}/
+                </ng-container>
+            </ng-template>
+            <nz-input-group [nzAddOnBefore]="prefixTemplateUser">
+                <input nz-input formControlName="Image" placeholder="memcached:latest" />
+            </nz-input-group>
 
             <nz-divider nzText="Network configuration" nzOrientation="left"></nz-divider>
 

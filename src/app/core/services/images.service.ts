@@ -39,6 +39,13 @@ export class ImagesService {
     return ids.map(id => this.http.delete(environment.apiUrl+`/images/${endpoint.id}/${id}`));
   }
 
+
+  isUpToDate(image_id : string){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.get(environment.apiUrl+`/images/${endpoint.id}/${image_id}/status`);
+  }
+
+  
   private generateObservableFromEventSource(eventSource : EventSource) : Observable<any>{
     return new Observable(observer => {
       eventSource.onmessage = x => observer.next(x.data);

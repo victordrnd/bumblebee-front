@@ -58,6 +58,7 @@ import { RegistriesComponent } from './registries/registries.component';
 import { CreateRegistryModalComponent } from './registries/_components/create-registry-modal/create-registry-modal.component';
 import { DnsComponent } from './dns/dns.component';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -119,6 +120,7 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
     NzAlertModule,
     NzStepsModule,
     NzSliderModule,
+    NzBadgeModule
   ],
   providers : [FileSizePipe, NzBytesPipe],
   exports: [DashboardComponent]
