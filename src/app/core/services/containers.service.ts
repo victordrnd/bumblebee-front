@@ -46,6 +46,11 @@ export class ContainersService {
     return ids.map(id => this.http.post(environment.apiUrl+`/containers/${endpoint.id}/${id}/restart`, {}))
   }
 
+  export(ids : string[]){
+    const endpoint = this.endpointService.currentEnvValue
+    return this.http.post(environment.apiUrl+`/containers/${endpoint.id}/export`,{containers_ids : ids});
+  }
+
   rename(id : string, name : string){
     const endpoint = this.endpointService.currentEnvValue
     return this.http.put(environment.apiUrl+`/containers/${endpoint.id}/${id}/rename`,{name});

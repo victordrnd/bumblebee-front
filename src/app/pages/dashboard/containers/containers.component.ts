@@ -18,8 +18,8 @@ export class ContainersComponent implements OnInit {
   isRestarting = false;
   constructor(private containerService: ContainersService,
     private notificationService: NzNotificationService,
-    private endpointService : EndpointsService,
-    private modalService : NzModalService) { }
+    private endpointService: EndpointsService,
+    private modalService: NzModalService) { }
   ngOnInit(): void {
     this.getContainers();
     this.setOfCheckedId.size
@@ -46,7 +46,7 @@ export class ContainersComponent implements OnInit {
   }
 
 
-  
+
   async restart() {
     this.isRestarting = true;
     const reqs = this.containerService.restart(Array.from(this.setOfCheckedId))
@@ -55,7 +55,21 @@ export class ContainersComponent implements OnInit {
     this.getContainers();
   }
 
-  async delete(){
+  async export() {
+    const res: any = await firstValueFrom(this.containerService.export(Array.from(this.setOfCheckedId)));
+    const yml = res.data;
+    const blob = new Blob([yml], { type: 'text/yaml' })
+    const elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob);
+    elem.download = "docker-compose.yml";
+    document.body.appendChild(elem);
+    elem.click();
+    document.body.removeChild(elem);
+  }
+
+
+
+  async delete() {
     const reqs = this.containerService.delete(Array.from(this.setOfCheckedId))
     await Promise.all(reqs.map(req => firstValueFrom(req.pipe(map(c => { this.notificationService.success('Container successfully deleted', "") }))).catch(e => {
       this.notificationService.error('Error', e.error.message)
@@ -81,21 +95,21 @@ export class ContainersComponent implements OnInit {
       .forEach(({ Id }) => this.updateCheckedSet(Id, checked));
   }
 
-  openUrl(port : number){
+  openUrl(port: number) {
     const endpoint = this.endpointService.currentEnvValue;
-    if(endpoint.protocol == "socket"){
+    if (endpoint.protocol == "socket") {
       window.open(`http://localhost:${port}`, "_blank");
-    }else{
+    } else {
       window.open(`${endpoint.url}:${port}`, "_blank");
     }
   }
 
-  openRenameModal(container :any){
+  openRenameModal(container: any) {
     this.modalService.create({
-      nzContent : RenameContainerModalComponent,
-      nzTitle : "Rename container",
-      nzComponentParams : {name : container.Name},
-      nzOnOk : async (component) => {
+      nzContent: RenameContainerModalComponent,
+      nzTitle: "Rename container",
+      nzComponentParams: { name: container.Name },
+      nzOnOk: async (component) => {
         await firstValueFrom(this.containerService.rename(container.Id, component.name)).then(r => {
           this.notificationService.success('Container has been renamed successfully', container.name);
           this.getContainers();
@@ -104,13 +118,13 @@ export class ContainersComponent implements OnInit {
     })
   }
 
-  openTerminal(container : any){
-    
+  openTerminal(container: any) {
+
   }
 
 
-  isSwarm(container : any){
-    return Object.keys(container.Labels || {}).includes('com.docker.swarm.node.id')
+  isSwarm(container: any) {
+    return Object.keys(container.Labels || {}).includes('com.docker.swarm.node.id')
   }
 
 }
