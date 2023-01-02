@@ -37,7 +37,6 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
     this.logs = await firstValueFrom(this.containerService.logs(this.id!))
   
     this.logs = this.logs.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '').replace(ansiRegex(), '').replaceAll("\u0000", "").replaceAll("\u001b", "").replaceAll("\u0002", "").replaceAll("\u0000d", "").replaceAll('[36m', "");
-    console.log(this.logs);
   }
 
   

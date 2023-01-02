@@ -21,7 +21,7 @@ export class ContainerCreateComponent implements OnInit {
   ExposedPorts: { host: string | null; container: string | null; protocol: 'tcp' | 'udp' }[] = [];
   Env: any[] = [];
   Labels: any[] = [];
-  Volumes: any[] = []
+  Volumes: any[] = [];
   validateForm!: UntypedFormGroup;
   volumeList = [];
   networksList: any[] = [];
@@ -63,8 +63,13 @@ export class ContainerCreateComponent implements OnInit {
     this.validateForm = this.fb.group({
       name: [null, [required, maxLength(20)]],
       Image: [null, [required]],
+      Command : [null, []],
       User: ['root', [required]],
       Tty: [true, [required]],
+      AttachStdin: [true, [required]],
+      AttachStdout : [true, [required]],
+      AttachStderr : [true, [required]],
+      OpenStdin : [true, [required]],
       Env: this.fb.array([]),
       Cmd: [null, []],
       // Labels : this.fb.array([]),
