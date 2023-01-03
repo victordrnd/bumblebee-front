@@ -28,7 +28,7 @@ sonarqube-check:
     - sonar-scanner
   allow_failure: true
   only:
-    - develop
+    - master
 
 
 build_image:
