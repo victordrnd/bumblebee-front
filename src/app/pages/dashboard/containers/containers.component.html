@@ -22,7 +22,7 @@
                     <th>IP Address</th>
                     <th>Published Ports</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th style="width:140px">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                         <nz-tag [nzColor]="['Up', 'running'].includes(container.State) ? '#87d068' : '#ff5858'">{{container.State}}</nz-tag>
                     </td>
                     <td>{{container.Image.split('@')[0].includes('sha256') ? '-' :container.Image.split('@') | slice:0:1}}</td>
-                    <td>{{container.Created*1000 | date:'medium'}}</td>
+                    <td>{{container.Created*1000 | date:'short'}}</td>
                     <td>{{container.NetworkSettings?.Networks?.bridge?.IPAddress}}</td>
                     <td>
                         <div *ngFor="let port of container.Ports" class="text-primary d-inline mr-1">
@@ -45,7 +45,7 @@
                     </td>
                     <td class="text-muted">{{container.Status}}</td>
                     <td>
-                        <div class="text-right">
+                        <div class="text-center">
                             <span *ngIf="!isSwarm(container)" nz-icon nzType="edit" nzTheme="fill"  class="pointer text-primary mx-1 disabled" (click)="openRenameModal(container)"></span>
                             <!-- <span class="pointer text-primary mx-1" routerLink="{{container.Id}}/fs" nz-icon nzType="folder-open" nzTheme="fill"></span> -->
                             <span routerLink="{{container.Id}}/logs" class="pointer text-primary mx-1" nz-icon nzType="file-text" nzTheme="fill"></span>
