@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { firstValueFrom } from 'rxjs';
 import { ContainersService } from 'src/app/core/services/containers.service';
+import { NetworksService } from 'src/app/core/services/networks.service';
 import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
@@ -16,7 +17,9 @@ export class ReverseProxyComponent implements OnInit {
   isActivated = false;
   loading = true;
   containers = [];
+  networkList :any[] = [];
   constructor(private containerService: ContainersService,
+    private networkService : NetworksService,
     private notificationService: NzNotificationService,
     private userService : UsersService) { }
 
@@ -27,6 +30,7 @@ export class ReverseProxyComponent implements OnInit {
   async init(){
     this.containers = await firstValueFrom(this.containerService.list())
     this.isActivated = this.containers.filter((c: any) => c.Image.includes('traefik')).length > 0;
+    this.networkList = await firstValueFrom(this.networkService.list());
     this.loading = false;
   }
   async toggleReverseProxy(evt: boolean) {
@@ -59,6 +63,8 @@ export class ReverseProxyComponent implements OnInit {
               protocol: "tcp"
             },
           ]),
+          NetworkMode : "web",
+          NetworkingConfig : { EndpointsConfig: this.buildNetwork() },
           restartPolicy: { Name: "unless-stopped", MaximumRetryCount: 0 }
         },
         Cmd: this.getCmd()
@@ -98,6 +104,14 @@ export class ReverseProxyComponent implements OnInit {
       "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json",
     ]
   }
+
+  buildNetwork() {
+    const map = new Map();
+    const net_info = this.networkList.find(el => el.Name == "web");
+    map.set("web", { NetworkId: net_info.Id });
+    return Object.fromEntries(map);
+  }
+
 
   buildPorts(ports: any[]) {
     const map = new Map()
