@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 export class RenameContainerModalComponent implements OnInit {
   name :string = "";
   image : string = "";
-  constructor() { }
 
   ngOnInit(): void {
   }

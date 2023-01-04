@@ -117,9 +117,6 @@ export class ContainersComponent implements OnInit {
     })
   }
 
-  openTerminal(container: any) {
-
-  }
 
 
   isSwarm(container: any) {

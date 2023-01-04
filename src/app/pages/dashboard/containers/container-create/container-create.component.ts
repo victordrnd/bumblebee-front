@@ -236,8 +236,7 @@ export class ContainerCreateComponent implements OnInit {
       }
     });
     // var mapped = res.map(site => ({ [site.key]: item.value }));
-    var newObj = Object.assign({}, ...res);
-    console.log(newObj)
+    let newObj = Object.assign({}, ...res);
     return newObj;
   }
 

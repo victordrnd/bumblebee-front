@@ -89,7 +89,7 @@ export class EditEndpointComponent implements OnInit {
       }
     } 
     const form_data = new FormData();
-    for (var key in endpoint_clone) {
+    for (let key in endpoint_clone) {
       //@ts-ignore
       form_data.append(key, (endpoint_clone[key] as string));
     }

@@ -15,7 +15,6 @@ export class CreateRegistryModalComponent implements OnInit {
   }
 
   
-  constructor() { }
 
   ngOnInit(): void {
   }

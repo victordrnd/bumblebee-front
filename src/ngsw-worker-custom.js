@@ -696,6 +696,7 @@
           case "GET":
             if (req.headers.has("clearCache"))
               return this.handleFetchWithFreshness(req, event, lru);
+            
           case "HEAD":
             switch (this.config.strategy) {
               case "freshness":

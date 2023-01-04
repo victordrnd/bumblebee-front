@@ -90,7 +90,7 @@ export class EndpointsComponent implements OnInit {
       }
     }
     const form_data = new FormData();
-    for (var key in endpoint) {
+    for (let key in endpoint) {
       //@ts-ignore
       form_data.append(key, (endpoint[key] as string));
     }

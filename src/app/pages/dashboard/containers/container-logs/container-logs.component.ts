@@ -51,7 +51,7 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
       type: 'text/plain'
     });
     const url = window.URL.createObjectURL(blob);
-    var a = document.createElement("a");
+    const a = document.createElement("a");
     document.body.appendChild(a);
     a.href = url;
     a.download = `logs_${this.container.Names[0]}.txt`;
