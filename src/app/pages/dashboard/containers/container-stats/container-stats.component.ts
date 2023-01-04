@@ -140,7 +140,7 @@ export class ContainerStatsComponent implements OnInit, OnDestroy  {
 
 
   ngOnDestroy(): void {
-    this.subsciptions.map(s => s.unsubscribe());
+    this.subsciptions.forEach(s => s.unsubscribe());
   }
 
 }

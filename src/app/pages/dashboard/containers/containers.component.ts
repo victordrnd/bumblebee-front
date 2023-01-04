@@ -22,7 +22,6 @@ export class ContainersComponent implements OnInit {
     private modalService: NzModalService) { }
   ngOnInit(): void {
     this.getContainers();
-    this.setOfCheckedId.size
   }
 
 

@@ -18,15 +18,15 @@
         <nz-table #basicTable [nzData]="networks" [nzShowPagination]="false">
             <thead>
                 <tr>
-                    <th [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
-                    <th>Name</th>
-                    <th>State</th>
-                    <th>Driver</th>
-                    <th>Attachable</th>
-                    <th>Internal</th>
-                    <th>Subnet</th>
-                    <th>Gateway</th>
-                    <th>Created</th>
+                    <th id="checkbox" [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
+                    <th id="name">Name</th>
+                    <th id="state">State</th>
+                    <th id="driver">Driver</th>
+                    <th id="attachable">Attachable</th>
+                    <th id="internal">Internal</th>
+                    <th id="subnet">Subnet</th>
+                    <th id="gateway">Gateway</th>
+                    <th id="created">Created</th>
                     <!-- <th>Actions</th> -->
                 </tr>
             </thead>

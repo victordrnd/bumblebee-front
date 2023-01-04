@@ -87,7 +87,7 @@ export class ContainerTerminalComponent implements OnInit, AfterViewInit, OnDest
 
 
   ngOnDestroy(): void {
-    this.subscriptions.map(s => s.unsubscribe())
+    this.subscriptions.forEach(s => s.unsubscribe())
     this.containerService.detach()
   }
 }

@@ -13,12 +13,12 @@
         <nz-table #basicTable [nzData]="volumes" [nzShowPagination]="false">
             <thead>
                 <tr>
-                    <th [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
-                    <th>Name</th>
-                    <th>State</th>
-                    <th>Driver</th>
-                    <th>Mountpoint</th>
-                    <th>Created</th>
+                    <th id="checkbox" [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>
+                    <th id="name">Name</th>
+                    <th id="state">State</th>
+                    <th id="driver">Driver</th>
+                    <th id="mountpoint">Mountpoint</th>
+                    <th id="created">Created</th>
                     <!-- <th>Actions</th> -->
                 </tr>
             </thead>

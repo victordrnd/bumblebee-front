@@ -60,7 +60,7 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.map(s => s.unsubscribe());
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
 }
