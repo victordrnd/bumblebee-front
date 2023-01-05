@@ -98,6 +98,8 @@ export class ReverseProxyComponent implements OnInit {
       "--providers.docker.exposedbydefault=false",
       "--entrypoints.web.address=:80",
       "--entrypoints.websecure.address=:443",
+      // "--entrypoints.web.http.redirections.entrypoint.to=websecure",
+      // "--entrypoints.web.http.redirections.entrypoint.scheme=https",
       "--certificatesresolvers.myresolver.acme.httpchallenge=true",
       "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web",
       `--certificatesresolvers.myresolver.acme.email=${currentUser.attributes.email}`,

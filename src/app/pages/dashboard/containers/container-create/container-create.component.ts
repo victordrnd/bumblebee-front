@@ -83,6 +83,7 @@ export class ContainerCreateComponent implements OnInit {
     this.registryList = await firstValueFrom(this.registryService.getAll());
     this.ip = ((await firstValueFrom(this.networkService.getIp()) as any).ip! as string)
     this.endpoint = this.endpointService.currentEnvValue.info;
+    console.log(this.endpoint);
   }
 
 
