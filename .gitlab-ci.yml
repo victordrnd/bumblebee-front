@@ -35,7 +35,7 @@ build_image:
   image: data61/magda-builder-docker:latest
   script:
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
-    - docker build -t ${CI_REGISTRY}/${IMAGENAME}:${IMAGE_TAG} -f Dockerfile .
+    - DOCKER_BUILDKIT=1 docker build -t ${CI_REGISTRY}/${IMAGENAME}:${IMAGE_TAG} -f Dockerfile .
     - docker push ${CI_REGISTRY}/${IMAGENAME}:${IMAGE_TAG}
     - docker image rm ${CI_REGISTRY}/${IMAGENAME}:${IMAGE_TAG}
   only:
