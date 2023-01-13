@@ -246,7 +246,7 @@ export class ContainerCreateComponent implements OnInit {
     const res: any = await firstValueFrom(this.networkService.checkDNS(domain));
     if (this.ip && domain) {
       const res: any = await firstValueFrom(this.networkService.checkDNS(domain));
-      if (res.Answer) {
+      if (res.address) {
         this.dnsCheck = this.ip == res.address
         if (this.dnsCheck) {
           this.notificationService.success('Success', "DNS Record found !")
